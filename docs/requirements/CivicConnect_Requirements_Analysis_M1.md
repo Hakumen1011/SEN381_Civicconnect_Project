@@ -1,8 +1,7 @@
 # CivicConnect — Requirements & Analysis Lead
-## Milestone 1 (M1) Working Document
 
-> **Document status:** Draft  
-> **Version:** 0.1  
+> **Document status:** Complete 
+> **Version:** 1.0  
 > **Owner:** Jason Crous-Requirements & Analysis Lead  
 > **Project:** CivicConnect  
 > **Milestone:** M1 — Engineering Foundation & Requirements Baseline
@@ -324,24 +323,6 @@ Example:
 
 ---
 
-# 9. M1 Evidence Checklist
-
-- [ ] Problem and Business Need analysis
-- [ ] Stakeholder Register
-- [ ] Stakeholder Needs Register
-- [ ] Influence/Interest analysis
-- [ ] Stakeholder conflict/trade-off register
-- [ ] Scope Baseline
-- [ ] Scope exclusion/deferment decision
-- [ ] Functional Requirements Catalogue
-- [ ] Non-Functional Requirements Register
-- [ ] Acceptance Criteria Register
-- [ ] Team review record
-- [ ] Requirements linked to RTM
-- [ ] Baselined version approved by all team members
-
----
-
 # 10. Review and Baseline
 
 Before the requirements become part of the formal M1 baseline:
@@ -353,4 +334,3 @@ Before the requirements become part of the formal M1 baseline:
 5. The final PED is updated to **Version 1.0**.
 6. The approved version is committed to GitHub and its history is preserved.
 
-**Status:** Draft / Awaiting Team Review
