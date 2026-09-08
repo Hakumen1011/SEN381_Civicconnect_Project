@@ -1,0 +1,6 @@
+| No. | Decision | Status | Reason | Evidence | Impact |
+|---|---|---|---|---|---|
+| 1 | Technology stack | Deferred | Insufficient information available for milestone 1 | Technology needs and requirements yet to be completed | May influence architecture, implementation and decisions for further milestones |
+| 2 | Architecture | Deferred | Our current research for milestone 1 will be used to make an informed decision | Milestone 1 explains the requirements and constraints, giving us the information after completing our research. | Architecture will be decided after Milestone 1. Most likely before or when starting with milestone 2 |
+| 3 | Baseline and scope | Decided | Avoid scope creep, mainly affected by schedule and quality. | Our scope and constraints analysis. | Future scope change must first be evaluated and properly documented before being accepted. |
+| 4 | GitHub Control | Direct main changes not allowed, branches, requests and documented commits only allowed and pushed one approval is given | Requested to be used as well as allows for controlled reviews and traceable changes | Milestone 1 GitHub governance requirement | Creates evidence of team collaborations, avoids uncontrolled changes to the baseline. |
