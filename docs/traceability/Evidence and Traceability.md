@@ -2,7 +2,7 @@
 
 ## Overview
 
-Evidence and traceability are such that all artefacts of the project trace to the source, are justified by documented decisions, and are verified by all controlled processes. traceability allows you to be accountable, to manage changes, to assure quality and to plan future project activities.
+Evidence and traceability are such that all artefacts of the project trace to the source, are justified by documented decisions, and are verified by all controlled processes. Traceability allows you to be accountable, to manage changes, to assure quality and to plan future project activities.
 
 For CivicConnect traceability is maintained between stakeholders, stakeholder needs, requirements, acceptance criteria, risks, engineering decision and project artefacts.
 
@@ -94,7 +94,7 @@ AC-SEC-002-A
 Permitted functions accessible
 
 AC-SEC-002-B
-Restricted functions inaccessable
+Restricted functions inaccessible
 
 AC-SEC-002-C
 Protected information inaccessible to unauthorised users
@@ -106,7 +106,7 @@ Protected information inaccessible to unauthorised users
 
 ## Constraint to risk traceability
 
-| Constraint | Ralated Risk |
+| Constraint | Related Risk |
 |------------|-------------|
 | Team Size | RISK-004, RISK-005 |
 | Schedule | RISK-003, RISK-012 |
@@ -288,7 +288,7 @@ Included in scope baseline
 
 ## Deferred scope traceability
 
-The following items have been itentionally deferred:
+The following items have been intentionally deferred:
 
 - Whatsapp integration
 - Automated SMS notifications
@@ -322,10 +322,10 @@ Approval
 Merge to main branch
 ```
 
-## Governance principals
+## Governance principles
 
 - Direct changes to the main branch are prohibited
-- Work must e completed in dedicated branches
+- Work must be completed in dedicated branches
 - Pull requests must be reviewed before merging
 - Meaningful commit messages are required
 - Repository history must remain intact
@@ -363,7 +363,7 @@ The established traceability structure ensures that
 - Every requirements can be traced to a stakeholder need
 - Every requirements can be verified through acceptance criteria
 - Risks can be traced to considerations and project decisions
-- Engineering dcisions are documented and justified
+- Engineering decisions are documented and justified
 - Scope changes remain controlled
 - Repository history provides evidence of team collaboration and change management
 
