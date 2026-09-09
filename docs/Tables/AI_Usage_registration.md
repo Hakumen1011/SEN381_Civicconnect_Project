@@ -1,0 +1,5 @@
+| No. | Date | User | AI tool | Task | AI Contribution | Human Verification | Outcome |
+|---|---|---|---|---|---|---|---|
+| 1 | 07 September 2026 | Herman | ChatGPT | Engineering Decision Log Creation | Explained and gave examples of what a proper EDL should look like | Based on other projects and internet sources compared AI given example | Accepted example and made use to create our EDL |
+| 2 | 07 September 2026 | Jason | ChatGPT | Construction of md file | Suggested format and proper spelling | Reviewed suggestion made changes and used suggestion only as design guideline | Accepted suggestion as visual guideline |
+| 3 | 08 September 2026 | Herman | ChatGPT | Markdown table formatting | Provided the Markdown table format for the AI Usage Register and Engineering Decision Log | Reviewed the generated Markdown formatting and confirmed it matched the existing tables | Accepted formatting for use in the Markdown file |
