@@ -69,7 +69,7 @@ The system will likely be enhanced in the future, requirements could change and 
 ### Future decisions impacted
 
 - Software architecture
-- Code organization standards
+- Code organisation standards
 - Documentation practices
 - Modular component design
 - Maintenance processes
