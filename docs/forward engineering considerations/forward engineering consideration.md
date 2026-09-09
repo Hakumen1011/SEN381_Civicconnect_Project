@@ -2,7 +2,7 @@
 
 ## Overview
 
-Forward engineering considerations are used to indetify factors that may influence the future design, implementation, tessting, deployment and maintenance decisions of the project. These concerns may not require immediate technical solutions during the requirements phase, but they should be considered early to ensure that the current requirements do not restrinct future developments options. 
+Forward engineering considerations are used to indentify factors that may influence the future design, implementation, testing, deployment and maintenance decisions of the project. These concerns may not require immediate technical solutions during the requirements phase, but they should be considered early to ensure that the current requirements do not restrinct future developments options. 
 
 The following considerations have been identified for the CivicConnect system.
 
@@ -17,12 +17,12 @@ Stakeholder needs require that the sensitive user information to be protected as
 ### Future decisions Influenced
 
 - User authentications mechanisms
-- Role-based accos control
+- Role-based access control
 - Password management strategies
 - Data encryption methods
 - API security measures
 
-### Information still requried
+### Information still required
 
 - Detailed data classification requirements
 - Applicable regulatory requirements
@@ -31,7 +31,7 @@ Stakeholder needs require that the sensitive user information to be protected as
 
 ### Risk if ignored
 
-Loss of user trust, data breaches, unauthorized access to stored information and costly redesign efforts are all risks if the security and privacy of user information is nnot considered early on in the lifecycle.
+Loss of user trust, data breaches, unauthorized access to stored information and costly redesign efforts are all risks if the security and privacy of user information is not considered early on in the lifecycle.
 
 --- 
 
@@ -64,7 +64,7 @@ Performance and response times are at risk if the system is not designed with sc
 
 ### Why it matters now
 
-The system  will likely be enhanced in the future, requirements could change and operational improvements will likely be made throughout the lifecycle. Stakeholders expect CivicConnect to reliable and adaptable thus maintainability of the system is critical and must be considered.
+The system will likely be enhanced in the future, requirements could change and operational improvements will likely be made throughout the lifecycle. Stakeholders expect CivicConnect to reliable and adaptable thus maintainability of the system is critical and must be considered.
 
 ### Future decisions impacted
 
@@ -76,7 +76,7 @@ The system  will likely be enhanced in the future, requirements could change and
 
 ### Information still required
 
-- Expected maintanance responsibilities
+- Expected maintenance responsibilities
 - Future enhancement plans
 - Long-term system ownership
 - Support processes
@@ -91,7 +91,7 @@ If the system is not properly maintained it could lead to hefty development and 
 
 ### Why it matters now
 
-CivicConnect requirements have been defined according to measurable and verifiable standards and non-
+CivicConnect requirements have been defined according to measurable and verifiable standards. Future validation activities depend on the ability to verify that each requirement has been implemented correctly and consistently.
 
 ### Future decisions impacted
 
@@ -143,7 +143,7 @@ Data loss or prolonged service disruptions could negatively affect operations an
 
 ### Why it matters now
 
-Architechtural and technology decisions made during development may be influenced by future development requirements. Future releases may require additional development felxibility where current scope decisions exclude certain integrations and platform extensions.
+Architectural and technology decisions made during development may be influenced by future development requirements. Future releases may require additional development flexibility where current scope decisions exclude certain integrations and platform extensions.
 
 ### Future decisions impacted
 
@@ -197,7 +197,7 @@ System failures may go unnoticed, resulting in interruptions of service, delayed
 
 ## Why it matters now
 
-CivicConnect's key features include accountability controlled status changes, historical tracking and trasparent service delivery. The system should provide traceability of actions performed by citizens, staff and management users.
+CivicConnect's key features include accountability controlled status changes, historical tracking and transparent service delivery. The system should provide traceability of actions performed by citizens, staff and management users.
 
 ## Future decisions impacted
 
@@ -222,4 +222,4 @@ The lack of auditability can lower accountability, impede investigations, restri
 
 ## Conclusion
 
-The indentified forward engineering considerations will ensure the current CivicConnect requirements will support future design, implementation, testing, deployment and maintenance activities. Addressing concers proactively around security, scalability, maintainability, testability, data management, deployment, reliability and auditability will help mitigate future risks and ensure the long term success of the CivicConnect platform.
+The identified forward engineering considerations will ensure the current CivicConnect requirements will support future design, implementation, testing, deployment and maintenance activities. Addressing concers proactively around security, scalability, maintainability, testability, data management, deployment, reliability and auditability will help mitigate future risks and ensure the long term success of the CivicConnect platform.
