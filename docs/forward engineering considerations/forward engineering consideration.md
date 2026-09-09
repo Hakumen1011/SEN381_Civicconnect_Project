@@ -46,7 +46,7 @@ CivicConnect must support service request submission, request tracking, reportin
 - Database architecture
 - Hosting infrastructure
 - Application architecture
-- Performance optimization strategies
+- Performance optimisation strategies
 - Load balancing solutions
 
 ### Information still required
