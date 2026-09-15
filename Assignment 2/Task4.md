@@ -259,6 +259,9 @@ Maintaining traceability between requirements, implementation, reviews and tests
 
 The CivicConnect team should adopt GitHub Flow supported by a protected-main branch, mandatory two reviewer pull requests, automated CI validation and requirement traceability. This approach provides an acceptable level of governance, quality assurance, collaboration and security for a small engineering team while remaining practical to implement during development (<Organisation> IEEE </Organisation>, 2023; <Organisation> GitHub </Organisation>, n.d.; <Organisation> NIST </Organisation>, 2022).
 
+---
+--- 
+
 ## Refrences
 
 Atlassian. (n.d.). *Trunk-based development*. Atlassian. Retrieved September 13, 2026, from https://www.atlassian.com/continuous-delivery/continuous-integration/trunk-based-development
