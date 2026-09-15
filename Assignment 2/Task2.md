@@ -26,3 +26,19 @@ Concurrency needs to be taken into account because when multiple users attempt t
 For CivicConnect these mechanisms provide protection in their own ways on different layers. The best and appropriate mechanisms should depend on which operation is currently being made and the risks it holds rather than giving a broad view or adding unnecessary complexity.
 
 
+-	Performance techniques:
+Caching can improve performance by reducing repeated database queries and the work required to generate response, having repeated memory to handle repetitive data can improve performance in some cases. cached data can become stale when the underlying database changes while an older value remains in the cache. Microsoft specifically identifies stale data as a concern when caching is used (Microsoft, 2026). 
+For CivicConnect caching requests information or other frequently used data could create correctness problems as a request could be reassigned or its status changed in the database but because of stale data could give another user older cached version. This can result in users working on the incorrect data. ASP.NET Core also recommends that applications should not depend on cached data being available or current (Microsoft, 2026).
+Based on the research caching might be an undesirable performance technique and should not be introduced for correctness critical request data without an actual performance need to it.
+Database indexing however provides a more suitable performance technique for CivicConnect and might be usable for the persistence layer. Indexing can improve speed of frequent filters and searches but the trade off will require more maintenance during inserts and updates and should rather be applied to certain fields that are frequently queried (Microsoft, 2026).
+
+- Plausible implementation approaches or responsibility allocations:
+
+Based on the research done so far and its findings two approaches were highlighted that would follow the recommendations.
+Application heavy vs Layered:
+Application heavy is where we handle most of the validation and business rules in the application layer, while the database only provides basic constraints. This makes it easier to understand and test businesses rules in one place with its dependencies together and detailed error messages can be provided, however any bypassed data directly sent to the database will not be able to adhere to any of the business rules with its basic constraints (Microsoft, 2026).
+
+Layered/database enforced:
+Because multiple layers will be used to enforce business rules, handle transactions and the database independently enforces fundamental integrity through constraints. This gives protection at different levels and any failure with any of the protections calls for a transaction rollback. Because of the database protection even if application checks are bypassed the data will still be protected inside the database, however this requires much larger maintenance and testing across all the layers, harder to keep track of and have a difficult learning curve for integration (Microsoft, 2026).
+
+For CivicConnect the layered approach is recommended because of its multiple protection layers as well as response to clients for validation done in the presentation layer. The application layer should be responsible for business rules and validation while the database will enforce data integrity by itself which for CivicConnect having multiple users that could slip through the business rules keep the data protected. Transaction handling will also be able to be implemented and be a valuable fall back where business operations contain multiple persistence steps that need to success or stop completely upon a failure together. This gives strong protection without placing all protection or rules in a single layer or on the database (OWASP, 2026).
