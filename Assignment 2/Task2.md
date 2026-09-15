@@ -42,3 +42,34 @@ Layered/database enforced:
 Because multiple layers will be used to enforce business rules, handle transactions and the database independently enforces fundamental integrity through constraints. This gives protection at different levels and any failure with any of the protections calls for a transaction rollback. Because of the database protection even if application checks are bypassed the data will still be protected inside the database, however this requires much larger maintenance and testing across all the layers, harder to keep track of and have a difficult learning curve for integration (Microsoft, 2026).
 
 For CivicConnect the layered approach is recommended because of its multiple protection layers as well as response to clients for validation done in the presentation layer. The application layer should be responsible for business rules and validation while the database will enforce data integrity by itself which for CivicConnect having multiple users that could slip through the business rules keep the data protected. Transaction handling will also be able to be implemented and be a valuable fall back where business operations contain multiple persistence steps that need to success or stop completely upon a failure together. This gives strong protection without placing all protection or rules in a single layer or on the database (OWASP, 2026).
+
+## 5.3) Recommendation feeding the project
+
+For the selected operation request creation operation CivicConnect is recommended to use a layered approach to preserve data correctness. The Application layer should be responsible for handling business rules and validation while the database enforces fundamental data integrity through constraints such as primary keys, required fields, unique records etc. Request creation and any related operation and records that must succussed or fail together will be handled as one transaction so if failure does occur it can be rolled back and not leave partially completed data.
+Caching should not be used for correctness critical requests information unless specifically stated or required as a need. For performance problems that might be identified techniques such as database indexing could be considered for queried data that is frequently worked with while ensuring the correctness of persisted information is not compromised.
+
+Based on the research findings Milestone 2’s data design, mainly the request data model, database constraints and the request creation implantation should be informed of the recommendation. It should also inform and be captured by the relevant Architecture Decision Record so the decisions of recommendation can be properly documented. The risks discussed mainly partial writes, invalid data and concurrent updates should also be added into the risk registration if the recommendations are considered.
+
+References
+Microsoft, 2026. Cache in-memory in ASP.NET Core. [Online] 
+Available at: https://learn.microsoft.com/en-us/aspnet/core/performance/caching/memory
+Microsoft, 2026. Efficient Querying. [Online] 
+Available at: https://learn.microsoft.com/en-us/ef/core/performance/efficient-querying
+Microsoft, 2026. Entity Framework Core Documentation. [Online] 
+Available at: https://learn.microsoft.com/en-us/ef/core/saving/transactions
+Microsoft, 2026. Microsoft Learn. [Online] 
+Available at: https://learn.microsoft.com/en-us/aspnet/web-forms/overview/data-access/introduction/creating-a-business-logic-layer-cs
+Microsoft, 2026. Microsoft Learn. [Online] 
+Available at: https://learn.microsoft.com/en-us/dotnet/architecture/modern-web-apps-azure/common-web-application-architectures
+Microsoft, 2026. Model validation in ASP.NET Core MVC and Razor Pages. [Online] 
+Available at: https://learn.microsoft.com/en-us/aspnet/core/mvc/models/validation
+Micrososft, 2026. Handling Concurrency Conflicts. [Online] 
+Available at: https://learn.microsoft.com/en-us/ef/core/saving/concurrency
+OWASP, 2026. OWASP Cheat sheet Series. In: Input Validation Cheat Sheet. s.l.:s.n.
+OWASP, 2026. OWASP Cheat Sheet Series. [Online] 
+Available at: https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html
+PostgreSQL Global Development Group, 2026. PostgreSQL Documentation. [Online] 
+Available at: https://www.postgresql.org/docs/16/tutorial-transactions.html
+[Accessed 2026].
+PostgreSQL Global Development Group, 2026. PostgreSQL Documentation. [Online].
+
