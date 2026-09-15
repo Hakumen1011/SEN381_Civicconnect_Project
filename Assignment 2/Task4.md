@@ -70,7 +70,7 @@ This workflow addresses the protected-main and two-reviewer requirements while e
 
 ---
 
-## 7.2 Continuous Integration and Quality gates
+## 4.2 Continuous Integration and Quality gates
 
 Continuous Integration(CI) is a software development practice where developers regularly merge their code changes into a central repository, after which automated builds and tests are run (<Organisation> GitHub </Organisation>, n.d).
 
@@ -190,7 +190,7 @@ CivicConnect should implement a GutHub Actions CI pipeline that can automaticall
 
 ---
 
-## 7.3 Recommended Team Control
+## 4.3 Recommended Team Control
 
 ### Recommended Collaborative Integration and CI Approach
 
