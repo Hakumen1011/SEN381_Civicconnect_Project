@@ -1,0 +1,19 @@
+.operations-shell {
+  min-height: 100vh;
+  background: var(--color-surface, #f8f9ff);
+}
+
+.operations-main {
+  min-height: 100vh;
+
+  margin-left: 256px;
+  padding-top: 116px;
+
+  background: var(--color-surface, #f8f9ff);
+}
+
+@media (max-width: 1024px) {
+  .operations-main {
+    margin-left: 0;
+  }
+}
