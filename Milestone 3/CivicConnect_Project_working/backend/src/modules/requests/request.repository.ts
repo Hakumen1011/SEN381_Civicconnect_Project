@@ -1,4 +1,4 @@
-import { tablesOf, type InMemoryStore } from '../../data/store.js';
+import { tablesOf, type InMemoryStore } from '../../src/data/store.js';
 import type { Transaction } from '../../shared/transaction.js';
 import type { Category, Comment, RequestStatus, ServiceRequest, StatusHistoryEntry } from './request.types.js';
 import { isOverdue } from './serviceLevels.js';

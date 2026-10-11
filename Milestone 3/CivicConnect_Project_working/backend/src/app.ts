@@ -2,7 +2,7 @@ import cors from 'cors';
 import express, { type Express } from 'express';
 import helmet from 'helmet';
 import type { Env } from './config/env.js';
-import { InMemoryStore } from './data/store.js';
+import { InMemoryStore } from '';
 import { EventBus } from './shared/eventBus.js';
 import { errorHandler, notFoundHandler } from './shared/http/errorHandler.js';
 import { AuthController } from './modules/auth/auth.controller.js';
@@ -38,7 +38,11 @@ export interface AppContext {
   authService: AuthService;
 }
 
-
+/**
+ * Composition root: wires the modules of the layered modular monolith together.
+ * Routes -> controllers (HTTP in/out) -> services (business rules) -> repositories (data access).
+ * To move to PostgreSQL, only the repository classes created here need to change.
+ */
 export function createApp(env: Env): AppContext {
   const store = new InMemoryStore();
   const events = new EventBus();
@@ -57,12 +61,12 @@ export function createApp(env: Env): AppContext {
   const dispatcher = new NotificationDispatcher(store, notificationRepo, channels);
   const managementService = new ManagementService(requestRepo, requestService);
 
-  
+  // Event handlers (Observer)
   registerNotificationHandler(events, userRepo, notificationRepo);
 
   const app = express();
   app.disable('x-powered-by');
-  app.set('trust proxy', 1);
+  app.set('trust proxy', 1); // correct client IPs behind a hosting proxy (used by the rate limiter)
   app.use(helmet());
   app.use(
     cors({

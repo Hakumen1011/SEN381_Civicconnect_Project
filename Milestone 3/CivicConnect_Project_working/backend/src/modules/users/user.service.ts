@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import type { InMemoryStore } from '../../data/store.js';
+import type { InMemoryStore } from '../../src/data/store.js';
 import { badRequest, notFound } from '../../shared/errors.js';
 import { parseOrThrow } from '../../shared/http/validate.js';
 import type { UserRepository } from './user.repository.js';

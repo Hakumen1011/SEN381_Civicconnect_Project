@@ -1,4 +1,4 @@
-import { tablesOf, type InMemoryStore } from '../../data/store.js';
+import { tablesOf, type InMemoryStore } from '../../src/data/store.js';
 import type { Transaction } from '../../shared/transaction.js';
 import type { Channel, Notification, NotificationStatus } from './notification.types.js';
 

@@ -1,4 +1,4 @@
-import type { InMemoryStore, Transaction } from '../../data/store.js';
+import type { InMemoryStore, Transaction } from '../../src/data/store.js';
 import type { User } from './user.types.js';
 
 
