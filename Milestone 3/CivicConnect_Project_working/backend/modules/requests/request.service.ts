@@ -66,7 +66,7 @@ const actionSchema = z.object({
   body: z.string().trim().min(1, 'Action description cannot be empty').max(2000),
 });
 
-/** A request as returned by the API, with its overdue flag worked out. */
+
 export type RequestView = ServiceRequest & { overdue: boolean };
 
 export interface RequestDetail {
@@ -75,7 +75,7 @@ export interface RequestDetail {
   actions?: Comment[];
 }
 
-/** Full audit trail with the names of the people involved (FR-MGT-005, NFR-AUD-001). */
+
 export interface AuditTrail {
   request: RequestView;
   history: (StatusHistoryEntry & { changedByName: string })[];
@@ -84,10 +84,7 @@ export interface AuditTrail {
 
 export const toView = (r: ServiceRequest, now = new Date()): RequestView => ({ ...r, overdue: isOverdue(r, now) });
 
-/**
- * Request lifecycle: submit, view, assign, change status, comment.
- * Every change runs in one transaction together with its history row and its event handlers.
- */
+
 export class RequestService {
   constructor(
     private readonly store: TransactionManager,
@@ -150,7 +147,7 @@ export class RequestService {
     });
   }
 
-  /** FR-REQ-005/006 (own requests) and FR-STF-001 to FR-STF-004 (search, filter, sort). */
+  
   async list(auth: AuthContext, query: unknown): Promise<Page<RequestView>> {
     const q = parseOrThrow(listQuerySchema, query);
     const staff = isStaffRole(auth.role);
@@ -203,7 +200,7 @@ export class RequestService {
     };
   }
 
-  /** FR-STF-006: staff accept a request; managers and admins can assign it to any staff member. */
+ 
   async assign(auth: AuthContext, id: string, input: unknown): Promise<RequestView> {
     const body = parseOrThrow(assignSchema, input);
     const assigneeId = body.assigneeId ?? auth.userId;
@@ -294,7 +291,7 @@ export class RequestService {
     });
   }
 
-  /** FR-STF-008: staff record actions and comments against a request. */
+  
   async recordAction(auth: AuthContext, id: string, input: unknown): Promise<Comment> {
     const body = parseOrThrow(actionSchema, input);
     return this.store.transaction(async (tx) => {
@@ -311,9 +308,7 @@ export class RequestService {
     });
   }
 
-  // ---------- helpers ----------
-
-  /** Saves the new status, its history row and publishes the event, all in the same transaction. */
+ 
   private async applyStatus(
     request: ServiceRequest,
     to: RequestStatus,
@@ -347,10 +342,7 @@ export class RequestService {
     );
   }
 
-  /**
-   * Object-level authorisation: requesters may only see their own requests.
-   * Other people's requests return 404 (not 403) so their existence is not revealed.
-   */
+ 
   private async loadVisible(auth: AuthContext, id: string, tx?: Transaction): Promise<ServiceRequest> {
     const request = await this.requests.findById(id, tx);
     if (!request) throw notFound('Request not found');

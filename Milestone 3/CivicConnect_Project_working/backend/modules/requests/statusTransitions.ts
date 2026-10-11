@@ -1,16 +1,6 @@
 import type { RequestStatus } from './request.types.js';
 
-/**
- * FR-STF-007: the request workflow. Only these status changes are allowed.
- *
- *   SUBMITTED -> ASSIGNED -> IN_PROGRESS <-> ON_HOLD
- *                               |
- *                               v
- *                            RESOLVED -> CLOSED
- *                               |
- *                               +-> IN_PROGRESS (re-opened)
- *   SUBMITTED / ASSIGNED -> REJECTED
- */
+
 export const ALLOWED_TRANSITIONS: Readonly<Record<RequestStatus, readonly RequestStatus[]>> = {
   SUBMITTED: ['ASSIGNED', 'REJECTED'],
   ASSIGNED: ['IN_PROGRESS', 'REJECTED'],

@@ -1,11 +1,6 @@
 import type { RequestStatus } from '../requests/request.types.js';
 
-/**
- * Fixed message templates. Messages contain only the reference and status, never personal
- * details, which limits exposure of personal information (POPIA s. 19).
- * Template names mirror WhatsApp "utility" templates so they can be mapped to approved
- * templates if the live service is ever switched on.
- */
+
 const STATUS_LABELS: Record<RequestStatus, string> = {
   SUBMITTED: 'received',
   ASSIGNED: 'assigned to a staff member',

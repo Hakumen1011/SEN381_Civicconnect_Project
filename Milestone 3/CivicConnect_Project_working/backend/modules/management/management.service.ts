@@ -6,7 +6,7 @@ import type { RequestService } from '../requests/request.service.js';
 import { CATEGORIES, CATEGORY_LABELS, STATUSES, type Category, type RequestStatus } from '../requests/request.types.js';
 import { DONE_STATUSES, OPEN_STATUSES, TARGET_HOURS, isOverdue } from '../requests/serviceLevels.js';
 
-/** Quick views for the management dashboard (FR-MGT-001 to FR-MGT-003). */
+
 const VIEWS = ['all', 'open', 'overdue', 'resolved', 'closed'] as const;
 const viewSchema = z.object({ view: z.enum(VIEWS).default('all') }).loose();
 
@@ -20,10 +20,7 @@ export interface ManagementSummary {
   serviceLevelTargetHours: typeof TARGET_HOURS;
 }
 
-/**
- * Management queries (FR-MGT-001 to FR-MGT-004). Read-only: managers see the state of all work,
- * but changes still go through RequestService so the workflow rules always apply.
- */
+
 export class ManagementService {
   constructor(
     private readonly requests: RequestRepository,

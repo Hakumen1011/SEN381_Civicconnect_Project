@@ -11,13 +11,7 @@ export interface DispatchSummary {
   flagged: number;
 }
 
-/**
- * Background sender: picks up queued SMS / WhatsApp notifications and hands them to the
- * channel adapters. One pass:
- *   QUEUED (or FAILED with retries left) -> send -> SENT or FAILED
- *   SENT -> check delivery -> DELIVERED or UNDELIVERED
- * Failed messages are retried up to MAX_SEND_ATTEMPTS times, then flagged (FR-NOT-006).
- */
+
 export class NotificationDispatcher {
   private running = false;
 

@@ -7,7 +7,7 @@ export type NotificationStatus = (typeof NOTIFICATION_STATUSES)[number];
 
 export const MAX_SEND_ATTEMPTS = 3;
 
-/** One row in the notification log / outbox (FR-NOT-004). */
+
 export interface Notification {
   id: string;
   requestId: string;
@@ -22,7 +22,7 @@ export interface Notification {
   attempts: number;
   providerMessageId: string | null;
   lastError: string | null;
-  /** True when retries are used up and someone should look at it (FR-NOT-006). */
+  
   flagged: boolean;
   createdAt: string;
   updatedAt: string;

@@ -1,7 +1,7 @@
 import type { InMemoryStore, Transaction } from '../../data/store.js';
 import type { User } from './user.types.js';
 
-/** Data access for users. The PostgreSQL version must implement this same interface. */
+
 export interface UserRepository {
   findById(id: string, tx?: Transaction): Promise<User | undefined>;
   findByEmail(email: string, tx?: Transaction): Promise<User | undefined>;

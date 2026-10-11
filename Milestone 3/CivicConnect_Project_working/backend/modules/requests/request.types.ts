@@ -1,4 +1,4 @@
-/** FR-REQ-002: requests must use one of these controlled categories. */
+
 export const CATEGORIES = [
   'FACILITY_FAULT',
   'DAMAGED_EQUIPMENT',
@@ -36,7 +36,7 @@ export type Priority = (typeof PRIORITIES)[number];
 
 export interface ServiceRequest {
   id: string;
-  /** Human-friendly unique reference shown to the requester (FR-REQ-003), e.g. CC-2026-000001. */
+ 
   reference: string;
   requesterId: string;
   title: string;
@@ -47,15 +47,15 @@ export interface ServiceRequest {
   status: RequestStatus;
   assigneeId: string | null;
   resolution: string | null;
-  /** Service-level target: when the request should be resolved by (FR-MGT-002). */
+  
   dueAt: string;
   createdAt: string;
   updatedAt: string;
-  /** Concurrency token: increases on every change so conflicting updates can be detected. */
+  
   version: number;
 }
 
-/** One row per status change: who, when, from what, to what (FR-SEC-004, NFR-AUD-001). */
+
 export interface StatusHistoryEntry {
   id: string;
   requestId: string;
@@ -66,7 +66,7 @@ export interface StatusHistoryEntry {
   changedAt: string;
 }
 
-/** Staff actions and comments recorded against a request (FR-STF-008), exposed as "actions" in the API. */
+
 export interface Comment {
   id: string;
   requestId: string;

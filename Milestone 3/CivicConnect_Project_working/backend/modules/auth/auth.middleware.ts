@@ -5,7 +5,7 @@ import type { Role } from '../users/user.types.js';
 import type { AuthContext, TokenService } from './token.js';
 
 declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
+  
   namespace Express {
     interface Request {
       auth?: AuthContext;

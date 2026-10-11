@@ -25,14 +25,14 @@ export interface Page<T> {
   pageSize: number;
 }
 
-/** Data access for service requests. The PostgreSQL version must implement this same interface. */
+
 export interface RequestRepository {
   nextReference(tx: Transaction): Promise<string>;
   insert(request: ServiceRequest, tx: Transaction): Promise<void>;
   update(request: ServiceRequest, tx: Transaction): Promise<void>;
   findById(id: string, tx?: Transaction): Promise<ServiceRequest | undefined>;
   search(filter: RequestFilter, tx?: Transaction): Promise<Page<ServiceRequest>>;
-  /** Every request, for management summaries. A database version would use GROUP BY queries instead. */
+
   listAll(tx?: Transaction): Promise<ServiceRequest[]>;
   addHistory(entry: StatusHistoryEntry, tx: Transaction): Promise<void>;
   historyFor(requestId: string, tx?: Transaction): Promise<StatusHistoryEntry[]>;

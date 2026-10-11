@@ -38,11 +38,7 @@ export interface AppContext {
   authService: AuthService;
 }
 
-/**
- * Composition root: wires the modules of the layered modular monolith together.
- * Routes -> controllers (HTTP in/out) -> services (business rules) -> repositories (data access).
- * To move to PostgreSQL, only the repository classes created here need to change.
- */
+
 export function createApp(env: Env): AppContext {
   const store = new InMemoryStore();
   const events = new EventBus();
@@ -61,12 +57,12 @@ export function createApp(env: Env): AppContext {
   const dispatcher = new NotificationDispatcher(store, notificationRepo, channels);
   const managementService = new ManagementService(requestRepo, requestService);
 
-  // Event handlers (Observer)
+  
   registerNotificationHandler(events, userRepo, notificationRepo);
 
   const app = express();
   app.disable('x-powered-by');
-  app.set('trust proxy', 1); // correct client IPs behind a hosting proxy (used by the rate limiter)
+  app.set('trust proxy', 1);
   app.use(helmet());
   app.use(
     cors({

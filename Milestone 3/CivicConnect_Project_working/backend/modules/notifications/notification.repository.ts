@@ -9,7 +9,7 @@ export interface NotificationFilter {
   status?: NotificationStatus[];
 }
 
-/** Data access for the notification log / outbox. The PostgreSQL version implements the same interface. */
+
 export interface NotificationRepository {
   insert(notification: Notification, tx: Transaction): Promise<void>;
   update(notification: Notification, tx: Transaction): Promise<void>;

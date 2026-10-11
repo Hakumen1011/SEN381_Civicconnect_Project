@@ -18,12 +18,12 @@ export class NotificationController {
     private readonly dispatcher: NotificationDispatcher,
   ) {}
 
-  /** Simulated inbox (FR-NOT-005): every message the signed-in user has received, on every channel. */
+ 
   myInbox = async (req: Request, res: Response) => {
     res.json({ notifications: await this.notifications.find({ recipientId: authOf(req).userId }) });
   };
 
-  /** Notification log for administrators (FR-NOT-004). */
+  
   log = async (req: Request, res: Response) => {
     const q = parseOrThrow(logQuery, req.query);
     res.json({
@@ -35,7 +35,7 @@ export class NotificationController {
     });
   };
 
-  /** Runs one sending pass immediately (useful for demonstrations and testing). */
+ 
   dispatch = async (_req: Request, res: Response) => {
     res.json({ summary: await this.dispatcher.runOnce() });
   };

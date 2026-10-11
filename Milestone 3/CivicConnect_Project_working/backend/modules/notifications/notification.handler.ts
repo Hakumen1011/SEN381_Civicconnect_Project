@@ -6,12 +6,7 @@ import type { NotificationRepository } from './notification.repository.js';
 import type { Channel, Notification } from './notification.types.js';
 import { assignedToYou, requestReceived, statusChanged } from './templates.js';
 
-/**
- * NotificationHandler (Design decision 1 / Decision 8): listens to request events and queues
- * notifications. It runs inside the same transaction as the request change (transactional outbox),
- * so the change and its notifications are always saved together. Sending happens later, in the
- * background dispatcher, so it never slows the user down (FR-NOT-007).
- */
+
 export function registerNotificationHandler(
   events: EventBus,
   users: UserRepository,
@@ -43,7 +38,7 @@ export function registerNotificationHandler(
       updatedAt: now,
     };
 
-    // In-app notifications are always created and are "delivered" immediately.
+    
     await notifications.insert(
       { ...base, id: randomUUID(), channel: 'IN_APP', address: null, status: 'DELIVERED' },
       tx,

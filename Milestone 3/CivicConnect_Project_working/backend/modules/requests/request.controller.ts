@@ -8,7 +8,7 @@ import { ALLOWED_TRANSITIONS } from './statusTransitions.js';
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
-/** Route ids must be UUIDs; anything else cannot exist, so it is a 404. */
+
 function idOf(req: Request): string {
   const id = req.params.id;
   if (typeof id !== 'string' || !UUID.test(id)) throw notFound('Request not found');
@@ -18,7 +18,7 @@ function idOf(req: Request): string {
 export class RequestController {
   constructor(private readonly service: RequestService) {}
 
-  /** Lookup data for the front end: categories, statuses, allowed workflow and service levels. */
+  
   meta = (_req: Request, res: Response) => {
     res.json({
       categories: CATEGORIES.map((value) => ({ value, label: CATEGORY_LABELS[value] })),
