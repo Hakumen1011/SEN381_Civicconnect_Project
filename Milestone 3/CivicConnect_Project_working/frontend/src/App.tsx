@@ -1,7 +1,5 @@
-import RequesterPortal from "./features/requester/RequesterPortal";
+import StaffTriagePage from "./features/staff/pages/StaffTriagePage";
 
-function App() {
-  return <RequesterPortal />;
+export default function App() {
+  return <StaffTriagePage />;
 }
-
-export default App;

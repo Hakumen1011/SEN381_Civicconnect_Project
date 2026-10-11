@@ -63,9 +63,16 @@ export default function OperationsSidebar({
 
         <nav aria-label="Operations navigation">
           {sidebarItems.map((item, index) => {
-            const isActive =
-              item.id === activeNavigation &&
-              item.label === "Citizen Portal Feed";
+            // Highlight the sidebar entry corresponding to the current feature.
+              const isActive =
+                (item.label === "Triage Inbox" &&
+                  activeNavigation === "staff-triage") ||
+                (item.label === "All Work Orders" &&
+                  activeNavigation === "request-management") ||
+                (item.label === "SLA Compliance" &&
+                  activeNavigation === "management-analytics") ||
+                (item.label === "Citizen Portal Feed" &&
+                  activeNavigation === "requester-self-service");
 
             return (
               <a
