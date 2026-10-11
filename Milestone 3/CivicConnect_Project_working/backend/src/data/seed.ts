@@ -1,5 +1,5 @@
-import type { AuthService } from '../../modules/auth/auth.service.js';
-import type { Role } from '../../modules/users/user.types.js';
+   import type { AuthService } from '../modules/auth/auth.service.js';
+   import type { Role } from '../modules/users/user.types.js';
 
 
 export const DEMO_USERS: { name: string; email: string; role: Role; phone?: string }[] = [

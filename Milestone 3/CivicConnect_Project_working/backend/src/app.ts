@@ -2,7 +2,7 @@ import cors from 'cors';
 import express, { type Express } from 'express';
 import helmet from 'helmet';
 import type { Env } from './config/env.js';
-import { InMemoryStore } from '';
+import { InMemoryStore } from './data/store.js';
 import { EventBus } from './shared/eventBus.js';
 import { errorHandler, notFoundHandler } from './shared/http/errorHandler.js';
 import { AuthController } from './modules/auth/auth.controller.js';
@@ -99,3 +99,4 @@ export function createApp(env: Env): AppContext {
 
   return { app, store, events, channels, dispatcher, authService };
 }
+

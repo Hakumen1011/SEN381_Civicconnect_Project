@@ -1,7 +1,7 @@
-import type { User } from '../../modules/users/user.types.js';
-import type { Comment, ServiceRequest, StatusHistoryEntry } from '../../modules/requests/request.types.js';
-import type { Notification } from '../../modules/notifications/notification.types.js';
-import type { Transaction, TransactionManager } from '../../shared/transaction.js';
+import type { User } from '../modules/users/user.types.js';
+import type { Comment, ServiceRequest, StatusHistoryEntry } from '../modules/requests/request.types.js';
+import type { Notification } from '../modules/notifications/notification.types.js';
+import type { Transaction, TransactionManager } from '../shared/transaction.js';
 
 
 export interface Tables {
