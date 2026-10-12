@@ -1,0 +1,43 @@
+
+name: Backend CI
+
+on:
+  pull_request:
+    paths:
+      - 'Milestone 3/CivicConnect_Project_working/backend/**'
+      - '.github/workflows/backend-ci.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'Milestone 3/CivicConnect_Project_working/backend/**'
+      - '.github/workflows/backend-ci.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 'Milestone 3/CivicConnect_Project_working/backend'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: 'Milestone 3/CivicConnect_Project_working/backend/package-lock.json'
+
+      - name: Install packages
+        run: npm ci
+
+      - name: Check types
+        run: npm run typecheck
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build
+        run: npm run build
