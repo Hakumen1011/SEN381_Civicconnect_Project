@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import { z } from 'zod';
-import type { InMemoryStore } from '../../src/data/store.js';
+import type { InMemoryStore } from '../../data/store.js';
 import { conflict, unauthorized } from '../../shared/errors.js';
 import { parseOrThrow } from '../../shared/http/validate.js';
 import type { UserRepository } from '../users/user.repository.js';
