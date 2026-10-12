@@ -85,6 +85,25 @@ export const allowedStageTransitions: Record<
   Resolved: ["Closed"],
   Closed: [],
 };
+/**
+ * Checks whether a requested lifecycle transition is permitted.
+ * Supports FR-STF-007.
+ */
+export function canTransitionTo(
+  currentStage: LifecycleStage,
+  nextStage: LifecycleStage,
+): boolean {
+  return allowedStageTransitions[currentStage].includes(nextStage);
+}
+
+/**
+ * Returns the permitted next lifecycle stages.
+ */
+export function getAllowedNextStages(
+  currentStage: LifecycleStage,
+): LifecycleStage[] {
+  return allowedStageTransitions[currentStage];
+}
 
 // Keep this mapping explicit. The shared Staff status model and the
 // detailed lifecycle model have slightly different terminology.
