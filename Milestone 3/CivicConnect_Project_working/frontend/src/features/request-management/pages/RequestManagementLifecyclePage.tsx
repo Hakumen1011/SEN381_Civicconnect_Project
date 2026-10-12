@@ -1,4 +1,5 @@
 import { useState } from "react";
+import RequestOwnershipPanel from "../components/RequestOwnershipPanel";
 
 import OperationsShell from "../../../layouts/OperationsShell";
 
@@ -8,6 +9,8 @@ import RequestCaseDetails from "../components/RequestCaseDetails";
 import { mockRequestManagementCase } from "../components/requestManagementData";
 
 import "./RequestManagementLifecyclePage.css";
+
+
 
 // These tabs distinguish staff-only, citizen-facing and audit information.
 type ActivityTab = "staff" | "public" | "audit";
@@ -359,40 +362,15 @@ export default function RequestManagementLifecyclePage() {
 
             {/* Case ownership */}
             <section className="rml-card rml-ownership">
-              <div className="rml-card__heading">
-                <span
-                  className="material-symbols-outlined"
-                  aria-hidden="true"
-                >
-                  badge
-                </span>
-                <h2>Case Ownership</h2>
-              </div>
-
-              <div className="rml-ownership__person">
-                <strong>{caseData.ownerName}</strong>
-                <span>{caseData.ownerRole}</span>
-              </div>
-
-              <span className="rml-field-label">
-                Assigned Field Unit
-              </span>
-
-              <p>
-                {caseData.activeFieldUnit || "Not assigned"}
-              </p>
-
-              <p className="rml-ownership__crew">
-                {caseData.crewSummary || "Crew details unavailable"}
-              </p>
-
-              <button
-                type="button"
-                className="rml-button rml-button--secondary"
-                disabled
-              >
-                Reassign Case
-              </button>
+              <RequestOwnershipPanel
+                caseReference={caseData.caseReference}
+                currentStage={caseData.currentStage}
+                initialOwner={caseData.ownerName}
+                initialOwnerRole={caseData.ownerRole}
+                initialFieldUnit={caseData.activeFieldUnit}
+                initialCrewSummary={caseData.crewSummary}
+                userRole="staff" // For demonstration, the user is a staff member.
+              />
             </section>
 
             {/* Actions cannot be performed before backend authorisation */}
