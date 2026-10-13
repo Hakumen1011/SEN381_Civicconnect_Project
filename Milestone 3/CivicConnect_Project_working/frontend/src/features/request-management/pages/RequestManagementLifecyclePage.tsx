@@ -10,7 +10,7 @@ import { mockRequestManagementCase } from "../components/requestManagementData";
 
 import "./RequestManagementLifecyclePage.css";
 
-
+import AuditTrailPanel from "../../audit/components/AuditTrailPanel";
 
 // These tabs distinguish staff-only, citizen-facing and audit information.
 type ActivityTab = "staff" | "public" | "audit";
@@ -208,54 +208,35 @@ export default function RequestManagementLifecyclePage() {
                       : "System audit trail"
                 }
               >
-                {activeTab === "audit" ? (
-                  caseData.auditEvents.length > 0 ? (
-                    <ol className="rml-activity__list">
-                      {caseData.auditEvents.map((event) => (
-                        <li key={event.id} className="rml-activity__item">
-                          <div className="rml-activity__item-heading">
-                            <strong>{event.action}</strong>
+              {activeTab === "audit" ? (
+                <AuditTrailPanel
+                  caseReference={caseData.caseReference}
+                  events={caseData.auditEvents}
+                />
+              ) : visibleMessages.length > 0 ? (
+                <ol className="rml-activity__list">
+                  {visibleMessages.map((message) => (
+                    <li key={message.id} className="rml-activity__item">
+                      <div className="rml-activity__item-heading">
+                        <strong>{message.author}</strong>
 
-                            <time dateTime={event.timestamp}>
-                              {formatDateTime(event.timestamp)}
-                            </time>
-                          </div>
+                        <time dateTime={message.timestamp}>
+                          {formatDateTime(message.timestamp)}
+                        </time>
+                     </div>
 
-                          <span className="rml-activity__author">
-                            Actor: {event.actor}
-                          </span>
+                      <span className="rml-activity__author">
+                        {message.role}
+                      </span>
 
-                          <p>{event.details}</p>
-                        </li>
-                      ))}
-                    </ol>
-                  ) : (
-                    <p>No audit events are available.</p>
-                  )
-                ) : visibleMessages.length > 0 ? (
-                  <ol className="rml-activity__list">
-                    {visibleMessages.map((message) => (
-                      <li key={message.id} className="rml-activity__item">
-                        <div className="rml-activity__item-heading">
-                          <strong>{message.author}</strong>
-
-                          <time dateTime={message.timestamp}>
-                            {formatDateTime(message.timestamp)}
-                          </time>
-                        </div>
-
-                        <span className="rml-activity__author">
-                          {message.role}
-                        </span>
-
-                        <p>{message.content}</p>
-                      </li>
-                    ))}
-                  </ol>
-                ) : (
-                  <p>No messages are available in this category.</p>
-                )}
-              </div>
+                      <p>{message.content}</p>
+                    </li>
+                  ))}
+                </ol>
+              ) : (
+                <p>No messages are available in this category.</p>
+              )}
+            </div>
             </section>
 
             {/* Resolution verification */}

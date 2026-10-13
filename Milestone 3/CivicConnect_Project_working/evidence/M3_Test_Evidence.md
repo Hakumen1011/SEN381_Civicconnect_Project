@@ -626,3 +626,579 @@ The next update should include:
 5. Any new defects, regression tests and resolutions.
 
 **Document status:** Active — continue updating throughout M3.
+
+
+---
+
+## Continuous Integration Evidence — CI-M3-001
+
+**Feature:** GitHub Actions Frontend CI
+**Milestone:** SEN381 M3
+**Status:** PENDING — awaiting first GitHub Actions execution
+
+### Purpose
+
+To verify that CivicConnect frontend changes can be installed,
+tested and built in an automated, clean environment.
+
+### Workflow Configuration
+
+- Workflow: `.github/workflows/frontend-ci.yml`
+- Working directory: `Milestone 3/CivicConnect_Project_working/frontend`
+- Runtime: Node.js 22
+- Runner: GitHub-hosted Ubuntu
+- Dependency installation: `npm ci`
+- Test command: `npm run test:run`
+- Build command: `npm run build`
+
+### Acceptance Criteria
+
+1. GitHub automatically executes the workflow on a push.
+2. GitHub executes the workflow for a pull request.
+3. Failed automated tests cause the job to fail.
+4. TypeScript compilation or Vite build failures cause the job to fail.
+5. The workflow result is visible on the pull request.
+6. The required check is enforced before merging, if branch
+   protection has been configured.
+
+### Execution Record
+
+| Field | Actual Result |
+|---|---|
+| Date/time | Pending |
+| Branch | feature/m3-frontend-ci |
+| Commit hash | Pending |
+| GitHub Actions run ID | Pending |
+| GitHub Actions run URL | Pending |
+| Dependency installation | Pending |
+| Automated tests | Pending |
+| Build | Pending |
+| Overall CI result | Pending |
+| Reviewer approval evidence | Pending |
+| Required-check enforcement | Pending |
+
+### Evidence Interpretation
+
+A successful run will confirm that the frontend passes its
+automated tests and build in a clean CI environment.
+
+It will not, by itself, establish backend integration,
+production deployment readiness or full system compliance.
+
+
+---
+
+# Audit Trail Feature — M3 Test Evidence
+
+**Project:** CivicConnect  
+**Milestone:** SEN381 Milestone 3  
+**Feature:** Audit Trail — Search, Filtering and Chronological Ordering  
+**Feature branch:** `feature/m3-audit-trail`  
+**Requirement area:** Audit visibility, traceability and request activity history  
+**Verification status:** PASS — Frontend automated tests  
+**Execution date:** 2026-10-12  
+**Test framework:** Vitest 5.0.4, React Testing Library  
+**Evidence owner:** Frontend Development Lead
+
+---
+
+## 1. Feature Overview
+
+The CivicConnect Audit Trail feature allows staff to inspect the recorded history of a service request.
+
+The frontend implementation provides:
+
+- Read-only presentation of audit records.
+- Search functionality across event actors, actions and descriptions.
+- Chronological ordering of audit records.
+- Newest-first and oldest-first sorting options.
+- A count of matching events.
+- Clear feedback when no audit records match a search.
+- Responsive presentation on desktop, tablet and mobile.
+- Integration with the existing Request Management Lifecycle & Audit page.
+
+### Implemented Files
+
+| File | Responsibility |
+|---|---|
+| `frontend/src/features/audit/audit.ts` | Audit filtering and chronological sorting logic |
+| `frontend/src/features/audit/audit.test.ts` | Unit tests for filtering and sorting |
+| `frontend/src/features/audit/components/AuditTrailPanel.tsx` | Interactive audit-history component |
+| `frontend/src/features/audit/components/AuditTrailPanel.css` | Responsive audit-history styling |
+| `frontend/src/features/audit/components/AuditTrailPanel.test.tsx` | Component interaction tests |
+| `frontend/src/features/request-management/pages/RequestManagementLifecyclePage.tsx` | Integration of AuditTrailPanel into the Request Management page |
+
+The audit interface currently uses demonstration records supplied by the application.
+
+The implementation does not yet create or persist authenticated audit records on the backend.
+
+---
+
+## 2. Test Execution Summary
+
+**Execution ID:** EXEC-M3-AUD-001  
+**Command:** `npm run test:run`  
+**Execution environment:** GitHub-tracked CivicConnect frontend project  
+**Overall result:** PASS — Reported by developer
+
+### Audit Feature Test Results
+
+| Test File | Executed | Passed | Failed | Result |
+|---|---:|---:|---:|---|
+| `src/features/audit/audit.test.ts` | 6 | 6 | 0 | PASS |
+| `src/features/audit/components/AuditTrailPanel.test.tsx` | 3 | 3 | 0 | PASS |
+| **Audit feature total** | **9** | **9** | **0** | **PASS** |
+
+### Cumulative Frontend Test Coverage
+
+| Feature | Tests | Passed | Failed |
+|---|---:|---:|---:|
+| Shared Navigation | 3 | 3 | 0 |
+| Request Lifecycle Validation | 5 | 5 | 0 |
+| Request Assignment Validation | 5 | 5 | 0 |
+| Request Management Page | 3 | 3 | 0 |
+| Audit Filtering and Sorting | 6 | 6 | 0 |
+| Audit Trail Component | 3 | 3 | 0 |
+| **TOTAL** | **25** | **25** | **0** |
+
+**Cumulative status:** PASS — 25/25 automated frontend tests, based on the reported successful execution.
+
+**Note:** The cumulative total should be checked against the latest saved Vitest output before final M3 submission.
+
+---
+
+## 3. Unit Test Evidence — Audit Filtering and Sorting
+
+### TC-AUD-001 — Search Audit Events by Actor
+
+**Requirement basis:** Audit activity visibility  
+**Test file:** `audit.test.ts`  
+**Test level:** Unit  
+**Technique:** Equivalence Partitioning — valid search input
+
+**Preconditions:**
+- Three controlled audit events exist.
+- One event has actor `Eleanor Vance`.
+
+**Test input:**
+- Search text: `Eleanor`
+- Sort order: `newest`
+
+**Expected result:**
+- Only the event associated with Eleanor Vance is returned.
+- The returned event ID is `AUD-002`.
+
+**Actual result:**
+- The expected event was returned.
+- The assertion passed.
+
+**Status:** PASS
+
+**Evidence reference:** EXEC-M3-AUD-001
+
+---
+
+### TC-AUD-002 — Case-Insensitive Search by Event Action
+
+**Requirement basis:** Audit activity search  
+**Test file:** `audit.test.ts`  
+**Test level:** Unit  
+**Technique:** Equivalence Partitioning
+
+**Preconditions:**
+- An audit event exists with action `Status changed`.
+
+**Test input:**
+- Search text: `STATUS CHANGED`
+- Sort order: `newest`
+
+**Expected result:**
+- The action is matched regardless of letter case.
+- The returned event ID is `AUD-003`.
+
+**Actual result:**
+- The expected event was returned.
+- The assertion passed.
+
+**Status:** PASS
+
+**Evidence reference:** EXEC-M3-AUD-001
+
+---
+
+### TC-AUD-003 — Search Audit Event Descriptions
+
+**Requirement basis:** Audit history search  
+**Test file:** `audit.test.ts`  
+**Test level:** Unit  
+**Technique:** Equivalence Partitioning
+
+**Preconditions:**
+- An audit event contains the description `Water leak reported.`
+
+**Test input:**
+- Search text: `water leak`
+
+**Expected result:**
+- The event is found through its description.
+- The returned event ID is `AUD-001`.
+
+**Actual result:**
+- The expected event was returned.
+- The assertion passed.
+
+**Status:** PASS
+
+**Evidence reference:** EXEC-M3-AUD-001
+
+---
+
+### TC-AUD-004 — Newest-First Chronological Sorting
+
+**Requirement basis:** Accurate chronological presentation  
+**Test file:** `audit.test.ts`  
+**Test level:** Unit  
+**Technique:** Ordering and chronological comparison
+
+**Preconditions:**
+- Three events have distinct recorded timestamps.
+
+**Test input:**
+- Search text: empty
+- Sort order: `newest`
+
+**Expected result:**
+
+The events are returned in this order:
+
+1. `AUD-003`
+2. `AUD-002`
+3. `AUD-001`
+
+**Actual result:**
+- Events were returned in descending timestamp order.
+- The assertion passed.
+
+**Status:** PASS
+
+**Evidence reference:** EXEC-M3-AUD-001
+
+---
+
+### TC-AUD-005 — Oldest-First Sorting Without Source Modification
+
+**Requirement basis:** Accurate chronological presentation and preservation of source records  
+**Test file:** `audit.test.ts`  
+**Test level:** Unit  
+**Technique:** Ordering and data-integrity check
+
+**Preconditions:**
+- Three audit events exist.
+- Their original sequence is recorded before sorting.
+
+**Test input:**
+- Search text: empty
+- Sort order: `oldest`
+
+**Expected result:**
+
+The events are returned in this order:
+
+1. `AUD-001`
+2. `AUD-002`
+3. `AUD-003`
+
+The input array remains unchanged.
+
+**Actual result:**
+- Events were returned in ascending timestamp order.
+- The source array retained its original sequence.
+- Both assertions passed.
+
+**Status:** PASS
+
+**Evidence reference:** EXEC-M3-AUD-001
+
+**Interpretation:**
+- This confirms that frontend sorting does not mutate the supplied event collection.
+- It does not prove backend audit-log immutability or tamper resistance.
+
+---
+
+### TC-AUD-006 — Search With No Matching Audit Events
+
+**Requirement basis:** Predictable search behaviour and usability  
+**Test file:** `audit.test.ts`  
+**Test level:** Unit  
+**Technique:** Negative Testing / Invalid Equivalence Class
+
+**Preconditions:**
+- The controlled audit records contain no event matching the search term.
+
+**Test input:**
+- Search text: `unknown event`
+
+**Expected result:**
+- The filtering function returns an empty array.
+
+**Actual result:**
+- An empty array was returned.
+- The assertion passed.
+
+**Status:** PASS
+
+**Evidence reference:** EXEC-M3-AUD-001
+
+---
+
+## 4. Component Test Evidence — AuditTrailPanel
+
+### TC-AUD-007 — Display Provided Audit Records
+
+**Requirement basis:** Request activity and audit visibility  
+**Test file:** `AuditTrailPanel.test.tsx`  
+**Test level:** React Component  
+**Technique:** Functional input/output testing
+
+**Preconditions:**
+- AuditTrailPanel receives two valid demonstration events.
+- Case reference is `CC-TEST-001`.
+
+**Test input:**
+- Render the AuditTrailPanel component with the supplied events.
+
+**Expected result:**
+- `Request submitted` is displayed.
+- `Case assigned` is displayed.
+- Event count displays `2 of 2 events`.
+
+**Actual result:**
+- Both event descriptions were displayed.
+- The correct event count was displayed.
+- All assertions passed.
+
+**Status:** PASS
+
+**Evidence reference:** EXEC-M3-AUD-001
+
+---
+
+### TC-AUD-008 — Interactive Search Filters Displayed Events
+
+**Requirement basis:** Audit activity search  
+**Test file:** `AuditTrailPanel.test.tsx`  
+**Test level:** React Component  
+**Technique:** Black-box functional testing
+
+**Preconditions:**
+- The audit component contains two events.
+- One event is associated with Eleanor Vance.
+
+**Test input:**
+- Enter `Eleanor` into the audit search field.
+
+**Expected result:**
+- The `Case assigned` event remains visible.
+- The `Request submitted` event is excluded.
+- The event count displays `1 of 2 events`.
+
+**Actual result:**
+- The matching event remained visible.
+- The nonmatching event was excluded.
+- The count updated correctly.
+- All assertions passed.
+
+**Status:** PASS
+
+**Evidence reference:** EXEC-M3-AUD-001
+
+---
+
+### TC-AUD-009 — No-Match Search Displays Empty-State Feedback
+
+**Requirement basis:** Search usability and error feedback  
+**Test file:** `AuditTrailPanel.test.tsx`  
+**Test level:** React Component  
+**Technique:** Negative Testing / Black-box functional testing
+
+**Preconditions:**
+- AuditTrailPanel contains two events.
+
+**Test input:**
+- Enter `unmatched search term` into the search field.
+
+**Expected result:**
+- A message states `No matching audit events`.
+- The event count displays `0 of 2 events`.
+
+**Actual result:**
+- The expected empty-state message appeared.
+- The event count updated correctly.
+- All assertions passed.
+
+**Status:** PASS
+
+**Evidence reference:** EXEC-M3-AUD-001
+
+---
+
+## 5. Black-Box Test Design Techniques
+
+### 5.1 Equivalence Partitioning
+
+**Applied to:** TC-AUD-001, TC-AUD-002, TC-AUD-003 and TC-AUD-006
+
+Audit search inputs were divided into meaningful classes:
+
+- Valid actor-name searches.
+- Valid action-name searches.
+- Valid description searches.
+- Searches with no matching records.
+
+**Purpose:**
+Verify that the search operation behaves correctly for representative classes of input rather than testing only a single successful search.
+
+### 5.2 Ordering and Chronological Comparison
+
+**Applied to:** TC-AUD-004 and TC-AUD-005
+
+**Purpose:**
+Verify that the interface can order recorded events in both ascending and descending chronological order without modifying the source collection.
+
+### 5.3 Input/Output Functional Testing
+
+**Applied to:** TC-AUD-007, TC-AUD-008 and TC-AUD-009
+
+**Purpose:**
+Verify that user-visible output changes correctly when events are supplied or a search is performed.
+
+**Limitation:**
+These frontend checks do not replace integrated API or E2E verification.
+
+---
+
+## 6. Negative Testing Evidence
+
+| Test ID | Negative Scenario | Expected Outcome | Result |
+|---|---|---|---|
+| TC-AUD-006 | Search term has no matching events | Empty result array | PASS |
+| TC-AUD-009 | User searches for a nonexistent event | Empty-state feedback appears | PASS |
+
+These cases contribute to frontend negative-test coverage.
+
+They do not establish that the application rejects unauthorised access to audit records.
+
+---
+
+## 7. Requirement and Risk Traceability
+
+| Requirement / Risk Area | Implementation | Test Cases | Status |
+|---|---|---|---|
+| Request activity visibility | `AuditTrailPanel.tsx` | TC-AUD-007 | Frontend PASS |
+| Search and filter activity records | `audit.ts`, `AuditTrailPanel.tsx` | TC-AUD-001, TC-AUD-002, TC-AUD-003, TC-AUD-008 | Frontend PASS |
+| Chronological audit presentation | `audit.ts` | TC-AUD-004, TC-AUD-005 | Frontend PASS |
+| Predictable no-match behaviour | `audit.ts`, `AuditTrailPanel.tsx` | TC-AUD-006, TC-AUD-009 | Frontend PASS |
+| Preservation of original event collection during sorting | `audit.ts` | TC-AUD-005 | Frontend PASS |
+| Authenticated actor attribution | Backend audit service | Not yet implemented | PENDING |
+| Persistent audit-event recording | Backend and database | Not yet implemented | PENDING |
+| Server-side audit authorisation | Backend API | Not yet verified | PENDING |
+| Tamper-resistant audit storage | Backend/database controls | Not yet verified | PENDING |
+
+**RTM action:** Update the team's existing RTM with the relevant approved requirement IDs, implementation locations, test IDs, execution results and evidence references.
+
+---
+
+## 8. Integration With Request Management
+
+The AuditTrailPanel component is integrated into:
+
+`frontend/src/features/request-management/pages/RequestManagementLifecyclePage.tsx`
+
+### Verified Behaviour
+
+The frontend implementation allows the System Audit Trail tab to display the reusable AuditTrailPanel component.
+
+The panel receives audit records from the selected demonstration request and displays the supplied event history.
+
+### Limitations
+
+- Events are supplied from demonstration data.
+- Filtering and sorting occur in frontend memory.
+- Audit events are not retrieved from a live backend service.
+- Case assignment and lifecycle operations do not yet produce persistent audit events.
+- Authentication, access control, event integrity and tamper resistance require backend implementation and verification.
+
+---
+
+## 9. Quality Assessment
+
+### Passed Frontend Verification
+
+- Audit actor-name searching.
+- Case-insensitive action searching.
+- Description-based searching.
+- Newest-first ordering.
+- Oldest-first ordering.
+- Non-mutation of the source array during sorting.
+- Empty results for unsuccessful searches.
+- Rendering of audit history and event counts.
+- Interactive filtering and empty-state feedback.
+
+### Outstanding Work
+
+- Backend audit-event API integration.
+- Database persistence and retrieval.
+- Authenticated user attribution.
+- Role-based access control for audit records.
+- Integrity and tamper-resistance verification.
+- API/integration test execution.
+- End-to-end system test execution.
+- Performance testing of audit retrieval with realistic record volumes.
+- Security and quality-gate evidence for the integrated release candidate.
+
+### Interim Conclusion
+
+The Audit Trail frontend implementation passed all nine reported automated tests.
+
+The current implementation provides verified frontend search, sorting and read-only event presentation.
+
+It does not yet constitute a complete, production-ready audit subsystem.
+
+---
+
+## 10. Evidence References
+
+| Evidence Artefact | Reference |
+|---|---|
+| Audit filtering implementation | `frontend/src/features/audit/audit.ts` |
+| Audit filtering tests | `frontend/src/features/audit/audit.test.ts` |
+| Audit Trail component | `frontend/src/features/audit/components/AuditTrailPanel.tsx` |
+| Audit Trail component tests | `frontend/src/features/audit/components/AuditTrailPanel.test.tsx` |
+| Audit Trail styling | `frontend/src/features/audit/components/AuditTrailPanel.css` |
+| Request Management integration | `frontend/src/features/request-management/pages/RequestManagementLifecyclePage.tsx` |
+| Local automated test run | EXEC-M3-AUD-001 |
+| GitHub Actions run URL | Add actual URL after successful CI execution |
+| Pull request URL | Add actual URL |
+| Git commit hash | Add actual commit hash |
+| Existing RTM | Update relevant approved requirement-to-test links |
+| PED | Carry forward evidence into PED v3.0 |
+
+---
+
+## 11. Next Development Increment
+
+**Next feature:** Management & Analytics
+
+Planned verification areas:
+
+- Request-volume calculations.
+- Request-status breakdowns.
+- Overdue request identification.
+- SLA compliance calculations.
+- Department-level service performance.
+- Dashboard filtering and presentation.
+- Negative tests for empty datasets and invalid values.
+- Subsequent backend API and E2E verification.
+
+**Audit Trail frontend status: PASS**  
+**Overall CivicConnect M3 verification status: IN PROGRESS**
