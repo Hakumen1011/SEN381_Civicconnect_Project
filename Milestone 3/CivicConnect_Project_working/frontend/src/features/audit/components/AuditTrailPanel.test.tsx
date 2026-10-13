@@ -106,3 +106,26 @@ describe("AuditTrailPanel", () => {
     ).toBeInTheDocument();
   });
 });
+
+it("shows a helpful message when the case has no audit records", () => {
+  render(
+    <AuditTrailPanel
+      caseReference="CC-EMPTY-001"
+      events={[]}
+    />,
+  );
+
+  expect(
+    screen.getByText("No matching audit events"),
+  ).toBeInTheDocument();
+
+  expect(
+    screen.getByText(
+      "No audit events have been provided for this case.",
+    ),
+  ).toBeInTheDocument();
+
+  expect(
+    screen.getByText("0 of 0 events"),
+  ).toBeInTheDocument();
+});

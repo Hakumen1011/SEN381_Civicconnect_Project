@@ -1,5 +1,5 @@
-import StaffTriagePage from "./features/staff/pages/StaffTriagePage";
-import RequestManagementLifecyclePage from "./features/request-management/pages/RequestManagementLifecyclePage";
+import ManagementPerformancePage from "./features/management/pages/ManagementPerformancePage";
+
 export default function App() {
-  return <RequestManagementLifecyclePage />;
+  return <ManagementPerformancePage />;
 }
