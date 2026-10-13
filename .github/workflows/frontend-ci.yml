@@ -1,4 +1,14 @@
 
+# ============================================================
+# CivicConnect Frontend CI
+# SEN381 Milestone 3
+#
+# Maintains the original team workflow and adds:
+# - Automated Vitest execution
+# - Integration-branch push checks
+# - Manual workflow execution
+# ============================================================
+
 name: Frontend CI
 
 on:
@@ -6,32 +16,51 @@ on:
     paths:
       - 'Milestone 3/CivicConnect_Project_working/frontend/**'
       - '.github/workflows/frontend-ci.yml'
+
   push:
-    branches: [main]
+    branches:
+      - main
+      - Milestone_3_start
     paths:
       - 'Milestone 3/CivicConnect_Project_working/frontend/**'
       - '.github/workflows/frontend-ci.yml'
+
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
   build:
+    name: Frontend Tests and Build
     runs-on: ubuntu-latest
+
     defaults:
       run:
         working-directory: 'Milestone 3/CivicConnect_Project_working/frontend'
-    steps:
-      - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+    steps:
+      # Retrieve the commit being verified.
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Install Node.js and enable npm caching.
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: '22'
           cache: npm
           cache-dependency-path: 'Milestone 3/CivicConnect_Project_working/frontend/package-lock.json'
 
+      # Install dependencies from the committed lockfile.
       - name: Install packages
         run: npm ci
 
+      # NEW: Execute frontend automated tests.
+      # A failing test will fail this CI job.
+      - name: Run frontend automated tests
+        run: npm run test:run
+
+      # Verify TypeScript compilation and production build.
       - name: Type check and build
         run: npm run build
