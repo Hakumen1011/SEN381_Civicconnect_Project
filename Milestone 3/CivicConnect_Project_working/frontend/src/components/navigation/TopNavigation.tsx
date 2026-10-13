@@ -1,5 +1,7 @@
+import { useState } from "react";
 import "./TopNavigation.css";
 import logo from "../../assets/CivicConnect-Logo.svg";
+
 
 
 
@@ -41,10 +43,14 @@ const navigationItems: Array<{
     },
 ];
 
+// Controls the dropdown navigation on smaller screens.
+
+
 export default function TopNavigation({
     activeNavigation = "requester-self-service",
     onNavigate,
 }: TopNavigationProps) {
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     return (
         <header className="top-navigation">
             <div className="top-navigation__main">
@@ -71,7 +77,10 @@ export default function TopNavigation({
 
                 {/* Main navigation */}
                 <nav
-                    className="top-navigation__links"
+                    id="civicconnect-primary-navigation"
+                    className={`top-navigation__links ${
+                    mobileMenuOpen ? "top-navigation__links--open" : ""
+                    }`}
                     aria-label="Primary navigation"
                 >
                     {navigationItems.map((item) => (
@@ -93,12 +102,26 @@ export default function TopNavigation({
                                     event.preventDefault();
                                     onNavigate(item.id);
                                 }
+
+                                 // Close the mobile dropdown after a navigation choice.
+                                    setMobileMenuOpen(false);
                             }}
                         >
                             {item.label}
                         </a>
                     ))}
                 </nav>
+
+                {/* Mobile menu toggle */}
+                <button type="button" className="top-navigation__mobile-toggle"
+                    aria-label={mobileMenuOpen ? "Close navigation" : "Open navigation"}
+                    aria-expanded={mobileMenuOpen}
+                    aria-controls="civicconnect-primary-navigation"
+                    onClick={() => setMobileMenuOpen((open) => !open)}>
+                    <span className="material-symbols-outlined" aria-hidden="true">
+                        {mobileMenuOpen ? "close" : "menu"}
+                    </span>
+                </button>
 
                 {/* Right side */}
                 <div className="top-navigation__actions">

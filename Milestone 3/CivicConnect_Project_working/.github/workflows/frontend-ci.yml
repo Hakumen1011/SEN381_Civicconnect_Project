@@ -1,0 +1,73 @@
+
+# ============================================================
+# CivicConnect — Frontend Continuous Integration
+#
+# SEN381 Milestone 3
+#
+# Checks:
+#   1. Install locked dependencies
+#   2. Execute Vitest automated tests
+#   3. Type-check and produce a Vite build
+#
+# This workflow does not deploy the application.
+# ============================================================
+
+name: CivicConnect Frontend CI
+
+# Run checks for changes pushed to branches and pull requests.
+# Manual execution is also available in GitHub Actions.
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+# Minimal repository access required by this workflow.
+permissions:
+  contents: read
+
+# Keep concurrent executions separate for each branch or PR,
+# cancelling an older run when a newer commit is pushed.
+concurrency:
+  group: frontend-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  frontend-quality:
+    name: Frontend Tests and Build
+    runs-on: ubuntu-latest
+
+    # The frontend package.json is nested inside Milestone 3.
+    # Paths below are relative to the Git repository root.
+    defaults:
+      run:
+        working-directory: "Milestone 3/CivicConnect_Project_working/frontend"
+
+    steps:
+      # Step 1: Download the repository at the tested commit.
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: Install a supported Node.js version.
+      # Vite 8 requires a modern Node.js runtime.
+      # Cache npm downloads for faster future builds.
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: "Milestone 3/CivicConnect_Project_working/frontend/package-lock.json"
+
+      # Step 3: Use exact dependencies from package-lock.json.
+      # npm ci fails if package.json and the lockfile disagree.
+      - name: Install frontend dependencies
+        run: npm ci
+
+      # Step 4: Run all automated Vitest tests once.
+      # Any failing test causes the job to fail.
+      - name: Run frontend automated tests
+        run: npm run test:run
+
+      # Step 5: TypeScript compilation and Vite production build.
+      # A compilation or build error causes the job to fail.
+      - name: Build frontend
+        run: npm run build

@@ -1,174 +1,230 @@
+/* =========================================================
+   CivicConnect shared top navigation
+   Selectors match TopNavigation.tsx.
+   ========================================================= */
+
 .top-navigation {
-  --top-height: 116px;
+  --nav-navy: #001428;
+  --nav-navy-light: #0f2942;
+  --nav-blue: #0051d5;
+  --nav-surface: #ffffff;
+  --nav-pale-blue: #eff4ff;
+  --nav-border: #d8e0ec;
+  --nav-muted: #536277;
 
   position: fixed;
   inset: 0 0 auto;
   z-index: 100;
-  height: var(--top-height);
 
-  background: var(--color-surface-container-lowest, #ffffff);
-  border-bottom: 1px solid var(--color-outline-variant, #c3c6ce);
-  color: var(--color-on-surface, #0b1c30);
+  width: 100%;
+  height: 116px;
+
+  background: var(--nav-surface);
+  border-bottom: 1px solid var(--nav-border);
+  color: var(--nav-navy);
+
+  font-family: "IBM Plex Sans", sans-serif;
 }
 
-.top-navigation__primary {
+.top-navigation *,
+.top-navigation *::before,
+.top-navigation *::after {
+  box-sizing: border-box;
+}
+
+/* The first row contains the brand, navigation and user controls. */
+.top-navigation__main {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  width: 100%;
   height: 80px;
   padding: 0 24px;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
 }
 
-.top-navigation__brand-area {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  min-width: 0;
-}
+/* -------------------------
+   Brand and logo
+------------------------- */
 
 .top-navigation__brand {
   display: flex;
   align-items: center;
-  gap: 8px;
-  min-width: max-content;
+  gap: 9px;
+
+  flex: 0 0 auto;
+  min-width: 190px;
 }
 
 .top-navigation__logo {
-  width: 32px;
-  height: 32px;
+  display: block;
+
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+
   object-fit: contain;
 }
 
 .top-navigation__brand-text {
   display: flex;
   flex-direction: column;
+  gap: 3px;
+
+  min-width: 0;
 }
 
-.top-navigation__brand-name {
+.top-navigation__title {
+  color: var(--nav-navy);
+
   font-family: "IBM Plex Serif", serif;
   font-size: 20px;
-  line-height: 1;
   font-weight: 600;
-  color: var(--color-primary, #001428);
+  line-height: 23px;
+  white-space: nowrap;
 }
 
-.top-navigation__brand-subtitle {
-  margin-top: 3px;
+.top-navigation__subtitle {
+  color: #43536a;
 
-  font-family: "IBM Plex Sans", sans-serif;
   font-size: 11px;
+  font-weight: 500;
   line-height: 14px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  font-weight: 700;
-
-  color: var(--color-on-surface-variant, #43474d);
+  white-space: nowrap;
 }
 
 .top-navigation__divider {
   width: 1px;
-  height: 32px;
-  flex-shrink: 0;
+  height: 34px;
+  flex: 0 0 1px;
 
-  background: var(--color-outline-variant, #c3c6ce);
+  background: var(--nav-border);
 }
 
-.top-navigation__divider--short {
-  height: 32px;
-}
+/* -------------------------
+   Main navigation links
+------------------------- */
 
-.top-navigation__desktop-menu {
+.top-navigation__links {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
+
+  flex: 0 1 auto;
+  min-width: 0;
 
   padding: 4px;
 
-  background: var(--color-surface-container-low, #eff4ff);
-  border-radius: 8px;
+  border-radius: 7px;
+  background: var(--nav-pale-blue);
 }
 
-.top-navigation__menu-item {
-  padding: 8px 16px;
-  border-radius: 8px;
+.top-navigation__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 34px;
+  padding: 7px 10px;
+
+  border-radius: 5px;
+
+  background: transparent;
+  color: #44546a;
 
   font-family: "IBM Plex Sans", sans-serif;
-  font-size: 14px;
-  line-height: 20px;
+  font-size: 12px;
   font-weight: 600;
+  line-height: 17px;
+  text-align: center;
   text-decoration: none;
-
-  color: var(--color-on-surface-variant, #43474d);
+  white-space: nowrap;
 
   transition:
-    background-color 160ms ease,
-    color 160ms ease;
+    background-color 150ms ease,
+    color 150ms ease;
 }
 
-.top-navigation__menu-item:hover {
-  background: var(--color-surface-container-high, #dce9ff);
-  color: var(--color-on-surface, #0b1c30);
+.top-navigation__link:hover {
+  background: #dce8ff;
+  color: var(--nav-navy);
+  text-decoration: none;
 }
 
-.top-navigation__menu-item.is-active {
-  background: var(--color-primary-container, #0f2942);
-  color: var(--color-on-primary, #ffffff);
+/* Use the active class that TopNavigation.tsx actually produces. */
+.top-navigation__link--active {
+  background: var(--nav-navy-light);
+  color: #ffffff;
 }
+
+.top-navigation__link--active:hover {
+  background: #173b5d;
+  color: #ffffff;
+}
+
+/* -------------------------
+   Search, role and profile
+------------------------- */
 
 .top-navigation__actions {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 16px;
+  gap: 10px;
 
-  flex: 1;
-  max-width: 720px;
+  flex: 1 1 auto;
   min-width: 0;
+  margin-left: auto;
 }
 
 .top-navigation__search {
   position: relative;
-  width: 100%;
-  max-width: 320px;
+
+  flex: 1 1 220px;
+  min-width: 150px;
+  max-width: 260px;
 }
 
-.top-navigation__search > span {
+.top-navigation__search > .material-symbols-outlined {
   position: absolute;
-  left: 8px;
   top: 50%;
+  left: 9px;
+
   transform: translateY(-50%);
-
-  color: var(--color-on-surface-variant, #43474d);
-  font-size: 18px;
-
   pointer-events: none;
+
+  color: #66758a;
+  font-size: 18px;
 }
 
 .top-navigation__search input {
+  display: block;
+
   width: 100%;
-  height: 38px;
+  height: 37px;
+  padding: 0 10px 0 33px;
 
-  padding: 0 12px 0 32px;
+  border: 1px solid var(--nav-border);
+  border-radius: 6px;
 
-  border: 1px solid var(--color-outline-variant, #c3c6ce);
-  border-radius: 8px;
+  background: #ffffff;
+  color: var(--nav-navy);
 
-  background: var(--color-surface-container-lowest, #ffffff);
-  color: var(--color-on-surface, #0b1c30);
-
-  font: 400 14px/20px "IBM Plex Sans", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 11px;
+  line-height: 16px;
 }
 
 .top-navigation__search input::placeholder {
-  color: var(--color-on-surface-variant, #43474d);
+  color: #78869a;
 }
 
 .top-navigation__search input:focus {
   outline: none;
-  border-color: var(--color-secondary, #0051d5);
-  box-shadow: 0 0 0 3px rgba(0, 81, 213, 0.12);
+  border-color: var(--nav-blue);
+  box-shadow: 0 0 0 3px rgb(0 81 213 / 12%);
 }
 
 .top-navigation__role {
@@ -176,276 +232,438 @@
   align-items: center;
   gap: 8px;
 
-  padding: 6px 8px;
+  flex: 0 1 auto;
+  min-width: 0;
 
-  border: 1px solid var(--color-outline-variant, #c3c6ce);
-  border-radius: 8px;
+  padding: 6px 9px;
 
-  background: var(--color-surface-container, #e5eeff);
+  border: 1px solid var(--nav-border);
+  border-radius: 6px;
+
+  background: var(--nav-pale-blue);
 }
 
-.top-navigation__role-icon {
-  color: var(--color-secondary, #0051d5);
-  font-size: 18px;
+.top-navigation__role > .material-symbols-outlined {
+  flex-shrink: 0;
+
+  color: var(--nav-blue);
+  font-size: 19px;
+}
+
+.top-navigation__role-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  min-width: 0;
 }
 
 .top-navigation__role-label {
-  display: block;
+  color: #59677b;
 
-  font: 700 11px/14px "IBM Plex Sans", sans-serif;
-  color: var(--color-on-surface-variant, #43474d);
+  font-size: 9px;
+  font-weight: 600;
+  line-height: 12px;
 }
 
 .top-navigation__role-value {
-  display: block;
+  max-width: 155px;
 
-  font: 700 12px/16px "IBM Plex Sans", sans-serif;
-  color: var(--color-on-surface, #0b1c30);
+  overflow: hidden;
+
+  color: #253b55;
+
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 14px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.icon-button {
+.top-navigation__notification {
   position: relative;
-
-  width: 38px;
-  height: 38px;
 
   display: inline-flex;
   align-items: center;
   justify-content: center;
 
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
   padding: 0;
 
-  border: 1px solid var(--color-outline-variant, #c3c6ce);
-  border-radius: 8px;
+  border: 1px solid var(--nav-border);
+  border-radius: 6px;
 
-  background: transparent;
-  color: var(--color-on-surface-variant, #43474d);
+  background: #ffffff;
+  color: #40546d;
 
   cursor: pointer;
-
-  transition:
-    background-color 160ms ease,
-    color 160ms ease;
 }
 
-.icon-button:hover {
-  background: var(--color-surface-container, #e5eeff);
-  color: var(--color-on-surface, #0b1c30);
+.top-navigation__notification:hover {
+  background: var(--nav-pale-blue);
 }
 
-.icon-button--small {
-  width: 28px;
-  height: 28px;
-
-  border: 0;
+.top-navigation__notification > .material-symbols-outlined {
+  font-size: 19px;
 }
 
-.icon-button:focus-visible,
-.top-navigation__menu-item:focus-visible {
-  outline: 2px solid var(--color-secondary, #0051d5);
-  outline-offset: 2px;
-}
-
-.notification-badge {
+.top-navigation__notification-count {
   position: absolute;
   top: -5px;
   right: -5px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 
   min-width: 16px;
   height: 16px;
   padding: 0 4px;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border: 1px solid #ffffff;
+  border-radius: 10px;
 
-  border-radius: 999px;
+  background: #c51f32;
+  color: #ffffff;
 
-  background: var(--color-error, #ba1a1a);
-  color: var(--color-on-error, #ffffff);
-
-  font: 700 10px/1 "IBM Plex Sans", sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 12px;
 }
 
 .top-navigation__profile {
   display: flex;
   align-items: center;
   gap: 8px;
-  min-width: max-content;
+
+  flex: 0 0 auto;
+  min-width: 0;
 }
 
 .top-navigation__profile-avatar {
-  width: 32px;
-  height: 32px;
-
   display: flex;
   align-items: center;
   justify-content: center;
 
-  border: 1px solid var(--color-outline-variant, #c3c6ce);
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+
   border-radius: 50%;
 
-  background: var(--color-primary-container, #0f2942);
-  color: var(--color-on-primary, #ffffff);
+  background: var(--nav-navy-light);
+  color: #ffffff;
 
-  font: 700 11px/1 "IBM Plex Sans", sans-serif;
+  font-size: 10px;
+  font-weight: 700;
 }
 
 .top-navigation__profile-details {
   display: flex;
   flex-direction: column;
+  gap: 3px;
+
+  min-width: 0;
 }
 
 .top-navigation__profile-name {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  overflow: hidden;
 
-  font: 600 14px/16px "IBM Plex Sans", sans-serif;
-  color: var(--color-on-surface, #0b1c30);
+  color: #273c55;
+
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 14px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .top-navigation__profile-role {
-  margin-top: 3px;
+  color: #647187;
 
-  font: 700 11px/14px "IBM Plex Sans", sans-serif;
-  color: var(--color-on-surface-variant, #43474d);
+  font-size: 9px;
+  font-weight: 600;
+  line-height: 12px;
+  white-space: nowrap;
 }
 
-.duty-badge {
-  padding: 2px 6px;
-  border-radius: 999px;
+/* The menu button is enabled at tablet and mobile widths. */
+.top-navigation__mobile-toggle {
+  display: none;
 
-  background: var(--color-tertiary-fixed, #85f8c4);
-  color: var(--color-on-tertiary-fixed, #002114);
+  align-items: center;
+  justify-content: center;
 
-  font: 700 10px/12px "IBM Plex Sans", sans-serif;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+
+  padding: 0;
+
+  border: 1px solid var(--nav-border);
+  border-radius: 6px;
+
+  background: #ffffff;
+  color: var(--nav-navy);
+
+  cursor: pointer;
 }
 
-.division-bar {
-  height: 36px;
-  padding: 0 24px;
+.top-navigation__mobile-toggle:hover {
+  background: var(--nav-pale-blue);
+}
 
+.top-navigation__mobile-toggle > .material-symbols-outlined {
+  font-size: 21px;
+}
+
+/* -------------------------
+   Division information row
+------------------------- */
+
+.top-navigation__division {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 14px;
 
-  border-top: 1px solid var(--color-outline-variant, #c3c6ce);
+  width: 100%;
+  height: 36px;
+  padding: 0 24px;
 
-  background: var(--color-surface-container-low, #eff4ff);
+  border-top: 1px solid var(--nav-border);
 
-  font: 600 12px/16px "IBM Plex Sans", sans-serif;
-  color: var(--color-on-surface-variant, #43474d);
+  background: var(--nav-pale-blue);
+  color: #536277;
+
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 14px;
 }
 
-.division-bar__identity,
-.division-bar__status {
+.top-navigation__division-left {
   display: flex;
   align-items: center;
   gap: 8px;
+
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
-.division-bar__identity
-  > .material-symbols-outlined {
-  font-size: 16px;
-  color: var(--color-secondary, #0051d5);
+.top-navigation__division-left > .material-symbols-outlined {
+  flex: 0 0 auto;
+
+  color: var(--nav-blue);
+  font-size: 17px;
 }
 
-.division-bar__identity strong {
-  color: var(--color-on-surface, #0b1c30);
+.top-navigation__division-left strong {
+  overflow: hidden;
+
+  color: #273c55;
+  font-weight: 700;
+  text-overflow: ellipsis;
 }
 
-.division-bar__separator {
-  color: var(--color-outline-variant, #c3c6ce);
+.division-bar__status {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 9px;
+
+  flex: 0 0 auto;
+  white-space: nowrap;
 }
 
 .division-status {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
 }
 
 .division-status__dot {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
+  flex: 0 0 7px;
+
   border-radius: 50%;
-
-  background: var(--color-tertiary-fixed-dim, #68dba9);
+  background: #22a574;
 }
 
-.skip-link {
-  position: absolute;
-  left: 16px;
-  top: -100px;
-
-  padding: 8px 12px;
-
-  background: var(--color-primary, #001428);
-  color: var(--color-on-primary, #ffffff);
-
-  border-radius: 4px;
-
-  text-decoration: none;
-  font: 600 14px/20px "IBM Plex Sans", sans-serif;
-
-  z-index: 200;
+.division-bar__separator {
+  color: #a3adbd;
 }
 
-.skip-link:focus {
-  top: 8px;
+.top-navigation__division-right {
+  flex: 0 0 auto;
+
+  padding-left: 10px;
+
+  border-left: 1px solid #d5deed;
+
+  color: #536277;
+  font-size: 10px;
+  font-weight: 700;
 }
 
-@media (max-width: 1279px) {
-  .top-navigation__desktop-menu {
+/* Consistent keyboard focus across all navigation controls. */
+.top-navigation a:focus-visible,
+.top-navigation button:focus-visible,
+.top-navigation input:focus-visible {
+  outline: 2px solid var(--nav-blue);
+  outline-offset: 2px;
+}
+
+/* -------------------------
+   Responsive breakpoints
+------------------------- */
+
+/* Remove lower-priority controls when the full row gets crowded. */
+@media (max-width: 1550px) {
+  .top-navigation__role {
     display: none;
   }
 
-  .top-navigation__brand-area {
-    gap: 16px;
+  .top-navigation__main {
+    gap: 12px;
+  }
+
+  .top-navigation__link {
+    padding-right: 8px;
+    padding-left: 8px;
+    font-size: 11px;
+  }
+}
+
+/* At tablet widths, use a dropdown instead of squeezing four links in. */
+@media (max-width: 1279px) {
+  .top-navigation__main {
+    justify-content: space-between;
+    gap: 12px;
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+
+  .top-navigation__divider {
+    display: none;
+  }
+
+  .top-navigation__links {
+    display: none;
+  }
+
+  .top-navigation__links.top-navigation__links--open {
+    position: absolute;
+    top: 116px;
+    right: 0;
+    left: 0;
+
+    display: flex;
+    align-items: stretch;
+    flex-direction: column;
+    gap: 4px;
+
+    padding: 12px 16px;
+
+    border: 1px solid var(--nav-border);
+    border-radius: 0 0 8px 8px;
+
+    background: #ffffff;
+    box-shadow: 0 10px 20px rgb(0 20 40 / 12%);
+  }
+
+  .top-navigation__links--open .top-navigation__link {
+    justify-content: flex-start;
+
+    min-height: 40px;
+    padding: 10px 12px;
+
+    font-size: 13px;
+    text-align: left;
+  }
+
+  .top-navigation__mobile-toggle {
+    display: inline-flex;
+  }
+
+  .top-navigation__actions {
+    flex: 0 1 650px;
   }
 
   .top-navigation__search {
-    max-width: 240px;
+    max-width: 300px;
   }
 }
 
-@media (max-width: 1024px) {
-  .top-navigation__role {
+/* Phones and smaller tablets: prioritise the logo and profile controls. */
+@media (max-width: 900px) {
+  .top-navigation__main {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .top-navigation__search {
     display: none;
+  }
+
+  .top-navigation__actions {
+    flex: 0 0 auto;
+    gap: 8px;
   }
 
   .top-navigation__profile-details {
     display: none;
   }
+
+  .top-navigation__division {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .top-navigation__division-right {
+    display: none;
+  }
 }
 
-@media (max-width: 767px) {
-  .top-navigation__primary {
-    padding: 0 16px;
+/* Narrow phones: simplify the division bar to avoid horizontal overflow. */
+@media (max-width: 520px) {
+  .top-navigation__brand {
+    min-width: 0;
   }
 
-  .top-navigation__search {
+  .top-navigation__logo {
+    width: 30px;
+    height: 30px;
+  }
+
+  .top-navigation__title {
+    font-size: 17px;
+    line-height: 20px;
+  }
+
+  .top-navigation__subtitle {
+    font-size: 9px;
+    line-height: 12px;
+  }
+
+  .top-navigation__main {
+    gap: 8px;
+  }
+
+  .top-navigation__division-left > span:not(.material-symbols-outlined),
+  .top-navigation__division-left strong {
     display: none;
   }
 
-  .top-navigation__brand-subtitle {
-    display: none;
-  }
-
-  .division-bar {
-    padding: 0 16px;
-  }
-
-  .division-bar__identity
-    > span:not(.material-symbols-outlined),
-  .division-bar__identity strong,
-  .division-bar__separator {
+  .division-bar__status .division-bar__separator,
+  .division-bar__status > span:last-child {
     display: none;
   }
 
   .division-bar__status {
-    width: 100%;
-    justify-content: space-between;
+    justify-content: flex-end;
   }
 }

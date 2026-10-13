@@ -5,12 +5,13 @@ import TopNavigation, {
 import OperationsSidebar from "../components/navigation/OperationsSidebar";
 import "./OperationsShell.css";
 
+// Props for the OperationsShell component
 interface OperationsShellProps {
   children: ReactNode;
   activeNavigation?: NavigationId;
   onNavigate?: (navigationId: NavigationId) => void;
 }
-
+ // OperationsShell component that provides a layout with top navigation, sidebar, and main content area
 export default function OperationsShell({
   children,
   activeNavigation = "requester-self-service",
