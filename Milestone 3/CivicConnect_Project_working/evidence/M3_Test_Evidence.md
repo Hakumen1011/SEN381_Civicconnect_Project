@@ -1323,3 +1323,41 @@ API integration or production performance.
 - Verify the approved SLA calculation policy.
 - Add integrated and end-to-end tests.
 - Record CI and pull-request review evidence.
+
+
+### DEF-MGT-001 — Ambiguous Management KPI Test Selector
+
+**Component:** ManagementPerformancePage  
+**Test file:** ManagementPerformancePage.test.tsx  
+**Issue type:** Automated test selector defect  
+**Severity:** Low
+
+**Initial result:** 37 passed, 2 failed (39 tests)
+
+**Cause:** The `getByText("SLA Compliance")` query
+matched more than one element in the rendered page.
+
+**Correction:** Scoped the KPI label query to the
+Management summary statistics region using React
+Testing Library's `within()` function.
+
+**Application behaviour changed:** No
+
+**Expected regression result:** 39 passing tests
+
+**Final status:** Resolved
+**Regression evidence:**  ✓ src/features/request-management/requestManagementTypes.test.ts (5 tests) 4ms
+ ✓ src/features/audit/audit.test.ts (6 tests) 5ms
+ ✓ src/features/management/managementMetrics.test.ts (8 tests) 5ms
+ ✓ src/features/request-management/components/requestAssignment.test.ts (5 tests) 4ms
+ ✓ src/components/navigation/TopNavigation.test.tsx (3 tests) 222ms
+ ✓ src/features/request-management/pages/RequestManagementLifecyclePage.test.tsx (3 tests) 332ms
+ ✓ src/features/audit/components/AuditTrailPanel.test.tsx (4 tests) 635ms
+   ✓ AuditTrailPanel (3)
+     ✓ displays a useful message when no events match 373ms
+ ✓ src/features/management/pages/ManagementPerformancePage.test.tsx (5 tests) 706ms
+
+ Test Files  8 passed (8)
+      Tests  39 passed (39)
+   Start at  19:22:21
+   Duration  1.94s (environment 62%, tests 19%, setup 13%, import 3%, transform 3%)
