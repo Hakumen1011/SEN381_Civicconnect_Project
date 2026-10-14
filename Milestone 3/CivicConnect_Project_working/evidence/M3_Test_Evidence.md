@@ -1459,3 +1459,83 @@ The initial worker crash should remain documented because reproducibility is imp
 |Actual result|	Registration, submission and tracking successful|
 |Status|	PASS — user-verified|
 |Limitation|	In-memory backend persistence; results not guaranteed after server restart|
+
+
+## TC-E2E-002 — Requester Session and Record Separation
+
+- **Execution date:** 14 October 2026
+- **Test type:** End-to-end / system
+- **Environment:** Local React + Vite frontend and Express backend
+- **Execution method:** Manual browser test
+- **Priority:** High
+- **Result:** PASS — user-verified
+
+### Test steps
+
+1. Sign in as Requester A.
+2. Verify the previously submitted municipal request is available.
+3. Sign out of Requester A.
+4. Register or sign in as Requester B.
+5. Verify Requester A's request is absent from Requester B's submissions.
+6. Search for Requester A's case using Requester B's Ticket Tracker.
+7. Verify the case details are not displayed.
+8. Sign out and sign back in as Requester A.
+9. Verify the original request is accessible again.
+
+### Expected result
+
+Requester A can retrieve their own request across login sessions.
+Requester B cannot access Requester A's case through the portal.
+
+### Actual result
+
+All steps passed. Requester A retrieved the original case,
+Requester B could not view it through the portal, and Requester A
+successfully retrieved it after signing back in.
+
+### Limitations
+
+- Backend data is held in memory and may be lost after a server restart.
+- Direct API-level authorisation was not tested in this scenario.
+- This test does not cover staff assignment or lifecycle updates.
+
+### Evidence
+
+Tester-confirmed browser execution on 14 October 2026.
+Screenshots may be added separately, with private data removed.
+
+
+## TC-PERF-001 — Authenticated Request Retrieval Performance
+
+- **Execution date:** 14 October 2026
+- **Environment:** Local Express backend with in-memory data
+- **Operation:** Authenticated GET /api/requests
+- **Workload:** 10 concurrent requests × 10 rounds
+- **Total requests:** 100
+- **Successful requests:** 100
+- **Failed requests:** 0
+- **p50:** 1.58 ms
+- **p90:** 3.34 ms
+- **p95:** 7.75 ms
+- **Result:** PASS for the defined short local smoke-load scenario
+- **Evidence:** evidence/M3_Performance_Result.json
+- **Reproduction script:** evidence/M3_Performance_Smoke.cjs
+
+### Limitation
+
+These results do not establish performance under a sustained
+25-user, 10-minute workload or production infrastructure.
+
+## M3 Dependency and Secrets Checks
+
+- **Execution date:** 14 October 2026
+- **Backend npm audit, high severity threshold:** Exit code 0
+- **Frontend npm audit, high severity threshold:** Exit code 0
+- **Limited tracked-source secrets pattern scan:** No matching files
+- **Evidence:** evidence/M3_Dependency_Audit.txt
+
+### Limitation
+
+The npm audit results are specific to the installed dependency
+manifests and configured severity threshold. The secrets scan
+was pattern-based and is not a comprehensive security audit.

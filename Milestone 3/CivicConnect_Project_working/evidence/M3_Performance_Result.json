@@ -1,0 +1,15 @@
+{
+  "testId": "TC-PERF-001",
+  "timestamp": "2026-10-14T19:50:02.510Z",
+  "environment": "Local Express backend, in-memory test data",
+  "operation": "Authenticated GET /api/requests",
+  "concurrentRequests": 10,
+  "rounds": 10,
+  "totalRequests": 100,
+  "successfulRequests": 100,
+  "failedRequests": 0,
+  "p50Ms": 1.58,
+  "p90Ms": 3.34,
+  "p95Ms": 7.75,
+  "assessment": "Short local smoke-load test; not equivalent to a sustained production load test"
+}

@@ -1,0 +1,12 @@
+﻿## CivicConnect M3 Dependency Audit
+Execution date: 14 October 2026
+
+=== backend npm audit ===
+found 0 vulnerabilities
+
+Exit code: 0
+
+=== frontend npm audit ===
+found 0 vulnerabilities
+
+Exit code: 0
