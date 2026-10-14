@@ -125,7 +125,7 @@ export default function TicketTracker({
       setTrackedCaseId(null);
 
       setMessage(
-        `Case ${requestedId} was not found in the local demonstration records.`,
+        `Case ${requestedId} was not found in your loaded requests.`,
       );
 
       return;
@@ -201,7 +201,7 @@ export default function TicketTracker({
                 event.target.value.toUpperCase(),
               )
             }
-            placeholder="e.g. CV-9281"
+            placeholder="e.g. CC-2026-000001"
             aria-label="Ticket case ID"
           />
 
