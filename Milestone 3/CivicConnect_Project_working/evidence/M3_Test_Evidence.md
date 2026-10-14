@@ -1323,3 +1323,80 @@ API integration or production performance.
 - Verify the approved SLA calculation policy.
 - Add integrated and end-to-end tests.
 - Record CI and pull-request review evidence.
+
+
+### DEF-MGT-001 — Ambiguous Management KPI Test Selector
+
+**Component:** ManagementPerformancePage  
+**Test file:** ManagementPerformancePage.test.tsx  
+**Issue type:** Automated test selector defect  
+**Severity:** Low
+
+**Initial result:** 37 passed, 2 failed (39 tests)
+
+**Cause:** The `getByText("SLA Compliance")` query
+matched more than one element in the rendered page.
+
+**Correction:** Scoped the KPI label query to the
+Management summary statistics region using React
+Testing Library's `within()` function.
+
+**Application behaviour changed:** No
+
+**Expected regression result:** 39 passing tests
+
+**Final status:** Resolved
+**Regression evidence:**  ✓ src/features/request-management/requestManagementTypes.test.ts (5 tests) 4ms
+ ✓ src/features/audit/audit.test.ts (6 tests) 5ms
+ ✓ src/features/management/managementMetrics.test.ts (8 tests) 5ms
+ ✓ src/features/request-management/components/requestAssignment.test.ts (5 tests) 4ms
+ ✓ src/components/navigation/TopNavigation.test.tsx (3 tests) 222ms
+ ✓ src/features/request-management/pages/RequestManagementLifecyclePage.test.tsx (3 tests) 332ms
+ ✓ src/features/audit/components/AuditTrailPanel.test.tsx (4 tests) 635ms
+   ✓ AuditTrailPanel (3)
+     ✓ displays a useful message when no events match 373ms
+ ✓ src/features/management/pages/ManagementPerformancePage.test.tsx (5 tests) 706ms
+
+ Test Files  8 passed (8)
+      Tests  39 passed (39)
+   Start at  19:22:21
+   Duration  1.94s (environment 62%, tests 19%, setup 13%, import 3%, transform 3%)
+
+ 
+### Requester Form Validation and Attachment Boundaries
+
+**Test file:** `src/features/requester/components/RequestForm.test.tsx`
+
+**Execution:** 14 October 2026
+**Framework:** Vitest 5.0.4
+**Techniques:** Equivalence Partitioning, Boundary Value Analysis,
+Negative Testing
+
+| ID | Test condition | Actual result | Status |
+|---|---|---|---|
+| TC-REQ-007 | Whitespace-only required fields | Validation rejects submission | PASS |
+| TC-REQ-008 | Unsupported file MIME type | Attachment rejected | PASS |
+| TC-REQ-009 | PNG size 15 MB + 1 byte | Attachment rejected | PASS |
+| TC-REQ-010 | PNG size exactly 15 MB | Attachment accepted | PASS |
+| TC-REQ-011 | Reset invalid form | Fields and errors cleared | PASS |
+
+**Focused test run:** 5 passed / 5
+**Full frontend regression:** 59 passed / 59
+**Test files:** 13 passed / 13
+**Production build:** PASS
+
+**Limitations:**
+- Attachment size is simulated in automated tests.
+- No image content inspection or server-side upload validation.
+- No backend file storage verification.
+- CI run and reviewer approval evidence must be recorded separately.
+```
+
+Also our team needs to extend the existing RTM with these test IDs against the approved requester requirements. 
+---
+
+## 4. Next major responsibility: Frontend–Backend API integration
+
+Rather than adding more isolated frontend tests, our team should now check whether our backend can support the workflows we've implemented.
+
+

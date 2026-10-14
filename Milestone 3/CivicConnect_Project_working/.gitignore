@@ -1,4 +1,15 @@
 node_modules/
 dist/
+coverage/
 .env
-tsconfig.tsbuildinfo
+.env.*
+# Logs
+*.log
+npm-debug.log*
+build/
+*.tsbuildinfo
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/*
+!.vscode/extensions.json
