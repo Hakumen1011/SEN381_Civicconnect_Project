@@ -76,6 +76,7 @@ export default function ManagementPerformancePage() {
   );
 
   return (
+    <OperationsShell>
     <OperationsShell activeNavigation="management-analytics">
       <main className="management-page">
         <header className="management-page__header">

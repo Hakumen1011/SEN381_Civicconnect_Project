@@ -1,3 +1,7 @@
+import ManagementPerformancePage from "./features/management/pages/ManagementPerformancePage";
+
+export default function App() {
+  return <ManagementPerformancePage />;
 
 import { BrowserRouter } from "react-router-dom";
 
