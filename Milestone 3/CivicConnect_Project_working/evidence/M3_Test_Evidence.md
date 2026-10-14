@@ -1202,3 +1202,162 @@ Planned verification areas:
 
 **Audit Trail frontend status: PASS**  
 **Overall CivicConnect M3 verification status: IN PROGRESS**
+
+
+---
+
+## CI Failure Investigation — CI-DEF-001
+
+**Feature:** Frontend CI  
+**Pull request:** #17 — Enhance Frontend CI with Vitest and branch checks  
+**Initial status:** FAILED  
+**Resolution status:** Investigation in progress
+
+### Observed Failure
+
+The GitHub Actions workflow completed repository checkout,
+Node.js setup and dependency installation successfully.
+
+The automated test step failed with:
+
+`npm error Missing script: "test:run"`
+
+The production build step was not executed because the
+preceding test step failed.
+
+### Investigation
+
+The workflow invoked `npm run test:run`, but npm did not
+find the corresponding script in the checked-out frontend
+package configuration.
+
+Investigate whether the PR branch contains the expected
+package.json changes and testing dependencies.
+
+### Expected Correction
+
+Ensure the committed frontend package.json contains
+the required test script and necessary test dependencies.
+
+Push the correction to the existing feature branch
+and rerun the CI checks.
+
+### Final Verification
+
+- Corrective commit: Completed
+- Follow-up GitHub Actions run: Successful
+- Tests: Passed
+- Build: Built Successfully
+- Final CI status: Resolved
+
+
+---
+
+## Management & Analytics — Frontend Verification
+
+**Feature:** Management Performance Dashboard  
+**Status:** Pending execution and CI verification  
+**Branch:** feature/m3-management-analytics
+
+### Test Basis
+
+Management requires meaningful oversight information
+to identify operational workload and service performance.
+
+Primary risks include:
+- Incorrect request totals.
+- Misclassification of open and completed requests.
+- Incorrect identification of overdue requests.
+- Incorrect SLA compliance percentages.
+- Inconsistent department-level figures.
+- Misleading values for empty or invalid datasets.
+
+### Automated Test Cases
+
+| Test ID | Scenario | Expected Result | Status |
+|---|---|---|---|
+| TC-MGT-001 | Request summary totals | Correct total/open/completed counts | Pending |
+| TC-MGT-002 | Overdue detection | Only eligible overdue open requests counted | Pending |
+| TC-MGT-003 | SLA compliance | Correct percentage from valid records | Pending |
+| TC-MGT-004 | Empty dataset | Zero counts and unavailable SLA percentage | Pending |
+| TC-MGT-005 | Status distribution | Correct counts by lifecycle state | Pending |
+| TC-MGT-006 | Department performance | Correct department counts and overdue totals | Pending |
+| TC-MGT-007 | Department/status filtering | Only matching records returned | Pending |
+| TC-MGT-008 | Invalid SLA target | Excluded from compliance calculation | Pending |
+
+### Files
+
+- `frontend/src/features/management/managementMetrics.ts`
+- `frontend/src/features/management/managementMetrics.test.ts`
+- `frontend/src/features/management/managementData.ts`
+- `frontend/src/features/management/pages/ManagementPerformancePage.tsx`
+- `frontend/src/features/management/pages/ManagementPerformancePage.css`
+
+### Execution Evidence
+
+- Date/time: Pending
+- Local test outcome: Pending
+- Production build: Pending
+- GitHub Actions run: Pending
+- Pull request: Pending
+- Commit hash: Pending
+
+### Verification Limitations
+
+The current dashboard uses fictional demonstration records.
+
+The metrics follow provisional frontend definitions
+and must be reconciled with the approved SLA and
+reporting rules before backend integration.
+
+The tests do not verify backend aggregation, database
+accuracy, manager authorisation, real-time updates,
+API integration or production performance.
+
+### Next Verification Work
+
+- Add dashboard component interaction tests.
+- Verify management access permissions in the backend.
+- Connect reporting API endpoints.
+- Validate aggregation against database fixtures.
+- Verify the approved SLA calculation policy.
+- Add integrated and end-to-end tests.
+- Record CI and pull-request review evidence.
+
+
+### DEF-MGT-001 — Ambiguous Management KPI Test Selector
+
+**Component:** ManagementPerformancePage  
+**Test file:** ManagementPerformancePage.test.tsx  
+**Issue type:** Automated test selector defect  
+**Severity:** Low
+
+**Initial result:** 37 passed, 2 failed (39 tests)
+
+**Cause:** The `getByText("SLA Compliance")` query
+matched more than one element in the rendered page.
+
+**Correction:** Scoped the KPI label query to the
+Management summary statistics region using React
+Testing Library's `within()` function.
+
+**Application behaviour changed:** No
+
+**Expected regression result:** 39 passing tests
+
+**Final status:** Resolved
+**Regression evidence:**  ✓ src/features/request-management/requestManagementTypes.test.ts (5 tests) 4ms
+ ✓ src/features/audit/audit.test.ts (6 tests) 5ms
+ ✓ src/features/management/managementMetrics.test.ts (8 tests) 5ms
+ ✓ src/features/request-management/components/requestAssignment.test.ts (5 tests) 4ms
+ ✓ src/components/navigation/TopNavigation.test.tsx (3 tests) 222ms
+ ✓ src/features/request-management/pages/RequestManagementLifecyclePage.test.tsx (3 tests) 332ms
+ ✓ src/features/audit/components/AuditTrailPanel.test.tsx (4 tests) 635ms
+   ✓ AuditTrailPanel (3)
+     ✓ displays a useful message when no events match 373ms
+ ✓ src/features/management/pages/ManagementPerformancePage.test.tsx (5 tests) 706ms
+
+ Test Files  8 passed (8)
+      Tests  39 passed (39)
+   Start at  19:22:21
+   Duration  1.94s (environment 62%, tests 19%, setup 13%, import 3%, transform 3%)
