@@ -1362,4 +1362,41 @@ Testing Library's `within()` function.
    Start at  19:22:21
    Duration  1.94s (environment 62%, tests 19%, setup 13%, import 3%, transform 3%)
 
-   
+ 
+### Requester Form Validation and Attachment Boundaries
+
+**Test file:** `src/features/requester/components/RequestForm.test.tsx`
+
+**Execution:** 14 October 2026
+**Framework:** Vitest 5.0.4
+**Techniques:** Equivalence Partitioning, Boundary Value Analysis,
+Negative Testing
+
+| ID | Test condition | Actual result | Status |
+|---|---|---|---|
+| TC-REQ-007 | Whitespace-only required fields | Validation rejects submission | PASS |
+| TC-REQ-008 | Unsupported file MIME type | Attachment rejected | PASS |
+| TC-REQ-009 | PNG size 15 MB + 1 byte | Attachment rejected | PASS |
+| TC-REQ-010 | PNG size exactly 15 MB | Attachment accepted | PASS |
+| TC-REQ-011 | Reset invalid form | Fields and errors cleared | PASS |
+
+**Focused test run:** 5 passed / 5
+**Full frontend regression:** 59 passed / 59
+**Test files:** 13 passed / 13
+**Production build:** PASS
+
+**Limitations:**
+- Attachment size is simulated in automated tests.
+- No image content inspection or server-side upload validation.
+- No backend file storage verification.
+- CI run and reviewer approval evidence must be recorded separately.
+```
+
+Also our team needs to extend the existing RTM with these test IDs against the approved requester requirements. 
+---
+
+## 4. Next major responsibility: Frontend–Backend API integration
+
+Rather than adding more isolated frontend tests, our team should now check whether our backend can support the workflows we've implemented.
+
+
