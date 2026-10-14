@@ -1400,3 +1400,62 @@ Also our team needs to extend the existing RTM with these test IDs against the a
 Rather than adding more isolated frontend tests, our team should now check whether our backend can support the workflows we've implemented.
 
 
+### Municipal Service Category API Integration
+
+**Execution date:** 14 October 2026  
+**Branch:** feature/m3-municipal-categories  
+**Test file:** backend/tests/municipalCategories.test.ts  
+**Framework:** Vitest 5.0.3 + Supertest  
+**Test techniques:** Equivalence Partitioning, Negative Testing,
+API Integration Testing, Regression Testing
+
+| Test IDs | Test condition | Actual result | Status |
+|---|---|---|---|
+| TC-MUN-001 | Municipal category metadata | Six categories returned | PASS |
+| TC-MUN-002–007 | Valid request for each municipal category | HTTP 201; SUBMITTED; MEDIUM priority | PASS |
+| TC-MUN-008–013 | Municipal request without location | HTTP 400; location validation error | PASS |
+| TC-MUN-014 | Unsupported category | HTTP 400 | PASS |
+| TC-MUN-015 | Existing IT_SUPPORT compatibility | HTTP 201 | PASS |
+
+**Focused municipal test execution:** 15/15 passed
+
+**Initial full-suite execution:** Incomplete.
+Vitest worker exited unexpectedly during requests.test.ts.
+55 tests completed; 1 unhandled worker error was reported.
+
+**Controlled full-suite execution:**
+Command:
+npx vitest run --pool=threads --maxWorkers=1 --no-file-parallelism
+
+Result: 63/63 passed across 6 test files.
+
+**Production build:** PASS
+Command: npm run build
+
+**Known limitations:**
+- Backend repositories currently use in-memory storage.
+- Municipal category priority defaults are provisional.
+- React-to-backend request submission is not yet integrated.
+- CI verification and teammate approvals are pending.
+```
+
+The initial worker crash should remain documented because reproducibility is important to M3. 
+
+## TC-E2E-001 — Requester Registration, Submission and Tracking
+
+- **Execution date:** 14 October 2026
+- **Execution method:** Manual browser-based end-to-end test
+- **Environment:** Local frontend and Express backend
+- **Result:** PASS — verified by tester
+
+|Field| Evidence|
+|---|---|
+|Test ID|	TC-E2E-001|
+|Requirements|	FR-REQ-001, FR-REQ-002, FR-REQ-003, FR-REQ-004, FR-REQ-005|
+|Test type|	End-to-end / system|
+|Environment|	React + Vite → Express backend, local staging|
+|Steps|	Register → submit municipal request → track request|
+|Expected result|	Request created with backend-generated reference and correct status|
+|Actual result|	Registration, submission and tracking successful|
+|Status|	PASS — user-verified|
+|Limitation|	In-memory backend persistence; results not guaranteed after server restart|
