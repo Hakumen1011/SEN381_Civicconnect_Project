@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import { z } from 'zod';
-import type { InMemoryStore } from '../../data/store.js';
+import type { TransactionManager } from '../../shared/transaction.js';
 import { conflict, unauthorized } from '../../shared/errors.js';
 import { parseOrThrow } from '../../shared/http/validate.js';
 import type { UserRepository } from '../users/user.repository.js';
@@ -38,7 +38,7 @@ export interface LoginResult {
 
 export class AuthService {
   constructor(
-    private readonly store: InMemoryStore,
+    private readonly store: TransactionManager,
     private readonly users: UserRepository,
     private readonly tokens: TokenService,
   ) {}

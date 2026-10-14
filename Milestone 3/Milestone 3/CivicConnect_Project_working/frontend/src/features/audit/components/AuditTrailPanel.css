@@ -1,0 +1,243 @@
+/* CivicConnect Audit Trail */
+
+.audit-trail {
+  width: 100%;
+  min-width: 0;
+  color: #19314c;
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.audit-trail *,
+.audit-trail *::before,
+.audit-trail *::after {
+  box-sizing: border-box;
+}
+
+.audit-trail__intro {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 17px;
+}
+
+.audit-trail__intro h3 {
+  margin: 0 0 6px;
+  color: #0f2942;
+  font-family: "IBM Plex Serif", serif;
+  font-size: 18px;
+}
+
+.audit-trail__intro p {
+  margin: 0;
+  color: #60728b;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.audit-trail__count {
+  padding: 7px 10px;
+  border-radius: 6px;
+  background: #edf3ff;
+  color: #285080;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* Search and sort */
+
+.audit-trail__controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(150px, 190px);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.audit-trail__search,
+.audit-trail__sort {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+
+.audit-trail__search label,
+.audit-trail__sort label {
+  color: #61738b;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.audit-trail__search input,
+.audit-trail__sort select {
+  width: 100%;
+  min-width: 0;
+  min-height: 40px;
+  padding: 9px 11px;
+  border: 1px solid #ccd9eb;
+  border-radius: 6px;
+  background: #f7faff;
+  color: #19314c;
+  font-family: inherit;
+  font-size: 12px;
+}
+
+.audit-trail__search input:focus-visible,
+.audit-trail__sort select:focus-visible {
+  outline: 2px solid #0051d5;
+  outline-offset: 2px;
+}
+
+/* Event timeline */
+
+.audit-trail__events {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.audit-trail__event {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  min-width: 0;
+  padding: 0 0 22px;
+}
+
+.audit-trail__event:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  top: 33px;
+  bottom: 0;
+  left: 15px;
+  width: 2px;
+  background: #d6e3f7;
+}
+
+.audit-trail__event-icon {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #c9dcf7;
+  border-radius: 50%;
+  background: #edf3ff;
+  color: #0051d5;
+  font-size: 17px;
+}
+
+.audit-trail__event-content {
+  flex: 1;
+  min-width: 0;
+  padding: 13px 15px;
+  border: 1px solid #dfe8f5;
+  border-radius: 7px;
+  background: #f5f8ff;
+}
+
+.audit-trail__event-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.audit-trail__event-heading strong {
+  color: #183957;
+  font-size: 12px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.audit-trail__event-heading time {
+  color: #64768c;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.audit-trail__actor {
+  display: block;
+  margin-top: 7px;
+  color: #37608c;
+  font-size: 11px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.audit-trail__event-content p {
+  margin: 9px 0 0;
+  color: #506882;
+  font-size: 12px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+/* Empty state */
+
+.audit-trail__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  padding: 34px 16px;
+  border: 1px dashed #cbd9ec;
+  border-radius: 8px;
+  background: #f7faff;
+  text-align: center;
+}
+
+.audit-trail__empty .material-symbols-outlined {
+  color: #6b8bb7;
+  font-size: 28px;
+}
+
+.audit-trail__empty strong {
+  font-size: 13px;
+}
+
+.audit-trail__empty p {
+  margin: 0;
+  color: #667991;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.audit-trail__disclaimer {
+  margin: 5px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid #dfe8f5;
+  color: #718198;
+  font-size: 10px;
+  line-height: 1.7;
+}
+
+@media (max-width: 650px) {
+  .audit-trail__controls {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .audit-trail__event {
+    gap: 9px;
+  }
+
+  .audit-trail__event-content {
+    padding: 11px;
+  }
+
+  .audit-trail__intro h3 {
+    font-size: 16px;
+  }
+}

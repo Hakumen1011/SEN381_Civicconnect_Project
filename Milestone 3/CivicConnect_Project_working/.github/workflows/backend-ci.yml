@@ -1,0 +1,64 @@
+name: Backend CI
+
+on:
+  pull_request:
+    paths:
+      - 'Milestone 3/CivicConnect_Project_working/backend/**'
+      - '.github/workflows/backend-ci.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'Milestone 3/CivicConnect_Project_working/backend/**'
+      - '.github/workflows/backend-ci.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 'Milestone 3/CivicConnect_Project_working/backend'
+
+   
+    services:
+      postgres:
+        image: postgres:18-alpine
+        env:
+          POSTGRES_USER: civic
+          POSTGRES_PASSWORD: civic
+          POSTGRES_DB: civicconnect_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U civic -d civicconnect_test"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: 'Milestone 3/CivicConnect_Project_working/backend/package-lock.json'
+
+      - name: Install packages
+        run: npm ci
+
+      - name: Check types
+        run: npm run typecheck
+
+      - name: Run tests (in-memory store)
+        run: npm test
+
+      - name: Run tests (PostgreSQL)
+        run: npm run test:db
+        env:
+          TEST_DATABASE_URL: postgres://civic:civic@localhost:5432/civicconnect_test
+
+      - name: Build
+        run: npm run build

@@ -1,0 +1,353 @@
+
+/* =========================================================
+   CivicConnect — Request Case Details
+
+   Requirements:
+   FR-STF-005 — Staff view full service-request details.
+
+   Design:
+   Based on the CivicConnect Stitch Request Management screen.
+
+   Responsiveness:
+   - Desktop: three classification columns
+   - Tablet: two columns
+   - Mobile: one column
+   ========================================================= */
+
+.request-case-details {
+  width: 100%;
+  min-width: 0;
+  padding: 22px;
+
+  border: 1px solid #dce4f0;
+  border-radius: 9px;
+
+  background: #ffffff;
+  color: #19314c;
+
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.request-case-details *,
+.request-case-details *::before,
+.request-case-details *::after {
+  box-sizing: border-box;
+}
+
+/* ============================
+   Section Header
+   ============================ */
+
+.request-case-details__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+
+  min-width: 0;
+  margin-bottom: 22px;
+}
+
+.request-case-details__heading {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+
+  flex: 1 1 260px;
+  min-width: 0;
+}
+
+.request-case-details__heading
+  > .material-symbols-outlined {
+  flex-shrink: 0;
+  margin-top: 3px;
+
+  color: #0051d5;
+  font-size: 22px;
+}
+
+.request-case-details__heading > div {
+  min-width: 0;
+}
+
+.request-case-details__eyebrow {
+  display: block;
+  margin-bottom: 7px;
+
+  color: #61738b;
+
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  line-height: 1.5;
+  text-transform: uppercase;
+
+  overflow-wrap: anywhere;
+}
+
+.request-case-details__heading h2 {
+  margin: 0;
+
+  color: #0f2942;
+
+  font-family: "IBM Plex Serif", serif;
+  font-size: clamp(17px, 1.6vw, 21px);
+  font-weight: 600;
+  line-height: 1.35;
+
+  overflow-wrap: anywhere;
+}
+
+/* Source or originating channel */
+
+.request-case-details__origin {
+  display: inline-flex;
+  align-items: center;
+
+  max-width: 250px;
+  min-width: 0;
+  padding: 7px 11px;
+
+  border: 1px solid #d1e0f6;
+  border-radius: 6px;
+
+  background: #edf3ff;
+  color: #315580;
+
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.5;
+
+  overflow-wrap: anywhere;
+}
+
+/* ============================
+   Classification Information
+   ============================ */
+
+.request-case-details__classification {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+
+  width: 100%;
+  min-width: 0;
+}
+
+.request-case-details__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  min-width: 0;
+  min-height: 85px;
+  padding: 14px;
+
+  border: 1px solid #e1e8f5;
+  border-radius: 7px;
+
+  background: #eef3ff;
+}
+
+.request-case-details__label {
+  color: #60718a;
+
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.request-case-details__field strong {
+  color: #203d5d;
+
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.6;
+
+  overflow-wrap: anywhere;
+}
+
+/* ============================
+   Content Sections
+   ============================ */
+
+.request-case-details__section {
+  min-width: 0;
+  margin-top: 24px;
+}
+
+.request-case-details__section h3 {
+  margin: 0 0 11px;
+
+  color: #516581;
+
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+/* ============================
+   Narrative Description
+   ============================ */
+
+.request-case-details__narrative {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 17px 18px;
+
+  border: 1px solid #e0e8f5;
+  border-radius: 7px;
+
+  background: #eef3ff;
+  color: #415875;
+
+  font-size: 12px;
+  line-height: 1.85;
+
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* ============================
+   Geospatial Information
+   ============================ */
+
+.request-case-details__location {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+
+  min-width: 0;
+  padding: 17px;
+
+  border: 1px solid #dce6f5;
+  border-radius: 7px;
+
+  background: #f6f9ff;
+}
+
+.request-case-details__location
+  > .material-symbols-outlined {
+  flex-shrink: 0;
+  margin-top: 2px;
+
+  color: #0051d5;
+  font-size: 23px;
+}
+
+.request-case-details__location > div {
+  flex: 1;
+  min-width: 0;
+}
+
+.request-case-details__location strong {
+  display: block;
+  margin-bottom: 9px;
+
+  color: #1f3b59;
+
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.request-case-details__location p {
+  margin: 5px 0;
+
+  color: #516882;
+
+  font-size: 12px;
+  line-height: 1.6;
+
+  overflow-wrap: anywhere;
+}
+
+.request-case-details__hint {
+  display: block;
+  margin-top: 12px;
+
+  color: #728299;
+
+  font-size: 10px;
+  line-height: 1.65;
+}
+
+/* ============================
+   Tablet Responsiveness
+   ============================ */
+
+@media (max-width: 1150px) {
+  .request-case-details {
+    padding: 19px;
+  }
+
+  .request-case-details__classification {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ============================
+   Mobile Responsiveness
+   ============================ */
+
+@media (max-width: 650px) {
+  .request-case-details {
+    padding: 15px;
+  }
+
+  .request-case-details__header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .request-case-details__heading {
+    flex: 0 1 auto;
+  }
+
+  .request-case-details__heading h2 {
+    font-size: 18px;
+  }
+
+  .request-case-details__origin {
+    max-width: 100%;
+    align-self: flex-start;
+  }
+
+  .request-case-details__classification {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .request-case-details__field {
+    min-height: 0;
+    padding: 13px;
+  }
+
+  .request-case-details__section {
+    margin-top: 20px;
+  }
+
+  .request-case-details__narrative {
+    padding: 13px;
+
+    font-size: 12px;
+    line-height: 1.75;
+  }
+
+  .request-case-details__location {
+    padding: 13px;
+    gap: 9px;
+  }
+
+  .request-case-details__location
+    > .material-symbols-outlined {
+    font-size: 20px;
+  }
+}

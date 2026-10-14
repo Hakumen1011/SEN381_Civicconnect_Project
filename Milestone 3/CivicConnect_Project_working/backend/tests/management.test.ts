@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { auth, setup, submitRequest, validRequest, type TestContext } from './helpers.js';
+import { auth, setDueAt, setup, submitRequest, validRequest, type TestContext } from './helpers.js';
 
 let ctx: TestContext;
 beforeEach(async () => {
@@ -8,8 +8,7 @@ beforeEach(async () => {
 
 /** Test helper: push a request's due date into the past so it counts as overdue. */
 function makeOverdue(id: string) {
-  const row = ctx.store.read().tables.requests.get(id)!;
-  row.dueAt = new Date(Date.now() - 60_000).toISOString();
+  return setDueAt(ctx, id, new Date(Date.now() - 60_000));
 }
 
 async function resolve(id: string) {
@@ -31,7 +30,7 @@ describe('Management queries (FR-MGT-001 to FR-MGT-004)', () => {
     const a = await submitRequest(ctx);
     const b = await submitRequest(ctx);
     await submitRequest(ctx);
-    makeOverdue(a.id);
+    await makeOverdue(a.id);
     await resolve(b.id);
 
     const view = async (v: string) =>
@@ -48,7 +47,7 @@ describe('Management queries (FR-MGT-001 to FR-MGT-004)', () => {
   it('a resolved request is never counted as overdue', async () => {
     const r = await submitRequest(ctx);
     await resolve(r.id);
-    makeOverdue(r.id);
+    await makeOverdue(r.id);
     const res = await ctx.api.get('/api/management/requests?view=overdue').set(auth(ctx.users.manager));
     expect(res.body.total).toBe(0);
   });
