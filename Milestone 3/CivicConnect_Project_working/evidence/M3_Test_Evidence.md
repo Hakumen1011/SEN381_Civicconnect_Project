@@ -1441,3 +1441,21 @@ Command: npm run build
 
 The initial worker crash should remain documented because reproducibility is important to M3. 
 
+## TC-E2E-001 — Requester Registration, Submission and Tracking
+
+- **Execution date:** 14 October 2026
+- **Execution method:** Manual browser-based end-to-end test
+- **Environment:** Local frontend and Express backend
+- **Result:** PASS — verified by tester
+
+|Field| Evidence|
+|---|---|
+|Test ID|	TC-E2E-001|
+|Requirements|	FR-REQ-001, FR-REQ-002, FR-REQ-003, FR-REQ-004, FR-REQ-005|
+|Test type|	End-to-end / system|
+|Environment|	React + Vite → Express backend, local staging|
+|Steps|	Register → submit municipal request → track request|
+|Expected result|	Request created with backend-generated reference and correct status|
+|Actual result|	Registration, submission and tracking successful|
+|Status|	PASS — user-verified|
+|Limitation|	In-memory backend persistence; results not guaranteed after server restart|
