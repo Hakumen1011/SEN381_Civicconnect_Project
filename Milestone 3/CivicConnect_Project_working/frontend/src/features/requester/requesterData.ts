@@ -9,6 +9,7 @@ export interface RequestDraft {
 export interface SubmissionRecord {
   caseId: string;
   category: string;
+  title?: string;
   location: string;
   dateFiled: string;
   status: "In Progress" | "Resolved" | "Closed";

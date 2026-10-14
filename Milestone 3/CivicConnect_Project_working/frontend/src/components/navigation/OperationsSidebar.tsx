@@ -41,18 +41,41 @@ const sidebarItems: Array<{
   },
 ];
 
+/**
+ * Maps navigation IDs to the routes configured in AppRoutes.
+ *
+ * The sidebar keeps working even when no custom
+ * onNavigate callback is supplied.
+ */
+const navigationPaths: Record<NavigationId, string> = {
+  "staff-triage": "/staff-triage",
+  "request-management": "/request-management",
+  "requester-self-service": "/requester-self-service",
+  "management-analytics": "/management",
+};
+
 export default function OperationsSidebar({
   activeNavigation = "requester-self-service",
   onNavigate,
 }: OperationsSidebarProps) {
   const handleNavigation = (
-    event: MouseEvent<HTMLAnchorElement>,
-    navigationId: NavigationId,
-  ) => {
+  event: MouseEvent<HTMLAnchorElement>,
+  navigationId: NavigationId,
+) => {
+  /**
+   * If a parent explicitly supplies a navigation callback,
+   * allow the parent to handle the navigation.
+   */
+  if (onNavigate) {
     event.preventDefault();
+    onNavigate(navigationId);
+  }
 
-    onNavigate?.(navigationId);
-  };
+  /**
+   * Otherwise, leave the default anchor behaviour intact.
+   * The browser will follow its real href.
+   */
+};
 
   return (
     <aside className="operations-sidebar">
@@ -77,7 +100,7 @@ export default function OperationsSidebar({
             return (
               <a
                 key={`${item.label}-${index}`}
-                href="#"
+                href={navigationPaths[item.id]}
                 className={`operations-sidebar__link ${
                   isActive ? "is-active" : ""
                 }`}

@@ -34,6 +34,7 @@ export default function RequesterPortal() {
     const newSubmission: SubmissionRecord = {
       caseId: newCaseId,
       category: request.category,
+      title: request.title,
       location: request.location || "Location not provided",
       dateFiled: new Date().toLocaleDateString("en-ZA", {
         day: "2-digit",
@@ -164,7 +165,10 @@ export default function RequesterPortal() {
               onSubmitted={handleRequestSubmitted}
             />
 
-            <TicketTracker />
+            <TicketTracker
+              submissions={submissions}
+              caseId={submissions[0]?.caseId}
+            />
           </div>
 
           <RecentSubmissions

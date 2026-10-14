@@ -14,6 +14,7 @@ import { Link, Navigate, Route, Routes } from "react-router-dom";
 import StaffTriagePage from "../features/staff/pages/StaffTriagePage";
 import RequestManagementLifecyclePage from "../features/request-management/pages/RequestManagementLifecyclePage";
 import ManagementPerformancePage from "../features/management/pages/ManagementPerformancePage";
+import RequesterPortal from "../features/requester/RequesterPortal";
 
 import OperationsShell from "../layouts/OperationsShell";
 
@@ -102,8 +103,8 @@ export default function AppRoutes() {
       />
 
       <Route
-        path="/requester-self-service"
-        element={<RequesterIntegrationPending />}
+         path="/requester-self-service"
+         element={<RequesterPortal />}
       />
 
       <Route

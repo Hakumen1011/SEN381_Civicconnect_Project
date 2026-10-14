@@ -27,6 +27,10 @@ vi.mock(
   }),
 );
 
+vi.mock("../features/requester/RequesterPortal", () => ({
+  default: () => <h1>Requester Portal Test Page</h1>,
+}));
+
 /**
  * Displays the active path so redirect behaviour
  * can be verified independently of page content.
@@ -99,20 +103,23 @@ describe("CivicConnect application routing", () => {
     ).toBeInTheDocument();
   });
 
-  it("identifies Requester Self-Service as pending integration", () => {
+    it("loads the actual Requester Self-Service route", () => {
     // TC-ROUTE-005
+  // Verifies that the Requester route selects the portal
+  // component instead of the temporary placeholder.
+
     renderRoute("/requester-self-service");
 
     expect(
-      screen.getByRole("heading", {
-        name: "Requester Self-Service",
-      }),
+        screen.getByRole("heading", {
+        name: "Requester Portal Test Page",
+        }),
     ).toBeInTheDocument();
 
     expect(
-      screen.getByText(/awaiting integration/i),
-    ).toBeInTheDocument();
-  });
+        screen.getByTestId("current-route"),
+    ).toHaveTextContent("/requester-self-service");
+    });
 
   it("displays a helpful fallback for unknown routes", () => {
     // TC-ROUTE-006 — negative route test
