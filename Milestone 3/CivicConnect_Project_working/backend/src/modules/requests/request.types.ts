@@ -1,5 +1,17 @@
 
+
+/**
+ * CivicConnect service request categories.
+ *
+ * The six municipal categories support the approved
+ * municipal service reporting domain.
+ *
+ * Existing categories are retained temporarily
+ * for backward compatibility with existing tests
+ * and other team modules.
+ */
 export const CATEGORIES = [
+  // Existing categories
   'FACILITY_FAULT',
   'DAMAGED_EQUIPMENT',
   'SECURITY_CONCERN',
@@ -7,10 +19,20 @@ export const CATEGORIES = [
   'MAINTENANCE',
   'LOST_PROPERTY',
   'OTHER',
+
+  // Municipal service categories
+  'ROAD_PAVEMENT',
+  'STREET_LIGHTING',
+  'STORMWATER_DRAIN',
+  'SOLID_WASTE',
+  'PARKS_GREENERY',
+  'CODE_COMPLIANCE',
 ] as const;
+
 export type Category = (typeof CATEGORIES)[number];
 
 export const CATEGORY_LABELS: Record<Category, string> = {
+  // Existing category labels
   FACILITY_FAULT: 'Facility fault',
   DAMAGED_EQUIPMENT: 'Damaged equipment',
   SECURITY_CONCERN: 'Security concern',
@@ -18,7 +40,16 @@ export const CATEGORY_LABELS: Record<Category, string> = {
   MAINTENANCE: 'Maintenance',
   LOST_PROPERTY: 'Lost property',
   OTHER: 'Other',
+
+  // Municipal category labels
+  ROAD_PAVEMENT: 'Road & Pavement',
+  STREET_LIGHTING: 'Street Lighting',
+  STORMWATER_DRAIN: 'Stormwater & Drain',
+  SOLID_WASTE: 'Solid Waste',
+  PARKS_GREENERY: 'Parks & Greenery',
+  CODE_COMPLIANCE: 'Code Compliance',
 };
+
 
 export const STATUSES = [
   'SUBMITTED',

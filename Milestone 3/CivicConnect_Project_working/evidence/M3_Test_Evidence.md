@@ -1400,3 +1400,189 @@ Also our team needs to extend the existing RTM with these test IDs against the a
 Rather than adding more isolated frontend tests, our team should now check whether our backend can support the workflows we've implemented.
 
 
+### Municipal Service Category API Integration
+
+**Execution date:** 14 October 2026  
+**Branch:** feature/m3-municipal-categories  
+**Test file:** backend/tests/municipalCategories.test.ts  
+**Framework:** Vitest 5.0.3 + Supertest  
+**Test techniques:** Equivalence Partitioning, Negative Testing,
+API Integration Testing, Regression Testing
+
+| Test IDs | Test condition | Actual result | Status |
+|---|---|---|---|
+| TC-MUN-001 | Municipal category metadata | Six categories returned | PASS |
+| TC-MUN-002–007 | Valid request for each municipal category | HTTP 201; SUBMITTED; MEDIUM priority | PASS |
+| TC-MUN-008–013 | Municipal request without location | HTTP 400; location validation error | PASS |
+| TC-MUN-014 | Unsupported category | HTTP 400 | PASS |
+| TC-MUN-015 | Existing IT_SUPPORT compatibility | HTTP 201 | PASS |
+
+**Focused municipal test execution:** 15/15 passed
+
+**Initial full-suite execution:** Incomplete.
+Vitest worker exited unexpectedly during requests.test.ts.
+55 tests completed; 1 unhandled worker error was reported.
+
+**Controlled full-suite execution:**
+Command:
+npx vitest run --pool=threads --maxWorkers=1 --no-file-parallelism
+
+Result: 63/63 passed across 6 test files.
+
+**Production build:** PASS
+Command: npm run build
+
+**Known limitations:**
+- Backend repositories currently use in-memory storage.
+- Municipal category priority defaults are provisional.
+- React-to-backend request submission is not yet integrated.
+- CI verification and teammate approvals are pending.
+```
+
+The initial worker crash should remain documented because reproducibility is important to M3. 
+
+## TC-E2E-001 — Requester Registration, Submission and Tracking
+
+- **Execution date:** 14 October 2026
+- **Execution method:** Manual browser-based end-to-end test
+- **Environment:** Local frontend and Express backend
+- **Result:** PASS — verified by tester
+
+|Field| Evidence|
+|---|---|
+|Test ID|	TC-E2E-001|
+|Requirements|	FR-REQ-001, FR-REQ-002, FR-REQ-003, FR-REQ-004, FR-REQ-005|
+|Test type|	End-to-end / system|
+|Environment|	React + Vite → Express backend, local staging|
+|Steps|	Register → submit municipal request → track request|
+|Expected result|	Request created with backend-generated reference and correct status|
+|Actual result|	Registration, submission and tracking successful|
+|Status|	PASS — user-verified|
+|Limitation|	In-memory backend persistence; results not guaranteed after server restart|
+
+
+## TC-E2E-002 — Requester Session and Record Separation
+
+- **Execution date:** 14 October 2026
+- **Test type:** End-to-end / system
+- **Environment:** Local React + Vite frontend and Express backend
+- **Execution method:** Manual browser test
+- **Priority:** High
+- **Result:** PASS — user-verified
+
+### Test steps
+
+1. Sign in as Requester A.
+2. Verify the previously submitted municipal request is available.
+3. Sign out of Requester A.
+4. Register or sign in as Requester B.
+5. Verify Requester A's request is absent from Requester B's submissions.
+6. Search for Requester A's case using Requester B's Ticket Tracker.
+7. Verify the case details are not displayed.
+8. Sign out and sign back in as Requester A.
+9. Verify the original request is accessible again.
+
+### Expected result
+
+Requester A can retrieve their own request across login sessions.
+Requester B cannot access Requester A's case through the portal.
+
+### Actual result
+
+All steps passed. Requester A retrieved the original case,
+Requester B could not view it through the portal, and Requester A
+successfully retrieved it after signing back in.
+
+### Limitations
+
+- Backend data is held in memory and may be lost after a server restart.
+- Direct API-level authorisation was not tested in this scenario.
+- This test does not cover staff assignment or lifecycle updates.
+
+### Evidence
+
+Tester-confirmed browser execution on 14 October 2026.
+Screenshots may be added separately, with private data removed.
+
+
+## TC-PERF-001 — Authenticated Request Retrieval Performance
+
+- **Execution date:** 14 October 2026
+- **Environment:** Local Express backend with in-memory data
+- **Operation:** Authenticated GET /api/requests
+- **Workload:** 10 concurrent requests × 10 rounds
+- **Total requests:** 100
+- **Successful requests:** 100
+- **Failed requests:** 0
+- **p50:** 1.58 ms
+- **p90:** 3.34 ms
+- **p95:** 7.75 ms
+- **Result:** PASS for the defined short local smoke-load scenario
+- **Evidence:** evidence/M3_Performance_Result.json
+- **Reproduction script:** evidence/M3_Performance_Smoke.cjs
+
+### Limitation
+
+These results do not establish performance under a sustained
+25-user, 10-minute workload or production infrastructure.
+
+## M3 Dependency and Secrets Checks
+
+- **Execution date:** 14 October 2026
+- **Backend npm audit, high severity threshold:** Exit code 0
+- **Frontend npm audit, high severity threshold:** Exit code 0
+- **Limited tracked-source secrets pattern scan:** No matching files
+- **Evidence:** evidence/M3_Dependency_Audit.txt
+
+### Limitation
+
+The npm audit results are specific to the installed dependency
+manifests and configured severity threshold. The secrets scan
+was pattern-based and is not a comprehensive security audit.
+
+## TC-E2E-003 — Live Staff Assignment and Request Lifecycle
+
+- Execution date: 15 October 2026
+- Test level: End-to-end / system
+- Priority: High
+- Environment: Local React/Vite frontend and Express backend
+- Execution: Manual browser test
+- Result: PASS — tester-confirmed, 8/8 steps
+
+### Expected result
+
+An authenticated requester submits a municipal service request
+and receives a backend-generated reference.
+
+An authenticated STAFF user retrieves the request, assigns it
+to themselves, changes its status to IN_PROGRESS and retrieves
+the recorded history.
+
+The original requester retrieves the same request and sees
+the updated status.
+
+### Actual result
+
+All eight browser verification steps passed.
+
+- Requester submitted a municipal request successfully.
+- Backend generated the request reference.
+- Authenticated staff retrieved the request.
+- Staff self-assignment succeeded.
+- Status changed to IN_PROGRESS.
+- Audit history reflected the changes.
+- Original requester retrieved the updated request.
+- Operations used the same running backend instance.
+
+### Interpretation
+
+Confirms the integrated requester-to-staff lifecycle and status
+visibility for this local browser scenario.
+
+### Limitations
+
+- Data is stored in memory and is lost after backend restart.
+- This scenario does not demonstrate database durability.
+- Full production-scale performance was not tested.
+- Separate negative/API authorisation tests remain relevant.
+

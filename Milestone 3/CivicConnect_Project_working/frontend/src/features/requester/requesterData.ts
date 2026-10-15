@@ -12,7 +12,14 @@ export interface SubmissionRecord {
   title?: string;
   location: string;
   dateFiled: string;
-  status: "In Progress" | "Resolved" | "Closed";
+  status:
+  | "Submitted"
+  | "Assigned"
+  | "In Progress"
+  | "On Hold"
+  | "Resolved"
+  | "Closed"
+  | "Rejected";
 }
 
 export interface CategoryOption {

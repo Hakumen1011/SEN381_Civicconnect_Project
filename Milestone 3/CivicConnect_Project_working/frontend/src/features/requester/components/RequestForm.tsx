@@ -15,7 +15,8 @@ import {
 import RequestCategorySelector from "./RequestCategorySelector";
 
 interface RequestFormProps {
-  onSubmitted: (request: RequestDraft) => void;
+  onSubmitted: (request: RequestDraft) => Promise<void>;
+  requesterName?: string;
 }
 
 const DEFAULT_TITLE =
@@ -29,6 +30,7 @@ const DEFAULT_LOCATION =
 
 export default function RequestForm({
   onSubmitted,
+  requesterName,
 }: RequestFormProps) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -61,6 +63,8 @@ export default function RequestForm({
       }
     };
   }, [previewUrl]);
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const createPreview = (file: File | null) => {
     setPreviewUrl((currentPreview) => {
@@ -183,36 +187,58 @@ export default function RequestForm({
     return validationErrors;
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleSubmit = async (
+  event: FormEvent<HTMLFormElement>,
+) => {
+  event.preventDefault();
 
-    const validationErrors = validateForm();
+  if (isSubmitting) return;
 
-    if (validationErrors.length > 0) {
-      setErrors(validationErrors);
-      return;
-    }
+  const validationErrors = validateForm();
 
-    const selectedCategoryLabel =
-      categoryOptions.find(
-        (category) => category.id === selectedCategory,
-      )?.label ?? selectedCategory;
+  if (!location.trim()) {
+    validationErrors.push("Physical location is required.");
+  }
 
-    const request: RequestDraft = {
-      category: selectedCategoryLabel,
-      title: title.trim(),
-      description: description.trim(),
-      location: location.trim(),
-      fileName: selectedFile?.name,
-    };
+  if (validationErrors.length > 0) {
+    setErrors(validationErrors);
+    setSubmissionMessage("");
+    return;
+  }
 
-    onSubmitted(request);
+  const selectedCategoryLabel =
+    categoryOptions.find(
+      (category) => category.id === selectedCategory,
+    )?.label ?? selectedCategory;
 
-    setErrors([]);
-    setSubmissionMessage(
-      "Request prepared successfully for submission.",
-    );
+  const request: RequestDraft = {
+    category: selectedCategoryLabel,
+    title: title.trim(),
+    description: description.trim(),
+    location: location.trim(),
+    fileName: selectedFile?.name,
   };
+
+  setIsSubmitting(true);
+  setErrors([]);
+  setSubmissionMessage("");
+
+  try {
+    await onSubmitted(request);
+
+    setSubmissionMessage(
+      "Request successfully submitted to CivicConnect.",
+    );
+  } catch (error) {
+    setErrors([
+      error instanceof Error
+        ? error.message
+        : "The request could not be submitted. Please try again.",
+    ]);
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   return (
     <section className="request-form-card">
@@ -288,7 +314,7 @@ export default function RequestForm({
             selectedCategory={selectedCategory}
             onCategorySelect={setSelectedCategory}
         />
-        
+
       </div>
 
       <form onSubmit={handleSubmit} className="request-form">
@@ -502,8 +528,8 @@ export default function RequestForm({
             </span>
 
             <span>
-              Recorded under verified constituent account
-              Eleanor Vance
+              Recorded under verified constituent account{" "}
+              {requesterName ?? "Requester"}
             </span>
           </div>
 
@@ -516,9 +542,11 @@ export default function RequestForm({
               Clear
             </button>
 
+
             <button
               type="submit"
               className="button button--primary"
+              disabled={isSubmitting}
             >
               <span
                 className="material-symbols-outlined"
@@ -527,8 +555,9 @@ export default function RequestForm({
                 send
               </span>
 
-              Submit Official Ticket
+              {isSubmitting ? "Submitting..." : "Submit Official Ticket"}
             </button>
+
           </div>
         </div>
       </form>
