@@ -1,0 +1,65 @@
+/* Staff data source switch: active state is visible and keyboard accessible. */
+.staff-data-source {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  padding-bottom: 1rem;
+}
+
+.staff-data-source h1 {
+  margin: 0;
+}
+
+.staff-data-source__label {
+  font-weight: 700;
+}
+
+.staff-data-source__options {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.staff-data-source__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.6rem 0.85rem;
+  border: 1px solid #b6c5df;
+  border-radius: 0.45rem;
+  background: #f6f9ff;
+  color: #19375d;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 150ms ease, box-shadow 150ms ease, border-color 150ms ease;
+}
+
+.staff-data-source__button:hover:not(.staff-data-source__button--selected) {
+  background: #e9f0ff;
+  border-color: #7195cd;
+}
+
+.staff-data-source__button--selected {
+  background: #194ea6;
+  color: #fff;
+  border-color: #194ea6;
+  box-shadow: 0 0 0 2px rgba(25, 78, 166, 0.16);
+}
+
+.staff-data-source__button--selected::before {
+  content: "✓";
+  font-weight: 800;
+}
+
+.staff-data-source__button:focus-visible {
+  outline: 3px solid #f0a328;
+  outline-offset: 3px;
+}
+
+.staff-data-source__description {
+  color: #455873;
+  font-size: 0.9rem;
+}

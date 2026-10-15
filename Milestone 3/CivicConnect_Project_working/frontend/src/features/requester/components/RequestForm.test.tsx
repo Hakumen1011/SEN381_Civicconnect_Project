@@ -1,4 +1,3 @@
-
 import {
   afterAll,
   beforeAll,
@@ -12,6 +11,7 @@ import {
   fireEvent,
   render,
   screen,
+  waitFor,
 } from "@testing-library/react";
 
 import userEvent from "@testing-library/user-event";
@@ -19,15 +19,14 @@ import userEvent from "@testing-library/user-event";
 import RequestForm from "./RequestForm";
 
 /**
- * SEN381 Milestone 3 — Request Form tests.
+ * SEN381 Milestone 3 â€” Request Form tests.
  *
  * Test techniques:
  * - Equivalence Partitioning
  * - Boundary Value Analysis
  * - Negative Testing
  *
- * The form currently creates demonstration requests.
- * It does not upload files to a real backend service.
+ * Tests frontend file selection only. The backend does not accept photo uploads yet.
  */
 
 // JSDOM may not implement browser object-URL methods.
@@ -221,10 +220,11 @@ describe("RequestForm validation and attachments", () => {
 
   it("accepts a PNG exactly at the 15 MB limit", async () => {
     // TC-REQ-010
-    // Boundary Value Analysis: valid upper boundary.
+    // Boundary Value Analysis: upper boundary passes file-selection checks.
+    // This does not verify backend upload capability.
 
     const user = userEvent.setup();
-    const onSubmitted = vi.fn();
+    const onSubmitted = vi.fn().mockResolvedValue(undefined);
 
     const { container } = render(
       <RequestForm onSubmitted={onSubmitted} />,
@@ -248,6 +248,11 @@ describe("RequestForm validation and attachments", () => {
         name: /Detailed Description/i,
       }),
       "Street light is not functioning.",
+    );
+
+    await user.type(
+      screen.getByRole("textbox", { name: /Physical Location/i }),
+      "Community park entrance",
     );
 
     const boundaryImage = createSizedImage(
@@ -274,7 +279,7 @@ describe("RequestForm validation and attachments", () => {
       }),
     );
 
-    expect(onSubmitted).toHaveBeenCalledOnce();
+    await waitFor(() => expect(onSubmitted).toHaveBeenCalledOnce());
 
     expect(onSubmitted).toHaveBeenCalledWith(
       expect.objectContaining({
