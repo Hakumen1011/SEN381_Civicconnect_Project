@@ -23,6 +23,8 @@ import type {
 } from "../components/staffTypes";
 
 import "./StaffTriagePage.css";
+import StaffLiveWorkbench from "../live/StaffLiveWorkbench";
+import "../live/staffDataSource.css";
 
 // The existing app uses one consistent list of permitted request statuses.
 const STATUSES: RequestStatus[] = [
@@ -259,6 +261,7 @@ function toCsvValue(value: string | number): string {
 }
 
 export default function StaffTriagePage() {
+  const [dataMode, setDataMode] = useState<"live" | "demo">("live");
   // Copy the starter data into component state so demo actions can update it.
   const [requests, setRequests] =
     useState<ServiceRequest[]>(() => [...mockServiceRequests]);
@@ -765,6 +768,35 @@ export default function StaffTriagePage() {
   return (
     <OperationsShell activeNavigation="staff-triage">
       <div className="staff-page">
+        <section className="staff-data-source" aria-label="Staff data source">
+          <h1>Staff Triage Queue</h1>
+          <span className="staff-data-source__label">Data source:</span>
+          <div className="staff-data-source__options" role="group" aria-label="Choose data source">
+            <button
+              type="button"
+              className={`staff-data-source__button${dataMode === "live" ? " staff-data-source__button--selected" : ""}`}
+              onClick={() => setDataMode("live")}
+              aria-pressed={dataMode === "live"}
+            >
+              Live backend
+            </button>
+            <button
+              type="button"
+              className={`staff-data-source__button${dataMode === "demo" ? " staff-data-source__button--selected" : ""}`}
+              onClick={() => setDataMode("demo")}
+              aria-pressed={dataMode === "demo"}
+            >
+              Illustrative demo
+            </button>
+          </div>
+          <span className="staff-data-source__description" role="status" aria-live="polite">
+            {dataMode === "live" ? "Authenticated API records" : "Frontend demonstration records only"}
+          </span>
+        </section>
+        {dataMode === "live" ? (
+          <StaffLiveWorkbench />
+        ) : (
+          <>
         {/* Page heading and context follow the Stitch operations style. */}
         <div className="staff-page__heading">
           <div>
@@ -1850,6 +1882,8 @@ export default function StaffTriagePage() {
               </form>
             </section>
           </div>
+        )}
+          </>
         )}
       </div>
     </OperationsShell>

@@ -1539,3 +1539,50 @@ These results do not establish performance under a sustained
 The npm audit results are specific to the installed dependency
 manifests and configured severity threshold. The secrets scan
 was pattern-based and is not a comprehensive security audit.
+
+## TC-E2E-003 — Live Staff Assignment and Request Lifecycle
+
+- Execution date: 15 October 2026
+- Test level: End-to-end / system
+- Priority: High
+- Environment: Local React/Vite frontend and Express backend
+- Execution: Manual browser test
+- Result: PASS — tester-confirmed, 8/8 steps
+
+### Expected result
+
+An authenticated requester submits a municipal service request
+and receives a backend-generated reference.
+
+An authenticated STAFF user retrieves the request, assigns it
+to themselves, changes its status to IN_PROGRESS and retrieves
+the recorded history.
+
+The original requester retrieves the same request and sees
+the updated status.
+
+### Actual result
+
+All eight browser verification steps passed.
+
+- Requester submitted a municipal request successfully.
+- Backend generated the request reference.
+- Authenticated staff retrieved the request.
+- Staff self-assignment succeeded.
+- Status changed to IN_PROGRESS.
+- Audit history reflected the changes.
+- Original requester retrieved the updated request.
+- Operations used the same running backend instance.
+
+### Interpretation
+
+Confirms the integrated requester-to-staff lifecycle and status
+visibility for this local browser scenario.
+
+### Limitations
+
+- Data is stored in memory and is lost after backend restart.
+- This scenario does not demonstrate database durability.
+- Full production-scale performance was not tested.
+- Separate negative/API authorisation tests remain relevant.
+
