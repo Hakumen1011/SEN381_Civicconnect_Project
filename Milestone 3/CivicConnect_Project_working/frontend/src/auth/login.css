@@ -1,0 +1,19 @@
+.civic-login { min-height: 100vh; display: grid; place-items: center; padding: 2rem 1rem; background: linear-gradient(145deg,#e8f1ff,#f7faff 65%); }
+.civic-login__panel { background: white; border: 1px solid #cedbf0; border-radius: 20px; padding: clamp(1.5rem,4vw,3rem); width: min(100%, 500px); box-shadow: 0 20px 58px #12243f15; color: #0b2440; }
+.civic-login__brand { display: flex; align-items: center; gap: .75rem; margin-bottom: 1.6rem; }
+.civic-login__brand > span { display:grid; place-items:center; color: #fff; background:#083b77; width:46px; height:46px; border-radius:12px; }
+.civic-login__brand strong { display:block; font-size: 1.35rem; font-family: "IBM Plex Serif",serif; }
+.civic-login__brand div > span { display:block; font-size:.78rem; color:#58708c; }
+.civic-login__panel h1 { margin:0 0 .4rem; font-size:1.65rem; }
+.civic-login__panel p { color:#52677f; line-height:1.5; }
+.civic-login__form { display:grid; gap:1.1rem; margin:1.5rem 0; }
+.civic-login__form label { display:grid; gap:.45rem; font-size:.9rem; font-weight:600; }
+.civic-login__form input { width:100%; border:1px solid #aabedb; border-radius:7px; padding:.75rem .85rem; background:#f9fbff; }
+.civic-login__form input:focus-visible, .civic-login__panel button:focus-visible { outline:3px solid #7eb5ff; outline-offset:2px; }
+.civic-login__submit { background:#062c57; border:0; border-radius:7px; color:white; padding:.85rem; font-weight:700; }
+.civic-login__submit:disabled { opacity:.6; }
+.civic-login__footer { display:flex; justify-content:space-between; align-items:center; gap:1rem; flex-wrap:wrap; margin-top:1.4rem; }
+.civic-login__link { background:transparent; border:0; padding:.3rem 0; color:#1551a1; text-decoration:underline; }
+.civic-login__switch { margin-left:auto; border:1px solid #1752a3; background:#e9f1ff; border-radius:7px; color:#123d7d; font-weight:700; padding:.65rem .8rem; }
+.civic-login__switch[aria-pressed="true"] { background:#0e4ca2; color:white; }
+.civic-login__error { padding:.7rem; border-radius:6px; background:#ffefee; color:#8a1921 !important; }

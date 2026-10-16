@@ -21,25 +21,25 @@ describe("OperationsSidebar", () => {
 
     expect(
       screen.getByRole("link", {
-        name: /^Triage Inbox/,
+        name: "Triage Inbox",
     }),
     ).toHaveAttribute("href", "/staff-triage");
 
     expect(
       screen.getByRole("link", {
-        name: "All Work Orders",
+        name: "Live Request Register",
       }),
     ).toHaveAttribute("href", "/request-management");
 
     expect(
       screen.getByRole("link", {
-        name: "SLA Compliance",
+        name: "Live Analytics",
       }),
     ).toHaveAttribute("href", "/management");
 
     expect(
       screen.getByRole("link", {
-        name: "Citizen Portal Feed",
+        name: "My Service Requests",
       }),
     ).toHaveAttribute(
       "href",
@@ -63,7 +63,7 @@ describe("OperationsSidebar", () => {
 
     fireEvent.click(
       screen.getByRole("link", {
-        name: "SLA Compliance",
+        name: "Live Analytics",
       }),
     );
 
@@ -82,15 +82,16 @@ describe("OperationsSidebar", () => {
       />,
     );
 
+
     expect(
       screen.getByRole("link", {
-        name: "SLA Compliance",
+        name: "Live Analytics",
       }),
     ).toHaveAttribute("aria-current", "page");
 
     expect(
     screen.getByRole("link", {
-    name: /^Triage Inbox/,
+    name: "Triage Inbox",
     }),
     ).not.toHaveAttribute("aria-current");
   });

@@ -1,153 +1,23 @@
 import type { MouseEvent } from "react";
-import type { NavigationId } from "./TopNavigation";
+import { useOptionalAuth } from "../../auth/AuthContext";
+import { NAVIGATION, navigationForRole, type NavigationId } from "../../auth/roles";
 import "./OperationsSidebar.css";
+import RouteAnchor from "./RouteAnchor";
 
-interface OperationsSidebarProps {
-  activeNavigation?: NavigationId;
-  onNavigate?: (navigationId: NavigationId) => void;
-}
+interface OperationsSidebarProps { activeNavigation?: NavigationId; onNavigate?: (navigationId: NavigationId) => void; }
 
-const sidebarItems: Array<{
-  id: NavigationId;
-  label: string;
-  icon: string;
-  badge?: string;
-}> = [
-  {
-    id: "staff-triage",
-    label: "Triage Inbox",
-    icon: "inbox",
-    badge: "18",
-  },
-  {
-    id: "request-management",
-    label: "All Work Orders",
-    icon: "assignment",
-  },
-  {
-    id: "request-management",
-    label: "Field Crew Units",
-    icon: "local_shipping",
-  },
-  {
-    id: "management-analytics",
-    label: "SLA Compliance",
-    icon: "bar_chart",
-  },
-  {
-    id: "requester-self-service",
-    label: "Citizen Portal Feed",
-    icon: "public",
-  },
-];
-
-/**
- * Maps navigation IDs to the routes configured in AppRoutes.
- *
- * The sidebar keeps working even when no custom
- * onNavigate callback is supplied.
- */
-const navigationPaths: Record<NavigationId, string> = {
-  "staff-triage": "/staff-triage",
-  "request-management": "/request-management",
-  "requester-self-service": "/requester-self-service",
-  "management-analytics": "/management",
-};
-
-export default function OperationsSidebar({
-  activeNavigation = "requester-self-service",
-  onNavigate,
-}: OperationsSidebarProps) {
-  const handleNavigation = (
-  event: MouseEvent<HTMLAnchorElement>,
-  navigationId: NavigationId,
-) => {
-  /**
-   * If a parent explicitly supplies a navigation callback,
-   * allow the parent to handle the navigation.
-   */
-  if (onNavigate) {
-    event.preventDefault();
-    onNavigate(navigationId);
+export default function OperationsSidebar({ activeNavigation = "requester-self-service", onNavigate }: OperationsSidebarProps) {
+  const auth = useOptionalAuth();
+  const entries = auth ? (auth.session ? navigationForRole(auth.session.user.role) : []) : NAVIGATION;
+  function handleNavigation(event: MouseEvent<HTMLAnchorElement>, navigationId: NavigationId) {
+    if (onNavigate) { event.preventDefault(); onNavigate(navigationId); }
   }
-
-  /**
-   * Otherwise, leave the default anchor behaviour intact.
-   * The browser will follow its real href.
-   */
-};
-
-  return (
-    <aside className="operations-sidebar">
-      <div className="operations-sidebar__main">
-        <div className="operations-sidebar__heading">
-          Operations Dispatch
-        </div>
-
-        <nav aria-label="Operations navigation">
-          {sidebarItems.map((item, index) => {
-            // Highlight the sidebar entry corresponding to the current feature.
-              const isActive =
-                (item.label === "Triage Inbox" &&
-                  activeNavigation === "staff-triage") ||
-                (item.label === "All Work Orders" &&
-                  activeNavigation === "request-management") ||
-                (item.label === "SLA Compliance" &&
-                  activeNavigation === "management-analytics") ||
-                (item.label === "Citizen Portal Feed" &&
-                  activeNavigation === "requester-self-service");
-
-            return (
-              <a
-                key={`${item.label}-${index}`}
-                href={navigationPaths[item.id]}
-                className={`operations-sidebar__link ${
-                  isActive ? "is-active" : ""
-                }`}
-                aria-current={isActive ? "page" : undefined}
-                onClick={(event) =>
-                  handleNavigation(event, item.id)
-                }
-              >
-                <span
-                  className="material-symbols-outlined"
-                  aria-hidden="true"
-                >
-                  {item.icon}
-                </span>
-
-                <span>{item.label}</span>
-
-                {item.badge && (
-                  <span className="operations-sidebar__badge">
-                    {item.badge}
-                  </span>
-                )}
-              </a>
-            );
-          })}
-        </nav>
-      </div>
-
-      <div className="operations-sidebar__footer">
-        <div className="operations-sidebar__station">
-          Station Node: SEC-04-NORTH
-        </div>
-
-        <button
-          type="button"
-          className="operations-sidebar__audit-button"
-        >
-          <span
-            className="material-symbols-outlined"
-            aria-hidden="true"
-          >
-            shield
-          </span>
-
-          <span>Security &amp; Audit</span>
-        </button>
-      </div>
-    </aside>
-  );
+  return <aside className="operations-sidebar">
+    <div className="operations-sidebar__main"><div className="operations-sidebar__heading">{auth?.session?.user.role === "REQUESTER" ? "My Requests" : "Operations Dispatch"}</div>
+      <nav aria-label="Operations navigation">
+        {entries.map(entry => <RouteAnchor key={entry.id} href={entry.path} className={`operations-sidebar__link ${activeNavigation === entry.id ? "is-active" : ""}`} current={activeNavigation === entry.id ? "page" : undefined} onClick={e => handleNavigation(e,entry.id)}><span className="material-symbols-outlined" aria-hidden="true">{entry.icon}</span><span>{entry.sidebarLabel}</span></RouteAnchor>)}
+      </nav>
+    </div>
+    <div className="operations-sidebar__footer"><div className="operations-sidebar__station">{auth?.session ? `Account role: ${auth.session.user.role}` : "Access controlled by account role"}</div></div>
+  </aside>;
 }

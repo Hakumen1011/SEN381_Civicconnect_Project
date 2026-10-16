@@ -29,9 +29,11 @@ jobs:
           node-version: 22
           cache: npm
           cache-dependency-path: 'Milestone 3/CivicConnect_Project_working/frontend/package-lock.json'
-
       - name: Install packages
         run: npm ci
+
+      - name: Run frontend tests
+        run: npm run test:run
 
       - name: Type check and build
         run: npm run build

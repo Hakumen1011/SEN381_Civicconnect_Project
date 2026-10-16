@@ -348,3 +348,41 @@
     width: 100%;
   }
 }
+
+/* Live API feedback and record pagination */
+.management-page__error {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin: 14px 0 20px;
+  padding: 15px;
+  border: 1px solid #e0a1a1;
+  border-radius: 8px;
+  background: #fff2f2;
+  color: #882727;
+}
+.management-page__error button,
+.management-pagination button {
+  min-height: 36px;
+  padding: 8px 13px;
+  border: 1px solid #bbcce3;
+  border-radius: 6px;
+  background: #f0f5ff;
+  color: #193d69;
+  cursor: pointer;
+  font-weight: 700;
+}
+.management-pagination {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+  color: #506580;
+  font-size: 12px;
+}
+.management-pagination button:disabled { opacity: 0.5; cursor: not-allowed; }
+.management-pagination button:focus-visible,
+.management-page__error button:focus-visible { outline: 2px solid #0051d5; outline-offset: 2px; }

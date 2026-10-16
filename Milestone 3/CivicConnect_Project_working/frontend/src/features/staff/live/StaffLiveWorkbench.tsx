@@ -1,4 +1,5 @@
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
+import { useOptionalAuth } from "../../../auth/AuthContext";
 import {
   assignToMe,
   changeRequestStatus,
@@ -22,11 +23,14 @@ function statusLabel(status: BackendStatus): string {
 
 /** Authenticated staff view. The original illustrative triage UI remains in Demo mode. */
 export default function StaffLiveWorkbench() {
-  const [session, setSession] = useState<StaffSession | null>(null);
+  const centralAuth = useOptionalAuth();
+  const [localSession, setLocalSession] = useState<StaffSession | null>(null);
+  const session = centralAuth ? centralAuth.session as StaffSession | null : localSession;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [requests, setRequests] = useState<LiveRequest[]>([]);
   const [total, setTotal] = useState(0);
+  const [hasLoaded, setHasLoaded] = useState(false);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
   const [busyId, setBusyId] = useState<string | null>(null);
@@ -40,7 +44,17 @@ export default function StaffLiveWorkbench() {
     const response = await listStaffRequests(token);
     setRequests(response.items);
     setTotal(response.total);
+    setHasLoaded(true);
   }
+
+  useEffect(() => {
+    if (!centralAuth?.session || centralAuth.session.user.role === "REQUESTER") return;
+    let active = true;
+    listStaffRequests(centralAuth.session.token).then(data => {
+      if (active) { setRequests(data.items); setTotal(data.total); setHasLoaded(true); setNotice("Showing live backend requests."); }
+    }).catch(cause => { if (active) setError(`Could not load staff requests: ${errorText(cause)}`); });
+    return () => { active = false; };
+  }, [centralAuth?.session?.token]);
 
   async function signIn(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -50,7 +64,7 @@ export default function StaffLiveWorkbench() {
     setNotice("");
     try {
       const authenticated = await loginStaff(email, password);
-      setSession(authenticated);
+      setLocalSession(authenticated);
       setPassword("");
       try {
         await load(authenticated.token);
@@ -134,8 +148,10 @@ export default function StaffLiveWorkbench() {
   }
 
   function signOut() {
-    setSession(null);
+    setLocalSession(null);
+    centralAuth?.signOut();
     setRequests([]);
+    setHasLoaded(false);
     setAudit(null);
     setPassword("");
     setNotice("");
@@ -183,6 +199,13 @@ export default function StaffLiveWorkbench() {
 
       {notice && <p role="status">{notice}</p>}
       {error && <p role="alert">{error}</p>}
+      {hasLoaded && <section className="staff-kpi-grid" aria-label="Backend staff request statistics">
+        <article className="staff-kpi-card"><span className="staff-kpi-card__label">Total backend requests</span><strong>{total}</strong><span className="staff-kpi-card__footnote">All statuses (server count)</span></article>
+        <article className="staff-kpi-card"><span className="staff-kpi-card__label">Records loaded</span><strong>{requests.length}</strong><span className="staff-kpi-card__footnote">First server page only (up to 100)</span></article>
+        <article className="staff-kpi-card"><span className="staff-kpi-card__label">Overdue on loaded page</span><strong>{requests.filter(request => request.overdue).length}</strong><span className="staff-kpi-card__footnote">Not an all-system metric</span></article>
+        <article className="staff-kpi-card"><span className="staff-kpi-card__label">Unassigned on loaded page</span><strong>{requests.filter(request => request.assigneeId === null).length}</strong><span className="staff-kpi-card__footnote">Not an all-system metric</span></article>
+      </section>}
+      {!hasLoaded && !error && <p role="status">Loading live staff requests…</p>}
       <p>Showing {visible.length} matching requests from the first {requests.length} of {total} server results.</p>
       <label htmlFor="staffLiveSearch">Search loaded requests</label>
       <input
