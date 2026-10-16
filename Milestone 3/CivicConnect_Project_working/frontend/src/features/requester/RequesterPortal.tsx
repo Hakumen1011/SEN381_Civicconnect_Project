@@ -1,4 +1,5 @@
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
+import { useOptionalAuth } from "../../auth/AuthContext";
 
 import OperationsShell from "../../layouts/OperationsShell";
 
@@ -110,9 +111,19 @@ function toSubmissionRecord(
 
 export default function RequesterPortal() {
 
- const [session, setSession] =
-
-  useState<AuthSession | null>(null);
+ const centralAuth = useOptionalAuth();
+ const [localSession, setLocalSession] = useState<AuthSession | null>(null);
+ const session = centralAuth ? centralAuth.session : localSession;
+ useEffect(() => {
+   if (!centralAuth?.session || centralAuth.session.user.role !== "REQUESTER") return;
+   let active = true;
+   listMyRequests(centralAuth.session.token).then(result => {
+     if (active) setSubmissions(result.items.map(toSubmissionRecord));
+   }).catch(() => {
+     if (active) setSubmissionNotice("Signed in, but existing requests could not be loaded.");
+   });
+   return () => { active = false; };
+ }, [centralAuth?.session?.token]);
 
 const [submissions, setSubmissions] =
 
@@ -184,7 +195,7 @@ const handleAuthSubmit = async (
 
           });
 
-    setSession(authenticated);
+    setLocalSession(authenticated);
 
     setPassword("");
 
@@ -320,7 +331,8 @@ const handleRequestSubmitted = async (
 
 const handleSignOut = () => {
 
-  setSession(null);
+  setLocalSession(null);
+  centralAuth?.signOut();
 
   setSubmissions([]);
 
@@ -448,7 +460,7 @@ const handleSignOut = () => {
 
                     >
 
-                      Dial Municipal 311
+                      Use official emergency contacts
 
                     </button>
 

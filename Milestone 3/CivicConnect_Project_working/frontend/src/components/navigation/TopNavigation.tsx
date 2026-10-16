@@ -1,235 +1,36 @@
 import { useState } from "react";
-import "./TopNavigation.css";
+import { useOptionalAuth } from "../../auth/AuthContext";
+import { NAVIGATION, navigationForRole, type NavigationId } from "../../auth/roles";
 import logo from "../../assets/CivicConnect-Logo.svg";
+import RouteAnchor from "./RouteAnchor";
+import "./TopNavigation.css";
 
+export type { NavigationId } from "../../auth/roles";
+interface TopNavigationProps { activeNavigation?: NavigationId; onNavigate?: (id: NavigationId) => void; }
 
-
-
-export type NavigationId =
-    | "staff-triage"
-    | "request-management"
-    | "requester-self-service"
-    | "management-analytics";
-
-interface TopNavigationProps {
-    activeNavigation?: NavigationId;
-    onNavigate?: (navigationId: NavigationId) => void;
-}
-
-const navigationItems: Array<{
-    id: NavigationId;
-    label: string;
-    path: string;
-}> = [
-    {
-        id: "staff-triage",
-        label: "Staff Triage Queue",
-        path: "/staff-triage",
-    },
-    {
-        id: "request-management",
-        label: "Request Management",
-        path: "/request-management",
-    },
-    {
-        id: "requester-self-service",
-        label: "Requester Self-Service",
-        path: "/requester-self-service",
-    },
-    {
-        id: "management-analytics",
-        label: "Management & Analytics",
-        path: "/management",
-    },
-];
-
-// Controls the dropdown navigation on smaller screens.
-
-
-export default function TopNavigation({
-    activeNavigation = "requester-self-service",
-    onNavigate,
-}: TopNavigationProps) {
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    return (
-        <header className="top-navigation">
-            <div className="top-navigation__main">
-                {/* Brand */}
-                <div className="top-navigation__brand">
-                    <img
-                        src={logo}
-                        alt="CivicConnect Logo"
-                        className="top-navigation__logo"
-                    />
-
-                    <div className="top-navigation__brand-text">
-                        <span className="top-navigation__title">
-                            CivicConnect
-                        </span>
-
-                        <span className="top-navigation__subtitle">
-                            Municipal Service Operations
-                        </span>
-                    </div>
-                </div>
-
-                <div className="top-navigation__divider" />
-
-                {/* Main navigation */}
-                <nav
-                    id="civicconnect-primary-navigation"
-                    className={`top-navigation__links ${
-                    mobileMenuOpen ? "top-navigation__links--open" : ""
-                    }`}
-                    aria-label="Primary navigation"
-                >
-                    {navigationItems.map((item) => (
-                        <a
-                            key={item.id}
-                            href={item.path}
-                            className={`top-navigation__link ${
-                                item.id === activeNavigation
-                                    ? "top-navigation__link--active"
-                                    : ""
-                            }`}
-                            aria-current={
-                                item.id === activeNavigation
-                                    ? "page"
-                                    : undefined
-                            }
-                            onClick={(event) => {
-                                if (onNavigate) {
-                                    event.preventDefault();
-                                    onNavigate(item.id);
-                                }
-
-                                 // Close the mobile dropdown after a navigation choice.
-                                    setMobileMenuOpen(false);
-                            }}
-                        >
-                            {item.label}
-                        </a>
-                    ))}
-                </nav>
-
-                {/* Mobile menu toggle */}
-                <button type="button" className="top-navigation__mobile-toggle"
-                    aria-label={mobileMenuOpen ? "Close navigation" : "Open navigation"}
-                    aria-expanded={mobileMenuOpen}
-                    aria-controls="civicconnect-primary-navigation"
-                    onClick={() => setMobileMenuOpen((open) => !open)}>
-                    <span className="material-symbols-outlined" aria-hidden="true">
-                        {mobileMenuOpen ? "close" : "menu"}
-                    </span>
-                </button>
-
-                {/* Right side */}
-                <div className="top-navigation__actions">
-                    <div className="top-navigation__search">
-                        <span
-                            className="material-symbols-outlined"
-                            aria-hidden="true"
-                        >
-                            search
-                        </span>
-
-                        <input
-                            type="search"
-                            placeholder="Search by Case #, Citizen, Category..."
-                            aria-label="Search CivicConnect"
-                        />
-                    </div>
-
-                    <div className="top-navigation__role">
-                        <span
-                            className="material-symbols-outlined"
-                            aria-hidden="true"
-                        >
-                            verified_user
-                        </span>
-
-                        <div className="top-navigation__role-text">
-                            <span className="top-navigation__role-label">
-                                Active Role
-                            </span>
-
-                            <span className="top-navigation__role-value">
-                                Staff Operations / Oversight
-                            </span>
-                        </div>
-                    </div>
-
-                    <button
-                        type="button"
-                        className="top-navigation__notification"
-                        aria-label="Notifications"
-                    >
-                        <span
-                            className="material-symbols-outlined"
-                            aria-hidden="true"
-                        >
-                            notifications
-                        </span>
-
-                        <span className="top-navigation__notification-count">
-                            3
-                        </span>
-                    </button>
-
-                    <div className="top-navigation__profile">
-                        <div className="top-navigation__profile-avatar">
-                            EV
-                        </div>
-
-                        <div className="top-navigation__profile-details">
-                            <div className="top-navigation__profile-name">
-                                Eleanor Vance
-                            </div>
-
-                            <div className="top-navigation__profile-role">
-                                Senior Operations Lead
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {/* Division information */}
-            <div className="top-navigation__division">
-                <div className="top-navigation__division-left">
-                    <span
-                        className="material-symbols-outlined"
-                        aria-hidden="true"
-                    >
-                        account_balance
-                    </span>
-
-                    <span>
-                        Public Works &amp; Urban Services Division
-                    </span>
-
-                    <span>•</span>
-
-                    <strong>
-                        Sector 4 Operational Casework
-                    </strong>
-                </div>
-
-                <div className="division-bar__status">
-                    <span className="division-status">
-                    <span className="division-status__dot" />
-                        Dispatch Feeds Synced
-                    </span>
-
-                    <span className="division-bar__separator">|</span>
-
-                    <span>SLA Response Window: 99.4%</span>
-                </div>
-
-                <div className="top-navigation__division-right">
-                    Civic Service Portal
-                </div>
-            </div>
-        </header>
-    );
+export default function TopNavigation({activeNavigation = "requester-self-service",onNavigate}: TopNavigationProps) {
+  const auth = useOptionalAuth();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const entries = auth ? (auth.session ? navigationForRole(auth.session.user.role) : []) : NAVIGATION;
+  const user = auth?.session?.user;
+  function signOut() { auth?.signOut(); window.location.assign("/login"); }
+  return <header className="top-navigation">
+    <div className="top-navigation__main">
+      <div className="top-navigation__brand"><img src={logo} alt="CivicConnect Logo" className="top-navigation__logo" />
+        <div className="top-navigation__brand-text"><span className="top-navigation__title">CivicConnect</span><span className="top-navigation__subtitle">Municipal Service Operations</span></div>
+      </div>
+      <div className="top-navigation__divider" />
+      <nav id="civicconnect-primary-navigation" className={`top-navigation__links ${mobileMenuOpen ? "top-navigation__links--open" : ""}`} aria-label="Primary navigation">
+        {entries.map(entry => <RouteAnchor key={entry.id} href={entry.path}
+          className={`top-navigation__link ${activeNavigation === entry.id ? "top-navigation__link--active" : ""}`}
+          current={activeNavigation === entry.id ? "page" : undefined}
+          onClick={e => { if(onNavigate){e.preventDefault();onNavigate(entry.id);} setMobileMenuOpen(false); }}>{entry.label}</RouteAnchor>)}
+      </nav>
+      <button type="button" className="top-navigation__mobile-toggle" aria-label={mobileMenuOpen ? "Close navigation" : "Open navigation"} aria-expanded={mobileMenuOpen} aria-controls="civicconnect-primary-navigation" onClick={() => setMobileMenuOpen(open => !open)}><span className="material-symbols-outlined" aria-hidden="true">{mobileMenuOpen ? "close" : "menu"}</span></button>
+      <div className="top-navigation__actions">
+        {user && <><div className="top-navigation__profile"><div className="top-navigation__profile-avatar">{user.name.trim().split(/\s+/).slice(0,2).map(x=>x[0]).join("").toUpperCase()}</div><div className="top-navigation__profile-details"><div className="top-navigation__profile-name">{user.name}</div><div className="top-navigation__profile-role">{user.role}</div></div></div><button type="button" className="civic-top-signout" onClick={signOut}>Sign out</button></>}
+      </div>
+    </div>
+    <div className="top-navigation__division"><div className="top-navigation__division-left"><span className="material-symbols-outlined" aria-hidden="true">account_balance</span><span>CivicConnect service requests</span></div><div className="top-navigation__division-right">{user ? `Signed in as ${user.role}` : "Service Portal"}</div></div>
+  </header>;
 }

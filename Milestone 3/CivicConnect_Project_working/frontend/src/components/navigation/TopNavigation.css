@@ -667,3 +667,5 @@
     justify-content: flex-end;
   }
 }
+.civic-top-signout { background:#e9f1ff; color:#0b3770; border:1px solid #afc4e6; border-radius:7px; padding:.5rem .8rem; font-weight:600; white-space:nowrap; }
+.civic-top-signout:focus-visible { outline:3px solid #7eb5ff; outline-offset:2px; }

@@ -1,121 +1,40 @@
-
-/**
- * CivicConnect — Application Routes
- *
- * SEN381 Milestone 3:
- * Integrates the confirmed frontend page components.
- *
- * Requester Self-Service remains a clearly identified
- * integration gap until its page component is available.
- */
-
 import { Link, Navigate, Route, Routes } from "react-router-dom";
-
-import StaffTriagePage from "../features/staff/pages/StaffTriagePage";
-import RequestManagementLifecyclePage from "../features/request-management/pages/RequestManagementLifecyclePage";
+import type { ReactNode } from "react";
+import LiveStaffTriagePage from "../features/staff/pages/LiveStaffTriagePage";
+import LiveRequestRegisterPage from "../features/request-management/pages/LiveRequestRegisterPage";
 import ManagementPerformancePage from "../features/management/pages/ManagementPerformancePage";
 import RequesterPortal from "../features/requester/RequesterPortal";
+import LoginPage from "../auth/LoginPage";
+import { useAuth } from "../auth/AuthContext";
+import { homeForRole, mayAccess } from "../auth/roles";
 
-import OperationsShell from "../layouts/OperationsShell";
-
-/**
- * Temporary destination.
- *
- * This makes the navigation route explicit without
- * pretending an unintegrated requester workflow is working.
- */
-function RequesterIntegrationPending() {
-  return (
-    <OperationsShell activeNavigation="requester-self-service">
-      <section
-        aria-labelledby="requester-pending-title"
-        style={{ padding: "2rem", maxWidth: "48rem" }}
-      >
-        <h1 id="requester-pending-title">
-          Requester Self-Service
-        </h1>
-
-        <p>
-          The Requester Self-Service page is awaiting
-          integration with the current application branch.
-        </p>
-
-        <p>
-          This is a temporary integration screen, not
-          the completed requester workflow.
-        </p>
-
-        <Link to="/request-management">
-          Return to Request Management
-        </Link>
-      </section>
-    </OperationsShell>
-  );
+function PrivatePage({ path, children }: { path: string; children: ReactNode }) {
+  const { session } = useAuth();
+  if (!session) return <Navigate to="/login" replace />;
+  if (!mayAccess(session.user.role, path)) {
+    return <main style={{ padding: "3rem", maxWidth: "42rem" }} role="alert"><h1>Access denied</h1><p>Your account does not have permission to view this page.</p><Link to={homeForRole(session.user.role)}>Go to my dashboard</Link></main>;
+  }
+  return <>{children}</>;
 }
 
-/**
- * Fallback for invalid URLs.
- */
+function Home() {
+  const { session } = useAuth();
+  return <Navigate to={session ? homeForRole(session.user.role) : "/login"} replace />;
+}
+
 function NotFoundPage() {
-  return (
-    <main
-      style={{
-        maxWidth: "40rem",
-        margin: "4rem auto",
-        padding: "1.5rem",
-      }}
-    >
-      <h1>Page not found</h1>
-
-      <p>
-        The requested CivicConnect page does not exist.
-      </p>
-
-      <Link to="/request-management">
-        Return to Request Management
-      </Link>
-    </main>
-  );
+  const { session } = useAuth();
+  return <main style={{padding: "3rem"}}><h1>Page not found</h1><Link to={session ? homeForRole(session.user.role) : "/login"}>Return to {session ? "my dashboard" : "login"}</Link></main>;
 }
 
-/**
- * BrowserRouter or MemoryRouter must be mounted
- * above this component.
- */
 export default function AppRoutes() {
-  return (
-    <Routes>
-      <Route
-        path="/"
-        element={
-          <Navigate to="/request-management" replace />
-        }
-      />
-
-      <Route
-        path="/staff-triage"
-        element={<StaffTriagePage />}
-      />
-
-      <Route
-        path="/request-management"
-        element={<RequestManagementLifecyclePage />}
-      />
-
-      <Route
-         path="/requester-self-service"
-         element={<RequesterPortal />}
-      />
-
-      <Route
-        path="/management"
-        element={<ManagementPerformancePage />}
-      />
-
-      <Route
-        path="*"
-        element={<NotFoundPage />}
-      />
-    </Routes>
-  );
+  return <Routes>
+    <Route path="/" element={<Home />} />
+    <Route path="/login" element={<LoginPage />} />
+    <Route path="/requester-self-service" element={<PrivatePage path="/requester-self-service"><RequesterPortal /></PrivatePage>} />
+    <Route path="/staff-triage" element={<PrivatePage path="/staff-triage"><LiveStaffTriagePage /></PrivatePage>} />
+    <Route path="/request-management" element={<PrivatePage path="/request-management"><LiveRequestRegisterPage /></PrivatePage>} />
+    <Route path="/management" element={<PrivatePage path="/management"><ManagementPerformancePage /></PrivatePage>} />
+    <Route path="*" element={<NotFoundPage />} />
+  </Routes>;
 }

@@ -167,7 +167,7 @@
   font: 700 30px/32px "IBM Plex Serif", serif;
 }
 
-.hero-stat span {
+.hero-stat > div:last-child > span {
   font: 700 11px/14px "IBM Plex Sans", sans-serif;
   color: #dbe1ff;
 }
@@ -196,7 +196,7 @@
   text-transform: uppercase;
 }
 
-.emergency-notice span {
+.emergency-notice > div > span {
   font: 600 13px/18px "IBM Plex Sans", sans-serif;
 }
 
@@ -1675,5 +1675,177 @@
   .workflow-step__heading > span:not(.status-badge) {
     margin-left: 0;
     width: 100%;
+  }
+}
+/* =============================================================
+   M3 responsive layout: size against the available page space,
+   not just the browser viewport (which also includes the sidebar).
+   ============================================================= */
+
+.requester-page,
+.requester-page__content,
+.requester-hero__copy,
+.requester-hero__metrics,
+.requester-grid > *,
+.tracker-column,
+.lookup-card,
+.tracked-ticket-card,
+.submission-card {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.requester-page__content {
+  container: requester-content / inline-size;
+}
+
+.requester-hero__copy {
+  flex: 1 1 30rem;
+}
+
+.requester-hero__metrics {
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.hero-stat,
+.emergency-notice {
+  min-width: 0;
+}
+
+.requester-hero h1,
+.requester-hero p,
+.emergency-notice span,
+.tracked-ticket__case-id,
+.category-button__title,
+.category-button__description {
+  overflow-wrap: anywhere;
+}
+
+.request-section-heading,
+.submission-card__header,
+.tracked-ticket__case-row,
+.form-actions,
+.form-action-buttons {
+  flex-wrap: wrap;
+}
+
+.category-button {
+  min-width: 0;
+}
+
+.lookup-card__row {
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+.lookup-card__row input {
+  min-width: 0;
+}
+
+/* A fixed desktop sidebar can leave much less space than the
+   viewport size suggests. Stack form and tracker before they crowd. */
+@container requester-content (max-width: 1240px) {
+  .requester-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .tracker-column {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+
+  .tracker-column .lookup-card {
+    grid-column: 1;
+  }
+
+  .tracker-column .tracked-ticket-card {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+
+  .tracker-column .neighborhood-notice {
+    grid-column: 1;
+  }
+}
+
+@container requester-content (max-width: 850px) {
+  .requester-hero__content {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .requester-hero__copy {
+    flex: 0 1 auto;
+  }
+
+  .requester-hero__metrics {
+    width: 100%;
+  }
+
+  .hero-stat,
+  .emergency-notice {
+    flex: 1 1 220px;
+  }
+
+  .tracker-column {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .tracker-column > * {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+@container requester-content (max-width: 620px) {
+  .requester-hero {
+    padding: 20px;
+  }
+
+  .requester-hero__metrics {
+    flex-direction: column;
+  }
+
+  .hero-stat,
+  .emergency-notice {
+    flex: 0 1 auto;
+    width: 100%;
+  }
+
+  .request-form-card,
+  .lookup-card,
+  .tracked-ticket-card,
+  .neighborhood-notice,
+  .submission-card {
+    padding: 20px;
+  }
+
+  .request-section-heading,
+  .submission-card__header,
+  .form-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .category-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .attachment-grid,
+  .ticket-actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .form-action-buttons {
+    width: 100%;
+  }
+}
+
+@container requester-content (max-width: 420px) {
+  .category-grid {
+    grid-template-columns: minmax(0, 1fr);
   }
 }

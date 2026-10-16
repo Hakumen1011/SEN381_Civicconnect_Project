@@ -1,23 +1,14 @@
-import ManagementPerformancePage from "./features/management/pages/ManagementPerformancePage";
-
-export default function App() {
-  return <ManagementPerformancePage />;
-
 import { BrowserRouter } from "react-router-dom";
-
+import { AuthProvider } from "./auth/AuthContext";
 import AppRoutes from "./routes/AppRoutes";
 
-/**
- * Root application component.
- *
- * BrowserRouter handles the browser URL and history.
- * AppRoutes decides which CivicConnect page to display.
- */
+/** One application router and one verified session for all CivicConnect screens. */
 export default function App() {
   return (
     <BrowserRouter>
-      <AppRoutes />
+      <AuthProvider>
+        <AppRoutes />
+      </AuthProvider>
     </BrowserRouter>
   );
 }
-
