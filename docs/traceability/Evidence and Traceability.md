@@ -368,3 +368,18 @@ The established traceability structure ensures that
 - Repository history provides evidence of team collaboration and change management
 
 This traceability framework allows accountability, quality assurance, controlled change management and future lifecycle activities.
+
+## Milestone 3 implementation and verification evidence extension (16 October 2026)
+
+The existing stakeholder→requirement→acceptance-criteria traceability is extended in `RTM.md` with actual code locations, executed frontend/backend tests, local manual browser checks and residual limitations. The full chronological test record remains at `Milestone 3/CivicConnect_Project_working/evidence/M3_Test_Evidence.md` (not duplicated here).
+
+| Evidence class | Verified result | Authoritative evidence or reference |
+|---|---|---|
+| Local automated frontend | 99/99 PASS (21 files); production build PASS | `frontend` `npm run test:run`; `npm run build`, user terminal execution on 16 October 2026 |
+| Local automated backend | 63/63 PASS (6 files), exit 0; TypeScript build PASS | `backend` `npx vitest run --pool=forks --maxWorkers=1 --no-file-parallelism --reporter=verbose`; user terminal output |
+| Manual browser/system | `TC-E2E-001`, `TC-E2E-002`, `TC-E2E-003`, `TC-SYS-004`; central RBAC 8/8 checks | Tester-confirmed local browser execution; links in M3 test record; no persisted automated browser runner claimed |
+| CI and change control | PR #29 frontend check successful; PR subsequently approved and merged (team-confirmed) | `https://github.com/Hakumen1011/SEN381_Civicconnect_Project/pull/29`; reviewer identities, exact merged SHA and full CI run URLs to be recorded |
+| Performance/security | Short local 100-request performance smoke; October 14 limited npm audit/secret scan | `evidence/M3_Performance_Result.json`, `evidence/M3_Dependency_Audit.txt`; stated limitations apply |
+| Known gap | PostgreSQL persistence and restart durability unimplemented | M2 Decision 7; NFR-REL-001; update existing risk/debt and release sign-off |
+
+Release evidence must be identified by exact merged commit SHA after PR reviews, and the submitted M3 PED v3.0 should link these files rather than reproduce large screenshot collections.
