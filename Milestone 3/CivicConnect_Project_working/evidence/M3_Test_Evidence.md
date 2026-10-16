@@ -1586,3 +1586,35 @@ visibility for this local browser scenario.
 - Full production-scale performance was not tested.
 - Separate negative/API authorisation tests remain relevant.
 
+## 16 October 2026 — Final integration regression and browser verification update (supersedes older status snapshots)
+
+This is the latest local verification recorded after the central-auth, live-management, live-request-register and requester layout/icon corrections. Earlier draft sections above document genuine historical executions but may say some connections were still pending **at the time of those earlier runs**.
+
+| Test area | Executed command/scenario | Observed result |
+|---|---|---|
+| Frontend full regression | `frontend`: `npm run test:run` | **99/99 PASS**; 21/21 test files |
+| Frontend production build | `frontend`: `npm run build` | **PASS** (TypeScript and Vite build) |
+| Backend full regression | `backend`: `npx vitest run --pool=forks --maxWorkers=1 --no-file-parallelism --reporter=verbose` | **63/63 PASS**; 6/6 test files; exit code 0 |
+| Backend build | `backend`: `npm run build` | **PASS** (TypeScript build) |
+| Cross-role manual browser acceptance | Eight checks: central login, requester/staff/manager routing, requester submission, staff actions, live management totals, restricted route and sign-out | **8/8 PASS**, tester-confirmed |
+| TC-SYS-004 — Live Operational Screens | Five checks covering real staff triage, live request register, status/history, manager visibility, and requester denial | **5/5 PASS**, tester-confirmed |
+| TC-E2E-001/002/003 | Registration/submission/tracking; requester ownership separation; requester→staff assignment/status/history→requester | PASS, previously tester-confirmed; see detailed records above |
+| Root frontend GitHub Actions | Updated `.github/workflows/frontend-ci.yml` now installs, runs `npm run test:run`, then builds | PR #29 screenshot reports one successful check; verify exact run URL and match submitted SHA |
+| Governance | PR #29 review rule | **MERGED:** PR #29 was approved and merged on 16 October 2026 (team-confirmed); record reviewer identities and final merge SHA |
+
+### Test techniques, negative/high-priority conditions and evidence limits
+
+- Black-box **equivalence partitioning**: mandatory/missing fields, allowed/unsupported municipal categories, authenticated vs unauthorized requester/staff roles.
+- Black-box **state-transition testing**: allowed SUBMITTED→ASSIGNED→IN_PROGRESS and invalid lifecycle transitions; optimistic concurrency rejection.
+- Boundary testing: frontend required-field whitespace and 15 MB attachment validation; not proof of server-side file storage.
+- Negative authorization: requester cannot assign work; foreign requester records are hidden and unavailable via protected request retrieval; staff cannot access manager reporting.
+- High-priority requirements covered: creation/reference/status, requester isolation, staff assignment and transition, audit history, management visibility, and RBAC.
+- **Not demonstrated:** persistence after restart; production-strength security; full upload storage, real SMS/WhatsApp, sustained 25-concurrent-user ten-minute load, recovery/rollback, production deployment.
+
+### Controlled PR and final baseline notes
+
+- PR #29: `https://github.com/Hakumen1011/SEN381_Civicconnect_Project/pull/29`.
+- Frontend CI check shown as green; retain its final run URL/step screenshot showing tests plus build.
+- Backend CI step exists in root workflow but exact GitHub run/status must be checked before recording CI PASS for backend.
+- **Integrated release SHA/tag: PENDING**. PR #29 was approved and merged (team-confirmed). Capture the current `main` SHA, rerun/verify tests against the final tagged baseline and replace this placeholder.
+- The 14 October performance smoke and npm audit/secret-scan results remain valid as dated, limited results—not fresh end-of-day production certification.
