@@ -3,7 +3,7 @@ import type { UserService } from '../users/user.service.js';
 import { authOf } from './auth.middleware.js';
 import type { AuthService } from './auth.service.js';
 
-
+/** Controller: turns HTTP requests into service calls and service results into HTTP responses. */
 export class AuthController {
   constructor(
     private readonly auth: AuthService,

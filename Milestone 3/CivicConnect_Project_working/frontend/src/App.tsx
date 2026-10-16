@@ -1,8 +1,3 @@
-import ManagementPerformancePage from "./features/management/pages/ManagementPerformancePage";
-
-export default function App() {
-  return <ManagementPerformancePage />;
-
 import { BrowserRouter } from "react-router-dom";
 
 import AppRoutes from "./routes/AppRoutes";
@@ -20,4 +15,3 @@ export default function App() {
     </BrowserRouter>
   );
 }
-

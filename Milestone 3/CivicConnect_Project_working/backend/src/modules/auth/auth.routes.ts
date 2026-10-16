@@ -10,7 +10,7 @@ export function authRoutes(
 ): Router {
   const router = Router();
 
-  
+  // Slow down password guessing: 10 attempts per 15 minutes per IP address.
   const limiter: RequestHandler = options.rateLimit
     ? rateLimit({
         windowMs: 15 * 60 * 1000,

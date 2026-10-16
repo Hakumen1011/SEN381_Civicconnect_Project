@@ -1,11 +1,11 @@
 import { z } from 'zod';
-import type { InMemoryStore } from '../../data/store.js';
+import type { TransactionManager } from '../../shared/transaction.js';
 import { badRequest, notFound } from '../../shared/errors.js';
 import { parseOrThrow } from '../../shared/http/validate.js';
 import type { UserRepository } from './user.repository.js';
 import { toPublicUser, type PublicUser } from './user.types.js';
 
-
+/** International (E.164) phone format, e.g. +27821234567. */
 export const phoneSchema = z
   .string()
   .trim()
@@ -19,7 +19,7 @@ export const notificationPreferencesSchema = z.object({
 
 export class UserService {
   constructor(
-    private readonly store: InMemoryStore,
+    private readonly store: TransactionManager,
     private readonly users: UserRepository,
   ) {}
 
@@ -34,7 +34,10 @@ export class UserService {
     return all.filter((u) => u.role !== 'REQUESTER').map(toPublicUser);
   }
 
-  
+  /**
+   * Requester chooses notification channels (FR-NOT-002). Opting in records the date and time;
+   * opting out clears it. SMS/WhatsApp need a phone number.
+   */
   async updateNotificationPreferences(userId: string, input: unknown): Promise<PublicUser> {
     const body = parseOrThrow(notificationPreferencesSchema, input);
     return this.store.transaction(async (tx) => {

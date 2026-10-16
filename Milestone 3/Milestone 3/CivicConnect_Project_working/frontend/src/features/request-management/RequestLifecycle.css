@@ -1,0 +1,320 @@
+/* =========================================================
+   CivicConnect Request Lifecycle
+   Responsive workflow display for Request Management.
+   ========================================================= */
+
+.request-lifecycle {
+  min-width: 0;
+  padding: 20px;
+
+  border: 1px solid #d8e0ec;
+  border-radius: 8px;
+
+  background: #ffffff;
+  color: #182a3e;
+
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.request-lifecycle__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+
+  margin-bottom: 22px;
+}
+
+.request-lifecycle__eyebrow {
+  display: block;
+  margin-bottom: 4px;
+
+  color: #0051d5;
+
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 14px;
+  text-transform: uppercase;
+}
+
+.request-lifecycle__header h2 {
+  margin: 0;
+
+  color: #001428;
+
+  font-family: "IBM Plex Serif", serif;
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 28px;
+}
+
+.request-lifecycle__current {
+  max-width: 230px;
+  padding: 6px 10px;
+
+  border: 1px solid #c7dafa;
+  border-radius: 5px;
+
+  background: #edf4ff;
+  color: #174eaa;
+
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 14px;
+  text-align: center;
+}
+
+/* Six equal stages on a large screen. */
+.request-lifecycle__stages {
+  position: relative;
+
+  display: grid;
+  grid-template-columns: repeat(6, minmax(125px, 1fr));
+  gap: 0;
+
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+/* Draw the connecting line behind each stage marker. */
+.request-lifecycle__stages::before {
+  content: "";
+
+  position: absolute;
+  top: 15px;
+  right: 7%;
+  left: 7%;
+
+  height: 2px;
+
+  background: #dce4ef;
+}
+
+.request-lifecycle__stage {
+  position: relative;
+  z-index: 1;
+
+  min-width: 0;
+  padding: 0 8px;
+
+  overflow-wrap: anywhere;
+}
+
+.request-lifecycle__stage-heading {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  min-height: 31px;
+  margin-bottom: 10px;
+}
+
+.request-lifecycle__stage-number {
+  color: #7a8799;
+
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.request-lifecycle__stage-title {
+  color: #4e5f75;
+
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 14px;
+}
+
+.request-lifecycle__stage-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+
+  margin-left: auto;
+
+  border: 2px solid #d7e0eb;
+  border-radius: 50%;
+
+  background: #ffffff;
+  color: #7a8799;
+
+  font-size: 15px;
+}
+
+/* Completed stages */
+.request-lifecycle__stage.is-complete
+  .request-lifecycle__stage-icon {
+  border-color: #007a53;
+
+  background: #007a53;
+  color: #ffffff;
+}
+
+.request-lifecycle__stage.is-complete
+  .request-lifecycle__stage-title {
+  color: #176b4e;
+}
+
+/* Current stage */
+.request-lifecycle__stage.is-current
+  .request-lifecycle__stage-icon {
+  border-color: #0051d5;
+
+  background: #0051d5;
+  color: #ffffff;
+
+  box-shadow: 0 0 0 4px #e5eeff;
+}
+
+.request-lifecycle__stage.is-current
+  .request-lifecycle__stage-title {
+  color: #0049bf;
+}
+
+/* Future stages */
+.request-lifecycle__stage.is-upcoming
+  .request-lifecycle__stage-title {
+  color: #7b8797;
+}
+
+.request-lifecycle__timestamp {
+  min-height: 30px;
+  margin: 0 0 7px;
+
+  color: #64748b;
+
+  font-size: 9px;
+  line-height: 14px;
+}
+
+.request-lifecycle__active-label,
+.request-lifecycle__upcoming-label {
+  display: inline-block;
+
+  padding: 3px 6px;
+
+  border-radius: 4px;
+
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 12px;
+}
+
+.request-lifecycle__active-label {
+  background: #dce8ff;
+  color: #174eaa;
+}
+
+.request-lifecycle__upcoming-label {
+  background: #f0f2f6;
+  color: #778397;
+}
+
+/* Tablet: keep the stages readable with horizontal scrolling. */
+@media (max-width: 1100px) {
+  .request-lifecycle__stages {
+    overflow-x: auto;
+
+    grid-template-columns: repeat(6, minmax(150px, 1fr));
+
+    padding-bottom: 12px;
+  }
+
+  .request-lifecycle__stages::before {
+    right: 10%;
+    left: 10%;
+  }
+}
+
+/* Mobile: stack the lifecycle into a vertical timeline. */
+@media (max-width: 600px) {
+  .request-lifecycle {
+    padding: 16px;
+  }
+
+  .request-lifecycle__header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .request-lifecycle__current {
+    align-self: flex-start;
+  }
+
+  .request-lifecycle__stages {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+
+    overflow: visible;
+    padding: 0 0 0 2px;
+  }
+
+  .request-lifecycle__stages::before {
+    top: 14px;
+    bottom: 35px;
+    left: 15px;
+
+    width: 2px;
+    height: auto;
+  }
+
+  .request-lifecycle__stage {
+    display: grid;
+    grid-template-columns: 32px minmax(0, 1fr);
+    column-gap: 10px;
+
+    padding: 0 0 22px;
+  }
+
+  .request-lifecycle__stage:last-child {
+    padding-bottom: 0;
+  }
+
+  .request-lifecycle__stage-heading {
+    display: contents;
+  }
+
+  .request-lifecycle__stage-number {
+    display: none;
+  }
+
+  .request-lifecycle__stage-icon {
+    grid-column: 1;
+    grid-row: 1 / span 3;
+
+    width: 28px;
+    height: 28px;
+
+    margin: 0;
+  }
+
+  .request-lifecycle__stage-title {
+    grid-column: 2;
+    grid-row: 1;
+
+    padding-top: 4px;
+
+    font-size: 12px;
+    line-height: 17px;
+  }
+
+  .request-lifecycle__timestamp {
+    grid-column: 2;
+    grid-row: 2;
+
+    min-height: auto;
+    margin-top: 4px;
+  }
+
+  .request-lifecycle__active-label,
+  .request-lifecycle__upcoming-label {
+    grid-column: 2;
+    grid-row: 3;}}
