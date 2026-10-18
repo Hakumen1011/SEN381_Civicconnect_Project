@@ -98,11 +98,7 @@ export class PostgresRequestRepository implements RequestRepository {
     );
   }
 
-  /**
-   * Inside a transaction the row is locked (FOR UPDATE) until COMMIT, so two staff members changing
-   * the same request at the same moment are handled one after the other instead of overwriting each
-   * other. The version check in RequestService then reports the conflict to the second person.
-   */
+  
   async findById(id: string, tx?: Transaction) {
     const lock = tx ? ' FOR UPDATE' : '';
     const { rows } = await dbOf(tx ?? this.store.read()).query<RequestRow>(

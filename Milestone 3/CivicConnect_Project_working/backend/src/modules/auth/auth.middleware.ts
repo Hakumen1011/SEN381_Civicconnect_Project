@@ -13,10 +13,7 @@ declare global {
   }
 }
 
-/**
- * FR-SEC-001: every protected route requires a valid token.
- * The user is re-loaded so a deleted account or changed role takes effect immediately.
- */
+
 export function requireAuth(tokens: TokenService, users: UserRepository): RequestHandler {
   return async (req, _res, next) => {
     const header = req.headers.authorization ?? '';
@@ -34,7 +31,7 @@ export function requireAuth(tokens: TokenService, users: UserRepository): Reques
   };
 }
 
-/** FR-SEC-002 / NFR-SEC-001: only the listed roles may use the route. */
+/** FR-SEC-002 / NFR-SEC-001: Authoised roles onely */
 export function requireRole(...roles: Role[]): RequestHandler {
   return (req, _res, next) => {
     if (!req.auth) throw unauthorized();

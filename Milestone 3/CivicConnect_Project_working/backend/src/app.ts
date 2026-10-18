@@ -36,19 +36,16 @@ import { UserService } from './modules/users/user.service.js';
 
 export interface AppContext {
   app: Express;
-  /** Where the data lives: PostgreSQL when DATABASE_URL is set, otherwise the temporary in-memory store. */
   storage: 'postgres' | 'memory';
   store: PostgresStore | InMemoryStore;
   events: EventBus;
   channels: ChannelSet;
   dispatcher: NotificationDispatcher;
   authService: AuthService;
-  /** Closes the database connections (used on shutdown and after tests). */
   close(): Promise<void>;
 }
 
 export interface CreateAppOptions {
-  /** Re-use an existing PostgreSQL pool (the tests share one). */
   pool?: pg.Pool;
 }
 
@@ -61,10 +58,7 @@ interface DataLayer {
   close(): Promise<void>;
 }
 
-/**
- * Picks the data layer. Both versions implement the same repository interfaces and the same
- * TransactionManager, so nothing above this point knows (or cares) which one is used.
- */
+
 function createDataLayer(env: Env, options: CreateAppOptions): DataLayer {
   if (options.pool || env.DATABASE_URL) {
     const ownsPool = !options.pool;
@@ -90,11 +84,7 @@ function createDataLayer(env: Env, options: CreateAppOptions): DataLayer {
   };
 }
 
-/**
- * Composition root: wires the modules of the layered modular monolith together.
- * Routes -> controllers (HTTP in/out) -> services (business rules) -> repositories (data access).
- * The data layer (PostgreSQL or in-memory) is chosen once, in createDataLayer().
- */
+
 export function createApp(env: Env, options: CreateAppOptions = {}): AppContext {
   const data = createDataLayer(env, options);
   const { store, userRepo, requestRepo, notificationRepo } = data;
@@ -114,7 +104,7 @@ export function createApp(env: Env, options: CreateAppOptions = {}): AppContext 
 
   const app = express();
   app.disable('x-powered-by');
-  app.set('trust proxy', 1); // correct client IPs behind a hosting proxy (used by the rate limiter)
+  app.set('trust proxy', 1); 
   app.use(helmet());
   app.use(
     cors({
