@@ -2,9 +2,7 @@ import type { Category, Priority } from './request.types.js';
 
 
 export interface CategoryRules {
-  /** Initial priority for a newly submitted request. */
   initialPriority(category: Category): Priority;
-  /** Whether a specific location must be given for this category. */
   requiresLocation(category: Category): boolean;
 }
 
